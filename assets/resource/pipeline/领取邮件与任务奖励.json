@@ -1,0 +1,852 @@
+{
+    "$__mpe_config_领取邮件与任务奖励": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1784412308901,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
+            "savedViewport": {
+                "x": -2504,
+                "y": -280,
+                "zoom": 0.85
+            },
+            "filename": "领取邮件与任务奖励",
+            "version": "v1.7.4"
+        }
+    },
+    "$__mpe_group_领取任务奖励_领取邮件与任务奖励": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2112,
+                "y": -1293
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "领取_任务领完",
+                "领取_加载中重试",
+                "领取_岛主",
+                "领取_岛主_检查可领取",
+                "领取_岛主_点击确认",
+                "领取_岛主_页面内全部领取",
+                "领取_每周",
+                "领取_每周_检查可领取",
+                "领取_每周_点击确认",
+                "领取_每周_页面内全部领取",
+                "领取_每日",
+                "领取_每日_检查可领取",
+                "领取_每日_点击确认",
+                "领取_每日_页面内全部领取",
+                "领取_活动_检查可领取",
+                "领取_活动_点击确认",
+                "领取_活动_页面内全部领取",
+                "领取_点击任务",
+                "领取_点击活动"
+            ],
+            "width": 1401,
+            "height": 1489
+        }
+    },
+    "领取_任务领完": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "post_wait_freezes": 1000,
+        "focus": "任务奖励领取完毕",
+        "next": [
+            "领取_开始领取信箱"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2155,
+                "y": -117
+            }
+        }
+    },
+    "领取_信箱": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    23,
+                    669,
+                    43,
+                    25
+                ],
+                "expected": [
+                    "信箱"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_信箱_确认已经在信箱",
+            "领取_信箱"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2227,
+                "y": 323
+            }
+        }
+    },
+    "领取_信箱_全部领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    720,
+                    603,
+                    208,
+                    68
+                ],
+                "expected": [
+                    "全部领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_信箱_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3099,
+                "y": 318
+            }
+        }
+    },
+    "领取_信箱_加载中重试": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "加载金球.png"
+                ]
+            }
+        },
+        "next": [
+            "领取_信箱_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3802,
+                "y": 92
+            }
+        }
+    },
+    "领取_信箱_检查可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    853,
+                    183,
+                    155,
+                    409
+                ],
+                "expected": [
+                    "领取"
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_信箱_全部领取"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2802,
+                "y": 317
+            }
+        }
+    },
+    "领取_信箱_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_信箱_加载中重试",
+            "领取_信箱_点击确认",
+            "领取_信箱_确认已经在信箱",
+            "领取_信箱_达到上限"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3438,
+                "y": 256
+            }
+        }
+    },
+    "领取_信箱_确认已经在信箱": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    536,
+                    83,
+                    213,
+                    48
+                ],
+                "expected": [
+                    "无期限"
+                ]
+            }
+        },
+        "post_wait_freezes": 500,
+        "next": [
+            "领取_信箱_检查可领取",
+            "领取_信箱_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2509,
+                "y": 315
+            }
+        }
+    },
+    "领取_信箱_结束": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    366,
+                    177,
+                    547,
+                    336
+                ],
+                "expected": [
+                    "没有道具"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "post_wait_freezes": 1000,
+        "focus": "信箱领取结束",
+        "$__mpe_code": {
+            "position": {
+                "x": 4022,
+                "y": 749
+            }
+        }
+    },
+    "领取_信箱_达到上限": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    224,
+                    85,
+                    817,
+                    553
+                ],
+                "expected": [
+                    "上限"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "领取_信箱_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3734,
+                "y": 577
+            }
+        }
+    },
+    "领取_加载中重试": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "加载金球.png"
+                ]
+            }
+        },
+        "next": [
+            "领取_加载中重试",
+            "领取_每日"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2160,
+                "y": -817
+            }
+        }
+    },
+    "领取_岛主": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    284,
+                    93,
+                    742,
+                    106
+                ],
+                "expected": [
+                    "岛主"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_岛主_检查可领取",
+            "领取_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2437,
+                "y": -473
+            }
+        }
+    },
+    "领取_岛主_检查可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    853,
+                    183,
+                    155,
+                    409
+                ],
+                "expected": [
+                    "领取"
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_岛主_页面内全部领取"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2695,
+                "y": -489
+            }
+        }
+    },
+    "领取_岛主_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_岛主_点击确认",
+            "领取_岛主"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3251,
+                "y": -509
+            }
+        }
+    },
+    "领取_岛主_页面内全部领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    728,
+                    583,
+                    309,
+                    86
+                ],
+                "expected": [
+                    "页面内全部领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_岛主_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2963,
+                "y": -445
+            }
+        }
+    },
+    "领取_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    415,
+                    154,
+                    435,
+                    393
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "领取_点下主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1321,
+                "y": 20
+            }
+        }
+    },
+    "领取_每周": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    284,
+                    93,
+                    742,
+                    106
+                ],
+                "expected": [
+                    "每周"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每周_检查可领取",
+            "领取_岛主"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2448,
+                "y": -824
+            }
+        }
+    },
+    "领取_每周_检查可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    853,
+                    183,
+                    155,
+                    409
+                ],
+                "expected": [
+                    "领取"
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每周_页面内全部领取"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2705,
+                "y": -803
+            }
+        }
+    },
+    "领取_每周_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每周_点击确认",
+            "领取_每周"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3250,
+                "y": -857
+            }
+        }
+    },
+    "领取_每周_页面内全部领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    728,
+                    583,
+                    309,
+                    86
+                ],
+                "expected": [
+                    "页面内全部领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每周_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2969,
+                "y": -765
+            }
+        }
+    },
+    "领取_每日": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    284,
+                    93,
+                    742,
+                    106
+                ],
+                "expected": [
+                    "每日"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每日_检查可领取",
+            "领取_每周"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2446,
+                "y": -1163
+            }
+        }
+    },
+    "领取_每日_检查可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    853,
+                    183,
+                    155,
+                    409
+                ],
+                "expected": [
+                    "领取"
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每日_页面内全部领取"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2702,
+                "y": -1137
+            }
+        }
+    },
+    "领取_每日_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每日_点击确认",
+            "领取_每日"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3252,
+                "y": -1217
+            }
+        }
+    },
+    "领取_每日_页面内全部领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    728,
+                    583,
+                    309,
+                    86
+                ],
+                "expected": [
+                    "页面内全部领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_每日_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2977,
+                "y": -1153
+            }
+        }
+    },
+    "领取_活动_检查可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    853,
+                    183,
+                    155,
+                    409
+                ],
+                "expected": [
+                    "领取"
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_活动_页面内全部领取"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2691,
+                "y": -164
+            }
+        }
+    },
+    "领取_活动_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_活动_点击确认",
+            "领取_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3250,
+                "y": -158
+            }
+        }
+    },
+    "领取_活动_页面内全部领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    728,
+                    583,
+                    309,
+                    86
+                ],
+                "expected": [
+                    "页面内全部领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_活动_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2962,
+                "y": -127
+            }
+        }
+    },
+    "领取_点下主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "领取_点击任务",
+            "领取_点下主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1635,
+                "y": 15
+            }
+        }
+    },
+    "领取_点击任务": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    195,
+                    595,
+                    144,
+                    119
+                ],
+                "expected": [
+                    "任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "focus": "开始领取任务奖励",
+        "next": [
+            "领取_加载中重试",
+            "领取_每日",
+            "领取_点击任务"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2160,
+                "y": -526
+            }
+        }
+    },
+    "领取_点击活动": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    284,
+                    93,
+                    742,
+                    106
+                ],
+                "expected": [
+                    "活动"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取_活动_检查可领取",
+            "领取_任务领完"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2437,
+                "y": -130
+            }
+        }
+    },
+    "领取_开始领取信箱": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "focus": "开始领取信箱道具",
+        "next": [
+            "领取_信箱"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1924,
+                "y": 328
+            }
+        }
+    }
+}

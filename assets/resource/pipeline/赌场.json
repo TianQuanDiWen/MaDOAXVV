@@ -1,0 +1,563 @@
+{
+    "$__mpe_config_赌场": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\赌场.json",
+            "lastSyncTime": 1784412598711,
+            "coordinateMode": "absolute-v1",
+            "savedViewport": {
+                "x": -1083,
+                "y": 315,
+                "zoom": 0.91
+            },
+            "filename": "赌场",
+            "version": "v1.7.4"
+        }
+    },
+    "赌场_打满了": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "24000"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": "已经打满24000金筹码",
+        "next": [
+            "赌场_打满了退出自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4090,
+                "y": 450
+            }
+        }
+    },
+    "赌场_打满了退出自动": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "自动"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 360000,
+        "rate_limit": 10000,
+        "next": [
+            "赌场_打满了_返回"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4423,
+                "y": 458
+            }
+        }
+    },
+    "赌场_打满了_返回": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "返回.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_打满了_返回",
+            "赌场_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4775,
+                "y": 473
+            }
+        }
+    },
+    "赌场_已经MAX": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1032,
+                    610,
+                    68,
+                    67
+                ],
+                "expected": [
+                    "MAX"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "focus": "赌场已经打满不执行后续任务",
+        "$__mpe_code": {
+            "position": {
+                "x": 3014,
+                "y": 537
+            }
+        }
+    },
+    "赌场_主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "赌场_点击活动",
+            "赌场_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1698,
+                "y": 111
+            }
+        }
+    },
+    "赌场_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "赌场_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1411,
+                "y": 118
+            }
+        }
+    },
+    "赌场_确认未开始": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "发牌"
+                ]
+            }
+        },
+        "focus": "赌场-开始自动21点",
+        "next": [
+            "赌场_设置自动跳过",
+            "赌场_点击自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3394,
+                "y": 157
+            }
+        }
+    },
+    "赌场_设置自动跳过": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "OFF"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_点击自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3677,
+                "y": -41
+            }
+        }
+    },
+    "赌场_点击自动": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "自动"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": -1,
+        "rate_limit": 10000,
+        "next": [
+            "赌场_银筹码不足",
+            "赌场_确认未开始",
+            "赌场_打满了"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3744,
+                "y": 271
+            }
+        }
+    },
+    "赌场_点击活动": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    12,
+                    -10,
+                    -24,
+                    -8
+                ]
+            }
+        },
+        "post_wait_freezes": 1500,
+        "timeout": 20000,
+        "next": [
+            "赌场_点击赌场",
+            "赌场_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1996,
+                "y": 99
+            }
+        }
+    },
+    "赌场_点击赌场": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "赌场"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_点击确认(进入时)",
+            "赌场_准备"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2315,
+                "y": 166
+            }
+        }
+    },
+    "赌场_点击二十一点": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    224,
+                    180,
+                    149,
+                    73
+                ],
+                "expected": [
+                    "二十一点"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_点击确认(确认倍率)",
+            "赌场_点击二十一点"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2986,
+                "y": -156
+            }
+        }
+    },
+    "赌场_点击确认(进入时)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_准备"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2368,
+                "y": -198
+            }
+        }
+    },
+    "赌场_点击确认(确认倍率)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_确认未开始"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3277,
+                "y": -277
+            }
+        }
+    },
+    "赌场_银筹码不足": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    520,
+                    168,
+                    257,
+                    98
+                ],
+                "expected": [
+                    "银筹码不足"
+                ]
+            }
+        },
+        "focus": "赌场-筹码不足",
+        "next": [
+            "赌场_点击确认(筹码不足)"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4056,
+                "y": -27
+            }
+        }
+    },
+    "赌场_点击确认(筹码不足)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_领取筹码",
+            "赌场_没有筹码领"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4369,
+                "y": -32
+            }
+        }
+    },
+    "赌场_领取筹码": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    539,
+                    162,
+                    200,
+                    91
+                ],
+                "expected": [
+                    "领取银筹码"
+                ]
+            }
+        },
+        "focus": "赌场-领取筹码",
+        "next": [
+            "赌场_点击确认(领取筹码)"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4749,
+                "y": -187
+            }
+        }
+    },
+    "赌场_点击确认(领取筹码)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_准备"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3811,
+                "y": -485
+            }
+        }
+    },
+    "赌场_没有筹码领": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    250,
+                    98,
+                    134,
+                    63
+                ],
+                "expected": [
+                    "赌场"
+                ]
+            }
+        },
+        "next": [
+            "赌场_返回主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4762,
+                "y": 184
+            }
+        }
+    },
+    "赌场_返回主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "赌场_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 5095,
+                "y": 177
+            }
+        }
+    },
+    "赌场_结束": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "contact": 1
+            }
+        },
+        "focus": "赌场任务结束",
+        "$__mpe_code": {
+            "position": {
+                "x": 5605,
+                "y": 345
+            }
+        }
+    },
+    "赌场_准备": {
+        "post_wait_freezes": 1000,
+        "next": [
+            "赌场_已经MAX",
+            "赌场_点击二十一点"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2706,
+                "y": 152
+            }
+        }
+    }
+}

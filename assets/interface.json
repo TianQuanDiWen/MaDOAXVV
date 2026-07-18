@@ -1,38 +1,22 @@
 {
-    // 本文件主要定义了通用 UI 的行为和显示内容
-    // 可参考文档和示例添加更多您需要的功能
-    // 文档：https://maafw.xyz/docs/3.3-ProjectInterfaceV2
-    // 示例：https://github.com/MaaXYZ/MaaFramework/blob/main/sample/interface.json
     "interface_version": 2,
-    "name": "MaaXXX",
-    "description": "这是一个使用 MaaFramework 创建的新项目。",
-    "contact": "QQ群: 123456789",
+    "name": "MaDOAXVV",
+    "description": "DEAD OR ALIVE Xtreme Venus Vacation 自动化项目。",
+    "contact": "",
     "license": "MIT",
-    "welcome": "首次使用！欢迎使用 MAA!",
-    // 填写项目地址和版本号可实现自动更新功能
-    "github": "https://github.com/MaaXYZ/MaaPracticeBoilerplate",
-    "version": "1.0.0",
-    // Mirror酱为第三方分发服务，新项目默认关闭
-    // 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
-    // "mirrorchyan_rid": "MaaXXX",
-    // "mirrorchyan_multiplatform": true,
+    "welcome": "欢迎使用 MaDOAXVV。",
+    "github": "https://github.com/TianQuanDiWen/MaDOAXVV",
+    "version": "0.1.0",
     "controller": [
-        {
-            "name": "安卓端",
-            "type": "Adb",
-            "display_short_side": 720 // 默认缩放分辨率的短边长度
-        },
         {
             "name": "桌面端",
             "type": "Win32",
             "win32": {
                 "class_regex": ".*",
-                "window_regex": "Visual Studio",
-                // 截图及控制方式，请根据项目实际情况修改
-                // 文档: https://maafw.xyz/docs/2.4-ControlMethods
-                "screencap": "PrintWindow", // 截图方式
-                "mouse": "PostMessageWithCursorPos", // 鼠标控制方式
-                "keyboard": "PostMessageWithCursorPos" // 键盘控制方式
+                "window_regex": "DOAX VenusVacation",
+                "screencap": "FramePool",
+                "mouse": "PostMessageWithCursorPos",
+                "keyboard": "PostMessageWithCursorPos"
             }
         }
     ],
@@ -42,68 +26,48 @@
             "path": [
                 "./resource"
             ]
-        },
-        {
-            "name": "B 服",
-            "path": [
-                "./resource"
-                // "./resource_bilibili"
-            ]
         }
     ],
-    // 可选的 agent 示例
-    // "agent": {
-    //     "child_exec": "python",
-    //     "child_args": [
-    //         "./agent/main.py"
-    //     ]
-    // },
     "task": [
         {
-            "name": "普通任务",
-            "entry": "MyTask1"
+            "name": "自动打新比赛",
+            "entry": "新比赛_开始",
+            "description": "有新比赛的情况下会自动打，直到打不过为止"
         },
         {
-            "name": "选项任务",
-            "entry": "MyTask2",
-            "option": [
-                "任务选项1"
-            ]
+            "name": "自动排位",
+            "entry": "排位_开始",
+            "description": "自动打排位赛，打够次数为止"
         },
         {
-            "name": "参数任务",
-            "entry": "MyTask3",
-            "option": [
-                "任务选项1"
-            ],
-            "pipeline_override": {}
+            "name": "每日自动挑战券",
+            "entry": "每日挑战_开始",
+            "description": "每日自动领取挑战券，用自动战斗打三次，只认SS级自动挑战券"
         },
         {
-            "name": "带Custom的任务",
-            "entry": "MyTask4"
+            "name": "每日活动挑战赛",
+            "entry": "每日活动挑战赛_开始",
+            "description": "每日自动参与活动挑战赛，用自动挑战券打，目前只识别sss+"
+        },
+        {
+            "name": "抽免费券",
+            "entry": "抽免费券_开始",
+            "description": "会自动抽免费券，判断依据是扭蛋图标旁边的免费文字（通过文字识别）"
+        },
+        {
+            "name": "岛主房间",
+            "entry": "岛主房间_开始",
+            "description": "自动领温泉并补充温泉剂，工作完成自动收菜并继续工作"
+        },
+        {
+            "name": "领取邮件与任务奖励",
+            "entry": "领取_开始",
+            "description": "领取邮件和任务奖励"
+        },
+        {
+            "name": "赌场",
+            "entry": "赌场_开始",
+            "description": "打满赌场奖励，流程还在测试中"
         }
-    ],
-    "option": {
-        "任务选项1": {
-            "type": "select",
-            "cases": [
-                {
-                    "name": "文本1",
-                    "pipeline_override": {
-                        "OcrTask": {
-                            "text": "文本1"
-                        }
-                    }
-                },
-                {
-                    "name": "文本2",
-                    "pipeline_override": {
-                        "OcrTask": {
-                            "text": "文本2"
-                        }
-                    }
-                }
-            ]
-        }
-    }
+    ]
 }

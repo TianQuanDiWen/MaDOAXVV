@@ -1,0 +1,394 @@
+{
+    "$__mpe_config_每日自动挑战券": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1784164473596,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
+            "savedViewport": {
+                "x": -4805,
+                "y": 108,
+                "zoom": 1.17
+            },
+            "filename": "每日自动挑战券",
+            "version": "v1.7.4"
+        }
+    },
+    "每日挑战_主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "每日挑战_点击挑战赛"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1598,
+                "y": 61
+            }
+        }
+    },
+    "每日挑战_主页流程结束": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "每日挑战_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 5052,
+                "y": 7
+            }
+        }
+    },
+    "每日挑战_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    415,
+                    154,
+                    435,
+                    393
+                ]
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "每日挑战_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1308,
+                "y": 69
+            }
+        }
+    },
+    "每日挑战_比赛结算": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    518,
+                    3,
+                    262,
+                    67
+                ],
+                "expected": [
+                    "跳过完成"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1234,
+        "next": [
+            "每日挑战_比赛结算",
+            "每日挑战_点击确定（结算）",
+            "每日挑战_主页流程结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4382,
+                "y": 27
+            }
+        }
+    },
+    "每日挑战_点击ss级": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    882,
+                    108,
+                    260,
+                    588
+                ],
+                "roi_offset": [
+                    -106,
+                    9,
+                    459,
+                    28
+                ],
+                "expected": [
+                    "SS级"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "每日挑战_点击自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2858,
+                "y": 39
+            }
+        }
+    },
+    "每日挑战_点击挑战": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    940,
+                    603,
+                    271,
+                    117
+                ],
+                "template": [
+                    "挑战.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "每日挑战_比赛结算"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4058,
+                "y": 17
+            }
+        }
+    },
+    "每日挑战_点击挑战赛": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    8,
+                    154,
+                    141,
+                    95
+                ],
+                "template": [
+                    "挑战赛.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "timeout": 20000,
+        "next": [
+            "每日挑战_点击每日",
+            "每日挑战_点击挑战赛"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1902,
+                "y": 56
+            }
+        }
+    },
+    "每日挑战_点击挑战赛券": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    880,
+                    120,
+                    273,
+                    566
+                ],
+                "expected": [
+                    "挑战赛券收集挑战赛"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "每日挑战_点击ss级"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2536,
+                "y": 34
+            }
+        }
+    },
+    "每日挑战_点击每日": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    823,
+                    71,
+                    454,
+                    362
+                ],
+                "template": [
+                    "每日.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "timeout": 20000,
+        "next": [
+            "每日挑战_点击挑战赛券"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2226,
+                "y": 71
+            }
+        }
+    },
+    "每日挑战_点击确定": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    601,
+                    474,
+                    217,
+                    214
+                ],
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "每日挑战_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3745,
+                "y": 140
+            }
+        }
+    },
+    "每日挑战_点击确定（结算）": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "每日挑战_主页流程结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4738,
+                "y": 145
+            }
+        }
+    },
+    "每日挑战_点击自动": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1026,
+                    560,
+                    96,
+                    85
+                ],
+                "template": [
+                    "Autoplay.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "每日挑战_选择最多次数",
+            "每日挑战_点击确定"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3163,
+                "y": 34
+            }
+        }
+    },
+    "每日挑战_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 5454,
+                "y": 26
+            }
+        }
+    },
+    "每日挑战_选择最多次数": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    523,
+                    268,
+                    346,
+                    121
+                ],
+                "template": [
+                    "右最大箭头.png"
+                ],
+                "threshold": [
+                    0.8
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "每日挑战_点击确定"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3469,
+                "y": 21
+            }
+        }
+    }
+}

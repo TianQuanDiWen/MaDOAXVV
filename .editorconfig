@@ -2,3 +2,6 @@ root = true
 
 [*]
 end_of_line = lf
+
+[assets/interface.json]
+charset = utf-8

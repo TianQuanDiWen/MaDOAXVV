@@ -1,0 +1,255 @@
+{
+    "$__mpe_config_抽免费券": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1783932010711,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\抽免费券.json",
+            "savedViewport": {
+                "x": -3004,
+                "y": 82,
+                "zoom": 1.46
+            },
+            "filename": "抽免费券",
+            "version": "v1.7.3"
+        }
+    },
+    "抽免费券_开始": {
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "抽免费券_点下主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1415,
+                "y": 100
+            }
+        }
+    },
+    "抽免费券_抽奖": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    436,
+                    439,
+                    639,
+                    182
+                ],
+                "expected": [
+                    "免费"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "抽免费券_确认真的免费",
+            "抽免费券_抽奖"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2351,
+                "y": 118
+            }
+        }
+    },
+    "抽免费券_点下主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 10000,
+        "next": [
+            "抽免费券_点击免费扭蛋"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1719,
+                "y": 105
+            }
+        }
+    },
+    "抽免费券_点击免费扭蛋": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    95,
+                    337,
+                    91,
+                    116
+                ],
+                "expected": [
+                    "免费"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "抽免费券_抽奖",
+            "抽免费券_点击免费扭蛋"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2062,
+                "y": 112
+            }
+        }
+    },
+    "抽免费券_点击画面继续": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    975,
+                    593,
+                    298,
+                    117
+                ],
+                "expected": [
+                    "继续"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 1000,
+        "next": [
+            "抽免费券_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3278,
+                "y": 92
+            }
+        }
+    },
+    "抽免费券_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "抽免费券_点击画面继续"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2952,
+                "y": 115
+            }
+        }
+    },
+    "抽免费券_确认真的免费": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    488,
+                    279,
+                    297,
+                    155
+                ],
+                "expected": [
+                    "免费"
+                ]
+            }
+        },
+        "timeout": 10000,
+        "next": [
+            "抽免费券_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2655,
+                "y": 114
+            }
+        }
+    },
+    "抽免费券_结束": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    0,
+                    16,
+                    226,
+                    221
+                ],
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "timeout": 5000,
+        "next": [
+            "抽免费券_点击免费扭蛋"
+        ],
+        "on_error": [
+            "抽免费券_返回到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2735,
+                "y": -239
+            }
+        }
+    },
+    "抽免费券_返回到主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    0,
+                    16,
+                    226,
+                    221
+                ],
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 5000,
+        "$__mpe_code": {
+            "position": {
+                "x": 3123,
+                "y": -225
+            }
+        }
+    }
+}

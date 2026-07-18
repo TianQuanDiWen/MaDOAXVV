@@ -1,0 +1,397 @@
+{
+    "$__mpe_config_自动排位": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1784380026402,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
+            "isDeleted": true,
+            "savedViewport": {
+                "x": -1715,
+                "y": 173,
+                "zoom": 0.7
+            },
+            "filename": "自动排位",
+            "version": "v1.7.4"
+        }
+    },
+    "排位_主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "排位_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1598,
+                "y": 61
+            }
+        }
+    },
+    "排位_体力不足": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    387,
+                    206,
+                    557,
+                    316
+                ],
+                "template": [
+                    "排位_体力药水.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "排位_体力补充关闭"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2884,
+                "y": -188
+            }
+        }
+    },
+    "排位_体力补充关闭": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "next": [
+            "排位_关闭界面"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3234,
+                "y": -188
+            }
+        }
+    },
+    "排位_关闭界面": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "next": [
+            "排位_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3542,
+                "y": -201
+            }
+        }
+    },
+    "排位_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "排位_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1311,
+                "y": 68
+            }
+        }
+    },
+    "排位_比赛开始": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "比赛开始.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "排位_比赛开始",
+            "排位_随机点屏幕几下"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3195,
+                "y": 184
+            }
+        }
+    },
+    "排位_比赛结算": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "比赛记录.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    274,
+                    90,
+                    802,
+                    425
+                ]
+            }
+        },
+        "post_delay": 1500,
+        "timeout": 30000,
+        "rate_limit": 5000,
+        "next": [
+            "排位_点击对战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3951,
+                "y": 7
+            }
+        }
+    },
+    "排位_点击对战": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "对战.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    16,
+                    4,
+                    -27,
+                    -11
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "排位_体力不足",
+            "排位_选择对手"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2576,
+                "y": -6
+            }
+        }
+    },
+    "排位_点击活动": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    12,
+                    -10,
+                    -24,
+                    -8
+                ]
+            }
+        },
+        "post_wait_freezes": 1500,
+        "timeout": 20000,
+        "next": [
+            "排位_点击维纳斯竞技场(OCR)",
+            "排位_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1912,
+                "y": 60
+            }
+        }
+    },
+    "排位_点击维纳斯竞技场(OCR)": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1013,
+                    202,
+                    61,
+                    70
+                ],
+                "expected": [
+                    "签到"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    -75,
+                    -28,
+                    5,
+                    6
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "排位_点击对战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2229,
+                "y": 114
+            }
+        }
+    },
+    "排位_点击维纳斯竞技场(图片)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    848,
+                    179,
+                    241,
+                    108
+                ],
+                "template": [
+                    "维纳斯竞技场.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    18,
+                    25,
+                    -35,
+                    -41
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "timeout": 20000,
+        "$__mpe_code": {
+            "position": {
+                "x": 2248,
+                "y": 505
+            }
+        }
+    },
+    "排位_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 4275,
+                "y": -162
+            }
+        }
+    },
+    "排位_选择对手": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "对手.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    -196,
+                    380,
+                    406,
+                    16
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "排位_比赛开始",
+            "排位_选择对手"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2883,
+                "y": 126
+            }
+        }
+    },
+    "排位_随机点屏幕几下": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    250,
+                    124,
+                    836,
+                    441
+                ]
+            }
+        },
+        "repeat": 8,
+        "repeat_delay": 5000,
+        "timeout": 300000,
+        "rate_limit": 5000,
+        "next": [
+            "排位_比赛结算"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3529,
+                "y": 140
+            }
+        }
+    }
+}

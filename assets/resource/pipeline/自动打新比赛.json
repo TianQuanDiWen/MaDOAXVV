@@ -1,0 +1,384 @@
+{
+    "$__mpe_config_自动打新比赛": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1784160994418,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
+            "savedViewport": {
+                "x": -1499,
+                "y": 483,
+                "zoom": 0.78
+            },
+            "filename": "自动打新比赛",
+            "version": "v1.7.4"
+        }
+    },
+    "新比赛_新比赛不存在": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "上一次比赛"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "新比赛_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3497,
+                "y": -354
+            }
+        }
+    },
+    "新比赛_一轮完成": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    801,
+                    109,
+                    239,
+                    607
+                ],
+                "expected": [
+                    "推荐"
+                ]
+            }
+        },
+        "post_delay": 5000,
+        "timeout": 15000,
+        "next": [
+            "新比赛_检测新比赛是否存在",
+            "新比赛_新比赛不存在"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2371,
+                "y": -384
+            }
+        }
+    },
+    "新比赛_主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "新比赛_挑战赛"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1753,
+                "y": 67
+            }
+        }
+    },
+    "新比赛_挑战赛": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "挑战赛.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 20000,
+        "next": [
+            "新比赛_选择推荐",
+            "新比赛_挑战赛"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2054,
+                "y": 71
+            }
+        }
+    },
+    "新比赛_检测新比赛是否存在": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    801,
+                    109,
+                    239,
+                    607
+                ],
+                "expected": [
+                    "NEW"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    109,
+                    -3,
+                    226,
+                    14
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "timeout": 10000,
+        "next": [
+            "新比赛_检测新比赛是否存在",
+            "新比赛_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2771,
+                "y": 137
+            }
+        }
+    },
+    "新比赛_比赛结算": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "比赛记录.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    168,
+                    63,
+                    1024,
+                    507
+                ]
+            }
+        },
+        "post_delay": 1500,
+        "timeout": 8000,
+        "next": [
+            "新比赛_比赛结算",
+            "新比赛_一轮完成"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3747,
+                "y": 148
+            }
+        }
+    },
+    "新比赛_点击挑战": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    815,
+                    540,
+                    442,
+                    174
+                ],
+                "template": [
+                    "挑战.png"
+                ],
+                "count": 20
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    0,
+                    0,
+                    -10,
+                    -6
+                ]
+            }
+        },
+        "post_delay": 1500,
+        "timeout": 20000,
+        "next": [
+            "新比赛_补充体力",
+            "新比赛_点击挑战",
+            "新比赛_随机点下屏幕"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3127,
+                "y": 107
+            }
+        }
+    },
+    "新比赛_点击确认": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "新比赛_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3121,
+                "y": 882
+            }
+        }
+    },
+    "新比赛_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3771,
+                "y": -322
+            }
+        }
+    },
+    "新比赛_补充体力": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    450,
+                    456,
+                    92,
+                    94
+                ],
+                "template": [
+                    "体力药水.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    145,
+                    13,
+                    -2,
+                    -30
+                ]
+            }
+        },
+        "next": [
+            "新比赛_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3120,
+                "y": 567
+            }
+        }
+    },
+    "新比赛_选择推荐": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    863,
+                    112,
+                    412,
+                    165
+                ],
+                "expected": [
+                    "推荐"
+                ]
+            }
+        },
+        "pre_wait_freezes": 1000,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_delay": 1000,
+        "timeout": 10000,
+        "next": [
+            "新比赛_检测新比赛是否存在",
+            "新比赛_新比赛不存在"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2388,
+                "y": 64
+            }
+        }
+    },
+    "新比赛_随机点下屏幕": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    370,
+                    208,
+                    663,
+                    316
+                ]
+            }
+        },
+        "repeat": 5,
+        "repeat_delay": 2000,
+        "post_delay": 1000,
+        "timeout": 300000,
+        "next": [
+            "新比赛_比赛结算"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3474,
+                "y": 141
+            }
+        }
+    },
+    "新比赛_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "新比赛_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1420,
+                "y": 93
+            }
+        }
+    }
+}

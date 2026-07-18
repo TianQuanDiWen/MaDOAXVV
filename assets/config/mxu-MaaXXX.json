@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "instances": [
+    {
+      "id": "ial9dh4",
+      "name": "配置 1",
+      "controllerName": "桌面端",
+      "resourceName": "官服",
+      "tasks": [
+        {
+          "id": "hfstkgc",
+          "taskName": "自动打新比赛",
+          "enabled": true,
+          "optionValues": {}
+        },
+        {
+          "id": "krl9fy5",
+          "taskName": "自动打新比赛",
+          "enabled": true,
+          "optionValues": {}
+        },
+        {
+          "id": "0dpbpn5",
+          "taskName": "自动排位五次",
+          "enabled": true,
+          "optionValues": {}
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "accentColor": "rosegold",
+    "language": "system",
+    "backgroundOpacity": 50,
+    "confirmBeforeDelete": false,
+    "maxLogsPerInstance": 500,
+    "autoClearLogsOnLaunch": true,
+    "windowSize": {
+      "width": 1086,
+      "height": 704
+    },
+    "windowPosition": {
+      "x": 443,
+      "y": 210
+    },
+    "showOptionPreview": true,
+    "sidePanelExpanded": true,
+    "rightPanelWidth": 320,
+    "rightPanelCollapsed": false,
+    "addTaskPanelHeight": 192,
+    "connectionPanelExpanded": true,
+    "screenshotPanelExpanded": true,
+    "screenshotFrameRate": "1",
+    "mirrorChyan": {
+      "cdk": "",
+      "channel": "stable",
+      "cdkEncrypted": ""
+    },
+    "welcomeShownHash": "-ch78tq",
+    "devMode": false,
+    "tcpCompatMode": false,
+    "allowLanAccess": false,
+    "webServerEnabled": true,
+    "webServerPort": 12701,
+    "autoRunOnLaunch": false,
+    "minimizeToTray": false,
+    "onboardingCompleted": true,
+    "preActionConnectDelaySec": 5,
+    "hotkeys": {
+      "startTasks": "F10",
+      "stopTasks": "F11"
+    }
+  },
+  "customAccents": [],
+  "recentlyClosed": [],
+  "interfaceTaskSnapshot": [
+    "自动打新比赛",
+    "自动排位五次"
+  ],
+  "newTaskNames": [],
+  "lastActiveInstanceId": "ial9dh4"
+}

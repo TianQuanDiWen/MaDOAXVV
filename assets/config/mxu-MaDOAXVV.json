@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "instances": [
+    {
+      "id": "wz1p66h",
+      "name": "配置 1",
+      "controllerName": "桌面端",
+      "resourceName": "官服",
+      "tasks": [
+        {
+          "id": "jjvm41h",
+          "taskName": "自动排位五次",
+          "enabled": true,
+          "optionValues": {}
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "accentColor": "emerald",
+    "language": "system",
+    "backgroundOpacity": 50,
+    "confirmBeforeDelete": false,
+    "maxLogsPerInstance": 500,
+    "autoClearLogsOnLaunch": true,
+    "windowSize": {
+      "width": 1000,
+      "height": 618
+    },
+    "windowPosition": {
+      "x": 369,
+      "y": 155
+    },
+    "showOptionPreview": true,
+    "sidePanelExpanded": true,
+    "rightPanelWidth": 320,
+    "rightPanelCollapsed": false,
+    "addTaskPanelHeight": 192,
+    "connectionPanelExpanded": true,
+    "screenshotPanelExpanded": true,
+    "screenshotFrameRate": "1",
+    "mirrorChyan": {
+      "cdk": "",
+      "channel": "stable",
+      "cdkEncrypted": ""
+    },
+    "welcomeShownHash": "n2sxy9",
+    "devMode": false,
+    "tcpCompatMode": false,
+    "allowLanAccess": false,
+    "webServerEnabled": true,
+    "webServerPort": 12701,
+    "autoRunOnLaunch": false,
+    "minimizeToTray": false,
+    "onboardingCompleted": true,
+    "preActionConnectDelaySec": 5,
+    "hotkeys": {
+      "startTasks": "F10",
+      "stopTasks": "F11"
+    }
+  },
+  "customAccents": [],
+  "recentlyClosed": [],
+  "interfaceTaskSnapshot": [
+    "自动打新比赛",
+    "自动排位五次",
+    "每日自动挑战券",
+    "每日活动挑战赛",
+    "抽免费券",
+    "岛主房间"
+  ],
+  "newTaskNames": [],
+  "lastActiveInstanceId": "wz1p66h"
+}
