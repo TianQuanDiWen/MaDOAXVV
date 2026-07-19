@@ -15,6 +15,10 @@
 
 项目使用 Win32 控制器连接游戏窗口，默认匹配标题 `DOAX VenusVacation`。
 
+## 下载
+
+[下载最新版本](https://github.com/TianQuanDiWen/MaDOAXVV/releases/latest)
+
 ## 运行环境
 
 - Windows 10 或 Windows 11（x64）。
