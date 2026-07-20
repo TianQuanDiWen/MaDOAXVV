@@ -47,6 +47,31 @@
             "height": 1489
         }
     },
+    "领取_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    415,
+                    154,
+                    435,
+                    393
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "领取_点下主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1321,
+                "y": 20
+            }
+        }
+    },
     "领取_任务领完": {
         "action": {
             "type": "Click",
@@ -409,31 +434,6 @@
             "position": {
                 "x": 2963,
                 "y": -445
-            }
-        }
-    },
-    "领取_开始": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    415,
-                    154,
-                    435,
-                    393
-                ],
-                "contact": 1
-            }
-        },
-        "post_delay": 500,
-        "timeout": 10000,
-        "next": [
-            "领取_点下主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1321,
-                "y": 20
             }
         }
     },

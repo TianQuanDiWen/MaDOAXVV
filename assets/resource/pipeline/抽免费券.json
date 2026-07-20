@@ -3,16 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1783932010711,
+            "lastSyncTime": 1784583148062,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\抽免费券.json",
             "savedViewport": {
-                "x": -3004,
-                "y": 82,
-                "zoom": 1.46
+                "x": -1646,
+                "y": 40,
+                "zoom": 1.03
             },
             "filename": "抽免费券",
-            "version": "v1.7.3"
+            "version": "v1.7.4"
         }
     },
     "抽免费券_开始": {
@@ -72,7 +72,8 @@
         "post_delay": 1000,
         "timeout": 10000,
         "next": [
-            "抽免费券_点击免费扭蛋"
+            "抽免费券_点击免费扭蛋",
+            "抽免费券_无可抽次数"
         ],
         "$__mpe_code": {
             "position": {
@@ -161,6 +162,7 @@
         "action": {
             "type": "Click"
         },
+        "focus": "抽免费券：开抽",
         "next": [
             "抽免费券_点击画面继续"
         ],
@@ -214,15 +216,13 @@
         },
         "timeout": 5000,
         "next": [
-            "抽免费券_点击免费扭蛋"
-        ],
-        "on_error": [
+            "抽免费券_点击免费扭蛋",
             "抽免费券_返回到主页"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2735,
-                "y": -239
+                "x": 2724,
+                "y": -247
             }
         }
     },
@@ -245,10 +245,20 @@
             "type": "Click"
         },
         "timeout": 5000,
+        "focus": "抽免费券：任务结束",
         "$__mpe_code": {
             "position": {
-                "x": 3123,
-                "y": -225
+                "x": 3280,
+                "y": -252
+            }
+        }
+    },
+    "抽免费券_无可抽次数": {
+        "focus": "抽免费券：无可抽次数 不执行",
+        "$__mpe_code": {
+            "position": {
+                "x": 2057,
+                "y": 413
             }
         }
     }

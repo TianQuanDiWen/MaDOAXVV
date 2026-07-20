@@ -3,46 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784273331337,
+            "lastSyncTime": 1784583193465,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\岛主房间.json",
             "savedViewport": {
-                "x": -1233,
-                "y": 54,
-                "zoom": 1.03
+                "x": -3890,
+                "y": 78,
+                "zoom": 1.32
             },
             "filename": "岛主房间",
             "version": "v1.7.4"
-        }
-    },
-    "每日房间_温泉_点击确定": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "roi": [
-                    601,
-                    474,
-                    217,
-                    214
-                ],
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "岛主房间_温泉_结束",
-            "每日房间_温泉_点击确定"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3509,
-                "y": -508
-            }
         }
     },
     "岛主房间_开始": {
@@ -65,34 +35,155 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1516,
-                "y": 150
+                "x": 1520,
+                "y": 102
             }
         }
     },
-    "岛主房间_点下主页": {
+    "岛主房间_没有东西可以领": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    6,
+                    214,
+                    147,
+                    128
+                ],
+                "expected": [
+                    "女孩"
+                ]
+            }
+        },
+        "focus": "岛主房间：无可领取流程结束",
+        "next": [
+            "岛主房间_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3938,
+                "y": 135
+            }
+        }
+    },
+    "岛主房间_温泉_功效药180": {
         "recognition": {
             "type": "FeatureMatch",
             "param": {
                 "template": [
-                    "主页.png"
+                    "功效剂240.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    157,
+                    149,
+                    -27,
+                    -35
+                ]
+            }
+        },
+        "next": [
+            "岛主房间_温泉_功效药60"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3123,
+                "y": -286
+            }
+        }
+    },
+    "岛主房间_温泉_功效药240": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "功效剂240.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    158,
+                    14,
+                    -19,
+                    -38
+                ]
+            }
+        },
+        "next": [
+            "岛主房间_温泉_功效药180"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3124,
+                "y": -558
+            }
+        }
+    },
+    "岛主房间_温泉_功效药60": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "功效剂240.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    158,
+                    81,
+                    -21,
+                    -37
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "next": [
+            "每日房间_温泉_点击确定"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3122,
+                "y": -10
+            }
+        }
+    },
+    "岛主房间_温泉_点击可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    62,
+                    229,
+                    229,
+                    225
+                ],
+                "expected": [
+                    "可领取"
                 ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
-        "timeout": 15000,
+        "focus": "岛主房间：领取温泉",
         "next": [
-            "岛主房间_温泉_点击可领取",
-            "岛主房间_点击工作完成",
-            "岛主房间_没有东西可以领"
+            "岛主房间_温泉_点击继续",
+            "岛主房间_温泉_点击可领取"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1842,
-                "y": 91
+                "x": 2221,
+                "y": -84
             }
         }
     },
@@ -126,32 +217,71 @@
             }
         }
     },
-    "岛主房间_温泉_点击可领取": {
+    "岛主房间_温泉_结束": {
+        "focus": "岛主房间：温泉流程结束",
+        "next": [
+            "岛主房间_点击工作完成",
+            "岛主房间_没有东西可以领"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3518,
+                "y": -136
+            }
+        }
+    },
+    "岛主房间_温泉_补充功效": {
         "recognition": {
-            "type": "OCR",
+            "type": "FeatureMatch",
             "param": {
                 "roi": [
-                    62,
-                    229,
-                    229,
-                    225
+                    1149,
+                    384,
+                    98,
+                    87
                 ],
-                "expected": [
-                    "可领取"
+                "template": [
+                    "岛主房间_+.png"
                 ]
             }
         },
         "action": {
             "type": "Click"
         },
+        "post_wait_freezes": 1200,
         "next": [
-            "岛主房间_温泉_点击继续",
-            "岛主房间_温泉_点击可领取"
+            "岛主房间_温泉_功效药240"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2221,
-                "y": -84
+                "x": 2809,
+                "y": -85
+            }
+        }
+    },
+    "岛主房间_点下主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "岛主房间_温泉_点击可领取",
+            "岛主房间_点击工作完成",
+            "岛主房间_没有东西可以领"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1842,
+                "y": 91
             }
         }
     },
@@ -174,6 +304,7 @@
             "type": "Click"
         },
         "post_wait_freezes": 500,
+        "focus": "岛主房间：工作完成",
         "next": [
             "岛主房间_点击确认结果",
             "岛主房间_点击工作完成"
@@ -199,6 +330,7 @@
             "type": "Click"
         },
         "post_wait_freezes": 1000,
+        "focus": "岛主房间：工作流程结束",
         "next": [
             "岛主房间_点击确认",
             "岛主房间_结束"
@@ -261,160 +393,33 @@
             }
         }
     },
-    "岛主房间_没有东西可以领": {
+    "每日房间_温泉_点击确定": {
         "recognition": {
-            "type": "OCR",
+            "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    6,
-                    214,
-                    147,
-                    128
-                ],
-                "expected": [
-                    "女孩"
-                ]
-            }
-        },
-        "next": [
-            "岛主房间_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3938,
-                "y": 135
-            }
-        }
-    },
-    "岛主房间_温泉_补充功效": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "roi": [
-                    1149,
-                    384,
-                    98,
-                    87
+                    601,
+                    474,
+                    217,
+                    214
                 ],
                 "template": [
-                    "岛主房间_+.png"
-                ]
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1200,
         "next": [
-            "岛主房间_温泉_功效药240"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2809,
-                "y": -85
-            }
-        }
-    },
-    "岛主房间_温泉_结束": {
-        "next": [
-            "岛主房间_点击工作完成",
-            "岛主房间_没有东西可以领"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3518,
-                "y": -136
-            }
-        }
-    },
-    "岛主房间_温泉_功效药240": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "功效剂240.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    158,
-                    14,
-                    -19,
-                    -38
-                ]
-            }
-        },
-        "next": [
-            "岛主房间_温泉_功效药180"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3124,
-                "y": -558
-            }
-        }
-    },
-    "岛主房间_温泉_功效药180": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "功效剂240.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    157,
-                    149,
-                    -27,
-                    -35
-                ]
-            }
-        },
-        "next": [
-            "岛主房间_温泉_功效药60"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3123,
-                "y": -286
-            }
-        }
-    },
-    "岛主房间_温泉_功效药60": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "功效剂240.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    158,
-                    81,
-                    -21,
-                    -37
-                ]
-            }
-        },
-        "post_wait_freezes": 1000,
-        "next": [
+            "岛主房间_温泉_结束",
             "每日房间_温泉_点击确定"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3122,
-                "y": -10
+                "x": 3509,
+                "y": -508
             }
         }
     }

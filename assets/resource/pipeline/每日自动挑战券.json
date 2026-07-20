@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784164473596,
+            "lastSyncTime": 1784587465624,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -4805,
-                "y": 108,
-                "zoom": 1.17
+                "x": -1839,
+                "y": 162,
+                "zoom": 0.91
             },
             "filename": "每日自动挑战券",
             "version": "v1.7.4"
@@ -106,6 +106,7 @@
             "type": "Click"
         },
         "post_wait_freezes": 1234,
+        "focus": "每日挑战：自动战斗完成",
         "next": [
             "每日挑战_比赛结算",
             "每日挑战_点击确定（结算）",
@@ -262,7 +263,8 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "每日挑战_点击挑战赛券"
+            "每日挑战_点击挑战赛券",
+            "每日挑战_次数不足"
         ],
         "$__mpe_code": {
             "position": {
@@ -353,6 +355,12 @@
         }
     },
     "每日挑战_结束": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
         "$__mpe_code": {
             "position": {
                 "x": 5454,
@@ -388,6 +396,29 @@
             "position": {
                 "x": 3469,
                 "y": 21
+            }
+        }
+    },
+    "每日挑战_次数不足": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "0"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": "每日挑战：次数不足任务不执行",
+        "next": [
+            "每日挑战_主页流程结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4724,
+                "y": 486
             }
         }
     }

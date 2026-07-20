@@ -27,6 +27,7 @@ if sys.argv.__len__() < 4:
 
 os_name = sys.argv[2]
 arch = sys.argv[3]
+project_name = "MaDOAXVV"
 
 
 def get_dotnet_platform_tag():
@@ -98,6 +99,38 @@ def install_deps():
         )
 
 
+def install_mfa():
+    if os_name == "android":
+        return
+
+    mfa_path = working_dir / "MFA"
+    if not mfa_path.exists():
+        raise FileNotFoundError(f"MFAAvalonia directory not found: {mfa_path}")
+
+    install_path.mkdir(parents=True, exist_ok=True)
+    for source in mfa_path.iterdir():
+        if source.name == "runtimes":
+            continue
+
+        destination = install_path / source.name
+        if source.is_dir():
+            shutil.copytree(source, destination, dirs_exist_ok=True)
+        else:
+            shutil.copy2(source, destination)
+
+    executable_suffix = ".exe" if os_name == "win" else ""
+    original_executable = install_path / f"MFAAvalonia{executable_suffix}"
+    project_executable = install_path / f"{project_name}{executable_suffix}"
+
+    if original_executable.exists():
+        project_executable.unlink(missing_ok=True)
+        original_executable.rename(project_executable)
+    elif not project_executable.exists():
+        raise FileNotFoundError(
+            f"MFAAvalonia executable not found: {original_executable}"
+        )
+
+
 
 def install_resource():
 
@@ -142,6 +175,7 @@ def install_agent():
 
 
 if __name__ == "__main__":
+    install_mfa()
     install_deps()
     install_resource()
     install_chores()

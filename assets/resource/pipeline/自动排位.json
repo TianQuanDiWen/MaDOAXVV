@@ -3,14 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784380026402,
+            "lastSyncTime": 1784587727178,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
-            "isDeleted": true,
             "savedViewport": {
-                "x": -1715,
-                "y": 173,
-                "zoom": 0.7
+                "x": -1233,
+                "y": 107,
+                "zoom": 0.48
             },
             "filename": "自动排位",
             "version": "v1.7.4"
@@ -58,13 +57,14 @@
         "action": {
             "type": "Click"
         },
+        "focus": "排位：体力不足",
         "next": [
             "排位_体力补充关闭"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2884,
-                "y": -188
+                "x": 2882,
+                "y": -215
             }
         }
     },
@@ -97,8 +97,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3542,
-                "y": -201
+                "x": 3527,
+                "y": -188
             }
         }
     },
@@ -141,13 +141,14 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "排位_比赛开始",
-            "排位_随机点屏幕几下"
+            "排位_确认比赛开始",
+            "排位_长时间游玩确认",
+            "排位_比赛开始"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3195,
-                "y": 184
+                "x": 3181,
+                "y": 182
             }
         }
     },
@@ -174,13 +175,14 @@
         "post_delay": 1500,
         "timeout": 30000,
         "rate_limit": 5000,
+        "focus": "排位：比赛结算",
         "next": [
             "排位_点击对战"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3951,
-                "y": 7
+                "x": 4066,
+                "y": -35
             }
         }
     },
@@ -328,11 +330,33 @@
             }
         }
     },
+    "排位_确认比赛开始": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "比赛开始.png"
+                ]
+            }
+        },
+        "inverse": true,
+        "post_wait_freezes": 1000,
+        "focus": "排位：比赛开始",
+        "next": [
+            "排位_随机点屏幕几下"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3442,
+                "y": 168
+            }
+        }
+    },
     "排位_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 4275,
-                "y": -162
+                "x": 4433,
+                "y": -166
             }
         }
     },
@@ -389,9 +413,98 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3529,
-                "y": 140
+                "x": 3701,
+                "y": 125
             }
+        }
+    },
+    "排位_长时间游玩确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "长时间"
+                ]
+            }
+        },
+        "focus": "排位：长时间游玩弹窗 任务结束",
+        "next": [
+            "排位_退出长时间游玩返回"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3469,
+                "y": 627
+            }
+        }
+    },
+    "排位_退出长时间游玩返回": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    485,
+                    497,
+                    155,
+                    149
+                ],
+                "template": [
+                    "返回.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "排位_长时间游玩退出到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3732,
+                "y": 627
+            }
+        }
+    },
+    "排位_长时间游玩退出到主页": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "contact": 1
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 200,
+        "next": [
+            "排位_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4094,
+                "y": 620
+            }
+        }
+    },
+    "$__mpe_group_长时间游玩确定_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3429,
+                "y": 544
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "排位_长时间游玩确认",
+                "排位_退出长时间游玩返回",
+                "排位_长时间游玩退出到主页"
+            ],
+            "width": 926,
+            "height": 427
         }
     }
 }
