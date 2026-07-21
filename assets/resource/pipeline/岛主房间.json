@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784583193465,
+            "lastSyncTime": 1784590733923,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\岛主房间.json",
             "savedViewport": {
-                "x": -3890,
-                "y": 78,
-                "zoom": 1.32
+                "x": -2732,
+                "y": 229,
+                "zoom": 1.17
             },
             "filename": "岛主房间",
             "version": "v1.7.4"
@@ -250,7 +250,8 @@
         },
         "post_wait_freezes": 1200,
         "next": [
-            "岛主房间_温泉_功效药240"
+            "岛主房间_温泉_功效药240",
+            "每日房间_温泉_点击确定"
         ],
         "$__mpe_code": {
             "position": {
@@ -398,10 +399,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    601,
-                    474,
-                    217,
-                    214
+                    593,
+                    473,
+                    241,
+                    213
                 ],
                 "template": [
                     "确定（遮罩）.png"

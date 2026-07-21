@@ -1,21 +1,21 @@
 {
-    "$__mpe_config_新建Pipeline13": {
+    "$__mpe_config_每日活动挑战赛": {
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784588304627,
+            "lastSyncTime": 1784592171280,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -1892,
-                "y": 282,
-                "zoom": 0.7
+                "x": -3078,
+                "y": -399,
+                "zoom": 1.03
             },
-            "filename": "新建Pipeline13",
+            "filename": "每日活动挑战赛",
             "version": "v1.7.4"
         }
     },
-    "$__mpe_group_长时间游玩_新建Pipeline13": {
+    "$__mpe_group_长时间游玩_每日活动挑战赛": {
         "$__mpe_code": {
             "position": {
                 "x": 4410,
@@ -94,6 +94,8 @@
                 "contact": 1
             }
         },
+        "repeat": 4,
+        "repeat_delay": 200,
         "next": [
             "日活动赛_主页流程结束"
         ],
@@ -360,6 +362,7 @@
         "action": {
             "type": "Click"
         },
+        "post_wait_freezes": 300,
         "next": [
             "日活动赛_点击确定(没有券了)",
             "日活动赛_右键返回"
@@ -440,9 +443,9 @@
         "post_wait_freezes": 1000,
         "next": [
             "日活动赛_选择最多次数",
+            "日活动赛_自动挑战赛券不足",
             "日活动赛_点击确定",
-            "日活动赛_点击自动",
-            "日活动赛_自动挑战赛券不足"
+            "日活动赛_点击自动"
         ],
         "$__mpe_code": {
             "position": {
@@ -534,8 +537,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4713,
-                "y": -622
+                "x": 4756,
+                "y": -627
             }
         }
     },

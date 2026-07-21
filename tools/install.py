@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import json
 import shutil
 import sys
 
@@ -131,6 +132,24 @@ def install_mfa():
         )
 
 
+def configure_update_source():
+    config_path = install_path / "config" / "config.json"
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if config_path.exists():
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+    else:
+        config = {}
+
+    # MFAAvalonia uses 0 for GitHub and 1 for MirrorChyan.
+    config.setdefault("DownloadSourceIndex", 0)
+
+    with open(config_path, "w", encoding="utf-8") as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+
+
 
 def install_resource():
 
@@ -176,6 +195,7 @@ def install_agent():
 
 if __name__ == "__main__":
     install_mfa()
+    configure_update_source()
     install_deps()
     install_resource()
     install_chores()

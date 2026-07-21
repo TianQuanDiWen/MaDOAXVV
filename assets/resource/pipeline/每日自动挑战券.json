@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784587465624,
+            "lastSyncTime": 1784591428060,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -1839,
-                "y": 162,
-                "zoom": 0.91
+                "x": -1697,
+                "y": 225,
+                "zoom": 0.8
             },
             "filename": "每日自动挑战券",
             "version": "v1.7.4"
@@ -263,8 +263,8 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "每日挑战_点击挑战赛券",
-            "每日挑战_次数不足"
+            "每日挑战_次数不足",
+            "每日挑战_点击挑战赛券"
         ],
         "$__mpe_code": {
             "position": {
@@ -407,9 +407,6 @@
                     "0"
                 ]
             }
-        },
-        "action": {
-            "type": "Click"
         },
         "focus": "每日挑战：次数不足任务不执行",
         "next": [

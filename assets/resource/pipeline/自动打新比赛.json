@@ -3,38 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784160994418,
+            "lastSyncTime": 1784590227434,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -1499,
-                "y": 483,
-                "zoom": 0.78
+                "x": -642,
+                "y": 363,
+                "zoom": 0.48
             },
             "filename": "自动打新比赛",
             "version": "v1.7.4"
-        }
-    },
-    "新比赛_新比赛不存在": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "上一次比赛"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "新比赛_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3497,
-                "y": -354
-            }
         }
     },
     "新比赛_一轮完成": {
@@ -54,14 +32,15 @@
         },
         "post_delay": 5000,
         "timeout": 15000,
+        "focus": "新比赛：打完一场",
         "next": [
             "新比赛_检测新比赛是否存在",
             "新比赛_新比赛不存在"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2371,
-                "y": -384
+                "x": 2390,
+                "y": -359
             }
         }
     },
@@ -89,6 +68,31 @@
             }
         }
     },
+    "新比赛_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "新比赛_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1420,
+                "y": 93
+            }
+        }
+    },
     "新比赛_挑战赛": {
         "recognition": {
             "type": "FeatureMatch",
@@ -111,6 +115,32 @@
             "position": {
                 "x": 2054,
                 "y": 71
+            }
+        }
+    },
+    "新比赛_新比赛不存在": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    809,
+                    320,
+                    98,
+                    377
+                ],
+                "expected": [
+                    "上一次比赛"
+                ]
+            }
+        },
+        "focus": "新比赛：不存在 结束流程",
+        "next": [
+            "新比赛_新比赛返回主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3158,
+                "y": -321
             }
         }
     },
@@ -215,15 +245,17 @@
         },
         "post_delay": 1500,
         "timeout": 20000,
+        "focus": "新比赛：开始比赛",
         "next": [
             "新比赛_补充体力",
+            "新比赛_长时间游玩确认",
             "新比赛_点击挑战",
             "新比赛_随机点下屏幕"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3127,
-                "y": 107
+                "x": 3113,
+                "y": 70
             }
         }
     },
@@ -254,8 +286,8 @@
     "新比赛_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 3771,
-                "y": -322
+                "x": 4564,
+                "y": 279
             }
         }
     },
@@ -285,6 +317,7 @@
                 ]
             }
         },
+        "focus": "新比赛：补充体力",
         "next": [
             "新比赛_点击确认"
         ],
@@ -356,28 +389,114 @@
             }
         }
     },
-    "新比赛_开始": {
+    "$__mpe_group_长时间游玩确定_自动打新比赛": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3468,
+                "y": 584
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "新比赛_长时间游玩确认",
+                "新比赛_退出长时间游玩返回",
+                "新比赛_长时间游玩退出到主页"
+            ],
+            "width": 926,
+            "height": 427
+        }
+    },
+    "新比赛_长时间游玩确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "长时间"
+                ]
+            }
+        },
+        "focus": "排位：长时间游玩弹窗 任务结束",
+        "next": [
+            "新比赛_退出长时间游玩返回"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3508,
+                "y": 667
+            }
+        }
+    },
+    "新比赛_退出长时间游玩返回": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    485,
+                    497,
+                    155,
+                    149
+                ],
+                "template": [
+                    "返回.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "新比赛_长时间游玩退出到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3772,
+                "y": 667
+            }
+        }
+    },
+    "新比赛_长时间游玩退出到主页": {
         "action": {
             "type": "Click",
             "param": {
                 "target": [
-                    282,
-                    120,
-                    728,
-                    476
+                    0,
+                    0,
+                    0,
+                    0
                 ],
                 "contact": 1
             }
         },
-        "post_delay": 500,
-        "timeout": 10000,
+        "repeat": 2,
+        "repeat_delay": 200,
         "next": [
-            "新比赛_主页"
+            "新比赛_结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1420,
-                "y": 93
+                "x": 4134,
+                "y": 660
+            }
+        }
+    },
+    "新比赛_新比赛返回主页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    809,
+                    320,
+                    98,
+                    377
+                ]
+            }
+        },
+        "next": [
+            "新比赛_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3521,
+                "y": -298
             }
         }
     }
