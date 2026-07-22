@@ -3,12 +3,12 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784583148062,
+            "lastSyncTime": 1784593529912,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\抽免费券.json",
             "savedViewport": {
-                "x": -1646,
-                "y": 40,
+                "x": -929,
+                "y": 161,
                 "zoom": 1.03
             },
             "filename": "抽免费券",
@@ -16,6 +16,12 @@
         }
     },
     "抽免费券_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
         "post_delay": 500,
         "timeout": 10000,
         "next": [
@@ -54,6 +60,15 @@
             "position": {
                 "x": 2351,
                 "y": 118
+            }
+        }
+    },
+    "抽免费券_无可抽次数": {
+        "focus": "抽免费券：无可抽次数 不执行",
+        "$__mpe_code": {
+            "position": {
+                "x": 2057,
+                "y": 413
             }
         }
     },
@@ -250,15 +265,6 @@
             "position": {
                 "x": 3280,
                 "y": -252
-            }
-        }
-    },
-    "抽免费券_无可抽次数": {
-        "focus": "抽免费券：无可抽次数 不执行",
-        "$__mpe_code": {
-            "position": {
-                "x": 2057,
-                "y": 413
             }
         }
     }

@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784591428060,
+            "lastSyncTime": 1784678241462,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -1697,
-                "y": 225,
-                "zoom": 0.8
+                "x": -2893,
+                "y": -341,
+                "zoom": 1.17
             },
             "filename": "每日自动挑战券",
             "version": "v1.7.4"
@@ -103,14 +103,22 @@
             }
         },
         "action": {
-            "type": "Click"
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    -98,
+                    279,
+                    203,
+                    133
+                ]
+            }
         },
         "post_wait_freezes": 1234,
         "focus": "每日挑战：自动战斗完成",
         "next": [
-            "每日挑战_比赛结算",
             "每日挑战_点击确定（结算）",
-            "每日挑战_主页流程结束"
+            "每日挑战_主页流程结束",
+            "每日挑战_比赛结算"
         ],
         "$__mpe_code": {
             "position": {
@@ -233,6 +241,7 @@
         },
         "post_wait_freezes": 1000,
         "next": [
+            "每日挑战_次数不足",
             "每日挑战_点击ss级"
         ],
         "$__mpe_code": {
@@ -263,7 +272,6 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "每日挑战_次数不足",
             "每日挑战_点击挑战赛券"
         ],
         "$__mpe_code": {
@@ -401,11 +409,27 @@
     },
     "每日挑战_次数不足": {
         "recognition": {
-            "type": "OCR",
+            "type": "TemplateMatch",
             "param": {
-                "expected": [
-                    "0"
+                "roi": [
+                    864,
+                    174,
+                    90,
+                    539
+                ],
+                "template": [
+                    "锁头.png"
+                ],
+                "green_mask": true,
+                "threshold": [
+                    0.5
                 ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
             }
         },
         "focus": "每日挑战：次数不足任务不执行",
@@ -414,8 +438,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4724,
-                "y": 486
+                "x": 3144,
+                "y": 543
             }
         }
     }

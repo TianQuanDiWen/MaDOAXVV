@@ -3,16 +3,32 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784587727178,
+            "lastSyncTime": 1784588270288,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -1233,
-                "y": 107,
-                "zoom": 0.48
+                "x": -2782,
+                "y": 306,
+                "zoom": 0.9
             },
             "filename": "自动排位",
             "version": "v1.7.4"
+        }
+    },
+    "$__mpe_group_长时间游玩确定_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3429,
+                "y": 544
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "排位_长时间游玩确认",
+                "排位_退出长时间游玩返回",
+                "排位_长时间游玩退出到主页"
+            ],
+            "width": 926,
+            "height": 427
         }
     },
     "排位_主页": {
@@ -209,7 +225,8 @@
         "post_wait_freezes": 1000,
         "next": [
             "排位_体力不足",
-            "排位_选择对手"
+            "排位_选择对手",
+            "排位_点击对战"
         ],
         "$__mpe_code": {
             "position": {
@@ -489,22 +506,6 @@
                 "x": 4094,
                 "y": 620
             }
-        }
-    },
-    "$__mpe_group_长时间游玩确定_自动排位": {
-        "$__mpe_code": {
-            "position": {
-                "x": 3429,
-                "y": 544
-            },
-            "color": "blue",
-            "childrenLabels": [
-                "排位_长时间游玩确认",
-                "排位_退出长时间游玩返回",
-                "排位_长时间游玩退出到主页"
-            ],
-            "width": 926,
-            "height": 427
         }
     }
 }
