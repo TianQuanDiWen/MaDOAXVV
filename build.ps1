@@ -1,5 +1,7 @@
 param(
     [string]$ConfigPath = "build.config.json",
+    [ValidateSet("Build", "Clean")]
+    [string]$Action = "",
     [string]$Target = "",
     [string]$Version = "",
     [switch]$Clean,
@@ -177,6 +179,93 @@ function Download-File {
         -UseBasicParsing
 }
 
+function Test-InteractiveConsole {
+    try {
+        return (
+            [Environment]::UserInteractive -and
+            -not [Console]::IsInputRedirected
+        )
+    }
+    catch {
+        return $false
+    }
+}
+
+function Select-LocalAction {
+    $Options = @(
+        [PSCustomObject]@{
+            Number = "1"
+            Value = "Build"
+            Label = "Build"
+        },
+        [PSCustomObject]@{
+            Number = "2"
+            Value = "Clean"
+            Label = "Clean local build resources"
+        }
+    )
+    $SelectedIndex = 0
+
+    Write-Host ""
+    Write-Host "Select an action (arrow keys and Enter, or press 1/2):"
+    $MenuTop = [Console]::CursorTop
+
+    while ($true) {
+        [Console]::SetCursorPosition(0, $MenuTop)
+        for ($Index = 0; $Index -lt $Options.Count; $Index++) {
+            $Prefix = if ($Index -eq $SelectedIndex) { ">" } else { " " }
+            $Line = "$Prefix $($Options[$Index].Number). $($Options[$Index].Label)"
+            if ($Index -eq $SelectedIndex) {
+                Write-Host $Line.PadRight(40) -ForegroundColor Green
+            }
+            else {
+                Write-Host $Line.PadRight(40)
+            }
+        }
+
+        $PressedKey = [Console]::ReadKey($true).Key
+        switch ($PressedKey) {
+            { $_ -in @("UpArrow", "LeftArrow") } {
+                $SelectedIndex = (
+                    $SelectedIndex - 1 + $Options.Count
+                ) % $Options.Count
+            }
+            { $_ -in @("DownArrow", "RightArrow") } {
+                $SelectedIndex = (
+                    $SelectedIndex + 1
+                ) % $Options.Count
+            }
+            { $_ -in @("D1", "NumPad1") } {
+                Write-Host ""
+                return "Build"
+            }
+            { $_ -in @("D2", "NumPad2") } {
+                Write-Host ""
+                return "Clean"
+            }
+            "Enter" {
+                Write-Host ""
+                return $Options[$SelectedIndex].Value
+            }
+        }
+    }
+}
+
+function Clear-LocalBuildResources {
+    param([string[]]$Paths)
+
+    Write-Step "Cleaning configured local build resources"
+    foreach ($Path in $Paths) {
+        if (Test-Path -LiteralPath $Path) {
+            Write-Host "Removing: $Path"
+            Remove-SafeDirectory -Path $Path
+        }
+        else {
+            Write-Host "Already clean: $Path"
+        }
+    }
+}
+
 function Wait-OnBuildFailure {
     if (
         $NoPause -or
@@ -198,6 +287,16 @@ function Wait-OnBuildFailure {
 }
 
 try {
+$ResolvedAction = if ($Action) {
+    $Action
+}
+elseif ($PSBoundParameters.Count -eq 0 -and (Test-InteractiveConsole)) {
+    Select-LocalAction
+}
+else {
+    "Build"
+}
+
 $ResolvedConfigPath = if ([IO.Path]::IsPathRooted($ConfigPath)) {
     [IO.Path]::GetFullPath($ConfigPath)
 }
@@ -270,6 +369,7 @@ $CacheDir = Resolve-WorkspacePath `
     -FieldName "directories.cache"
 
 $BuildSummary = [PSCustomObject]@{
+    Action = $ResolvedAction
     Config = $ResolvedConfigPath
     Target = $ResolvedTargetName
     Version = $ResolvedVersion
@@ -284,7 +384,14 @@ $BuildSummary | Format-List
 
 if ($DryRun) {
     Write-Host "Dry run completed." -ForegroundColor Green
-    exit 0
+    return
+}
+
+if ($ResolvedAction -eq "Clean") {
+    Clear-LocalBuildResources -Paths @($BuildDir, $CacheDir)
+    Write-Host ""
+    Write-Host "Local build resources cleaned." -ForegroundColor Green
+    return
 }
 
 Write-Step "Checking build tools"
@@ -297,9 +404,7 @@ if (-not $SkipChecks) {
 }
 
 if ($Clean) {
-    Write-Step "Cleaning configured build and cache directories"
-    Remove-SafeDirectory -Path $BuildDir
-    Remove-SafeDirectory -Path $CacheDir
+    Clear-LocalBuildResources -Paths @($BuildDir, $CacheDir)
 }
 else {
     Remove-SafeDirectory -Path $BuildDir

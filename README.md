@@ -58,20 +58,26 @@ tools/                             # Schema 校验脚本
 - Node.js；仅在执行资源检查时需要。
 
 ```powershell
+# 打开交互菜单，使用方向键选择“构筑”或“清理”
+.\build.ps1
+
 # 检查最终解析出的构筑参数，不下载文件
 .\build.ps1 -DryRun
 
-# 使用 defaultTarget 构筑到 build 目录
-.\build.ps1
+# 跳过菜单，使用 defaultTarget 构筑到 build 目录
+.\build.ps1 -Action Build
 
 # 构筑配置中声明的其他目标
-.\build.ps1 -Target win-aarch64
+.\build.ps1 -Action Build -Target win-aarch64
+
+# 只清理 build 目录和本地下载缓存
+.\build.ps1 -Action Clean
 
 # 清理下载缓存后重新构筑
-.\build.ps1 -Clean
+.\build.ps1 -Action Build -Clean
 ```
 
-可使用 `-Version` 临时覆盖产物版本，使用 `-SkipChecks` 跳过 Maa 资源检查。构筑失败时脚本会显示错误并等待按键；自动化调用可使用 `-NoPause` 禁用等待。本地构筑只生成可直接运行的 `build` 目录；GitHub Release 流程仍会生成压缩包。
+无参数运行时可使用上下或左右方向键选择，按 Enter 确认，也可直接按数字键 `1` 或 `2`。可使用 `-Version` 临时覆盖产物版本，使用 `-SkipChecks` 跳过 Maa 资源检查。构筑失败时脚本会显示错误并等待按键；自动化调用可使用 `-Action` 指定操作，并通过 `-NoPause` 禁用错误等待。本地构筑只生成可直接运行的 `build` 目录；GitHub Release 流程仍会生成压缩包。
 
 ## 开发注意
 
