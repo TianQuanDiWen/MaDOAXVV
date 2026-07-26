@@ -1,0 +1,63 @@
+{
+    "projectName": "MaDOAXVV",
+    "defaultTarget": "win-x86_64",
+    "mwu": {
+        "repository": "ravizhan/MWU",
+        "ref": "main",
+        "release": "latest",
+        "copyResourcesScript": "deploy/copy_resources.py",
+        "downloadDependenciesScript": "deploy/download_deps.py",
+        "assetPattern": "MWU-{platform}-{arch}-*.7z"
+    },
+    "toolchain": {
+        "pythonVersion": "3.12.10",
+        "uvIndex": "https://pypi.org/simple",
+        "localExtraction": {
+            "command": "tar",
+            "arguments": [
+                "-xf",
+                "{archive}",
+                "-C",
+                "{destination}"
+            ]
+        },
+        "archiveCommand": "7z"
+    },
+    "directories": {
+        "build": "build",
+        "cache": "cache/downloads"
+    },
+    "packageName": "{project}-{platform}-{arch}-{version}.7z",
+    "targets": [
+        {
+            "os": "ubuntu-24.04",
+            "platform": "linux",
+            "arch": "x86_64"
+        },
+        {
+            "os": "ubuntu-24.04-arm",
+            "platform": "linux",
+            "arch": "aarch64"
+        },
+        {
+            "os": "macos-15-intel",
+            "platform": "macos",
+            "arch": "x86_64"
+        },
+        {
+            "os": "macos-15",
+            "platform": "macos",
+            "arch": "aarch64"
+        },
+        {
+            "os": "windows-2025",
+            "platform": "win",
+            "arch": "x86_64"
+        },
+        {
+            "os": "windows-11-arm",
+            "platform": "win",
+            "arch": "aarch64"
+        }
+    ]
+}
