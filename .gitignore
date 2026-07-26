@@ -457,5 +457,3 @@ config
 !assets/config/config.json
 debug
 启动调试.bat
-build.ps1
-build.bat
