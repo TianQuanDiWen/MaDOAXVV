@@ -76,7 +76,9 @@
                 "contact": 1
             }
         },
-        "focus": "排位：体力不足",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：体力不足"
+        },
         "next": [
             "排位_体力补充关闭"
         ],
@@ -194,7 +196,9 @@
         "post_delay": 1500,
         "timeout": 60000,
         "rate_limit": 5000,
-        "focus": "排位：比赛结算",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：比赛结算"
+        },
         "next": [
             "排位_点击对战"
         ],
@@ -325,7 +329,9 @@
         },
         "inverse": true,
         "post_wait_freezes": 1000,
-        "focus": "排位：比赛开始",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：比赛开始"
+        },
         "next": [
             "排位_随机点屏幕几下"
         ],
@@ -411,7 +417,9 @@
                 ]
             }
         },
-        "focus": "排位：长时间游玩弹窗 任务结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
+        },
         "next": [
             "排位_退出长时间游玩返回"
         ],

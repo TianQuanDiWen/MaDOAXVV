@@ -55,7 +55,9 @@
                 ]
             }
         },
-        "focus": "岛主房间：无可领取流程结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "岛主房间：无可领取流程结束"
+        },
         "next": [
             "岛主房间_结束"
         ],
@@ -175,7 +177,9 @@
         "action": {
             "type": "Click"
         },
-        "focus": "岛主房间：领取温泉",
+        "focus": {
+            "Node.Recognition.Succeeded": "岛主房间：领取温泉"
+        },
         "next": [
             "岛主房间_温泉_点击继续",
             "岛主房间_温泉_点击可领取"
@@ -218,7 +222,9 @@
         }
     },
     "岛主房间_温泉_结束": {
-        "focus": "岛主房间：温泉流程结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "岛主房间：温泉流程结束"
+        },
         "next": [
             "岛主房间_点击工作完成",
             "岛主房间_没有东西可以领"
@@ -305,7 +311,9 @@
             "type": "Click"
         },
         "post_wait_freezes": 500,
-        "focus": "岛主房间：工作完成",
+        "focus": {
+            "Node.Recognition.Succeeded": "岛主房间：工作完成"
+        },
         "next": [
             "岛主房间_点击确认结果",
             "岛主房间_点击工作完成"
@@ -331,7 +339,9 @@
             "type": "Click"
         },
         "post_wait_freezes": 1000,
-        "focus": "岛主房间：工作流程结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "岛主房间：工作流程结束"
+        },
         "next": [
             "岛主房间_点击确认",
             "岛主房间_结束"

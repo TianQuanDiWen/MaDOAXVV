@@ -1,12 +1,5 @@
 name: install
 
-env:
-  # 版本控制：
-  # - 设置 VERSION 为空字符串时，下载 latest 版本
-  # - 设置 VERSION 为具体版本号时（如 v1.2.3），下载指定版本
-  MAAFW_VERSION: ""
-  MFAA_VERSION: ""
-
 on:
   push:
     tags:
@@ -16,6 +9,9 @@ on:
     paths:
       - ".github/workflows/install.yml"
       - "assets/**"
+      - "build.config.json"
+      - "build.ps1"
+      - "tools/**"
       - "**.py"
   pull_request:
     branches:
@@ -23,6 +19,9 @@ on:
     paths:
       - ".github/workflows/install.yml"
       - "assets/**"
+      - "build.config.json"
+      - "build.ps1"
+      - "tools/**"
       - "**.py"
   workflow_dispatch:
 
@@ -33,6 +32,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - id: build_config
+        shell: bash
+        run: |
+          {
+            echo "project_name=$(jq -r '.projectName' build.config.json)"
+            echo "targets=$(jq -c '.targets' build.config.json)"
+            echo "maafw_repository=$(jq -r '.dependencies.maaFramework.repository' build.config.json)"
+            echo "maafw_release=$(jq -r '.dependencies.maaFramework.release' build.config.json)"
+            echo "maafw_asset_template=$(jq -r '.dependencies.maaFramework.assetPattern' build.config.json)"
+            echo "mxu_repository=$(jq -r '.dependencies.mxu.repository' build.config.json)"
+            echo "mxu_release=$(jq -r '.dependencies.mxu.release' build.config.json)"
+            echo "mxu_asset_template=$(jq -r '.dependencies.mxu.assetPattern' build.config.json)"
+            echo "python_version=$(jq -r '.toolchain.pythonVersion' build.config.json)"
+            echo "uv_index=$(jq -r '.toolchain.uvIndex' build.config.json)"
+            echo "output_directory=$(jq -r '.directories.output' build.config.json)"
+            echo "dependencies_directory=$(jq -r '.directories.dependencies' build.config.json)"
+            echo "downloads_directory=$(jq -r '.directories.downloads' build.config.json)"
+            echo "package_template=$(jq -r '.packageName' build.config.json)"
+          } >> "$GITHUB_OUTPUT"
       - id: set_tag
         run: |
           # 检查标签格式
@@ -66,63 +84,108 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       is_release: ${{ steps.set_tag.outputs.is_release }}
       is_prerelease: ${{ steps.set_tag.outputs.is_prerelease }}
+      project_name: ${{ steps.build_config.outputs.project_name }}
+      targets: ${{ steps.build_config.outputs.targets }}
+      maafw_repository: ${{ steps.build_config.outputs.maafw_repository }}
+      maafw_release: ${{ steps.build_config.outputs.maafw_release }}
+      maafw_asset_template: ${{ steps.build_config.outputs.maafw_asset_template }}
+      mxu_repository: ${{ steps.build_config.outputs.mxu_repository }}
+      mxu_release: ${{ steps.build_config.outputs.mxu_release }}
+      mxu_asset_template: ${{ steps.build_config.outputs.mxu_asset_template }}
+      python_version: ${{ steps.build_config.outputs.python_version }}
+      uv_index: ${{ steps.build_config.outputs.uv_index }}
+      output_directory: ${{ steps.build_config.outputs.output_directory }}
+      dependencies_directory: ${{ steps.build_config.outputs.dependencies_directory }}
+      downloads_directory: ${{ steps.build_config.outputs.downloads_directory }}
+      package_template: ${{ steps.build_config.outputs.package_template }}
 
   install:
     needs: meta
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [win]
-        arch: [x86_64]
+        include: ${{ fromJSON(needs.meta.outputs.targets) }}
       fail-fast: false
+    runs-on: ${{ matrix.runner }}
+    name: Build (${{ matrix.platform }}-${{ matrix.arch }})
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
 
+      - name: Resolve configured artifact names
+        id: build_names
+        shell: bash
+        run: |
+          maafw_asset='${{ needs.meta.outputs.maafw_asset_template }}'
+          maafw_asset="${maafw_asset//\{platform\}/${{ matrix.platform }}}"
+          maafw_asset="${maafw_asset//\{arch\}/${{ matrix.arch }}}"
+
+          mxu_asset='${{ needs.meta.outputs.mxu_asset_template }}'
+          mxu_asset="${mxu_asset//\{platform\}/${{ matrix.platform }}}"
+          mxu_asset="${mxu_asset//\{arch\}/${{ matrix.arch }}}"
+
+          package_name='${{ needs.meta.outputs.package_template }}'
+          package_name="${package_name//\{project\}/${{ needs.meta.outputs.project_name }}}"
+          package_name="${package_name//\{platform\}/${{ matrix.platform }}}"
+          package_name="${package_name//\{arch\}/${{ matrix.arch }}}"
+          package_name="${package_name//\{version\}/${{ needs.meta.outputs.tag }}}"
+
+          echo "maafw_asset=$maafw_asset" >> "$GITHUB_OUTPUT"
+          echo "mxu_asset=$mxu_asset" >> "$GITHUB_OUTPUT"
+          echo "package_name=$package_name" >> "$GITHUB_OUTPUT"
+
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
-          repository: MaaXYZ/MaaFramework
-          fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
-          latest: ${{ env.MAAFW_VERSION == '' }}
-          tag: ${{ env.MAAFW_VERSION }}
-          out-file-path: "deps"
+          repository: ${{ needs.meta.outputs.maafw_repository }}
+          fileName: ${{ steps.build_names.outputs.maafw_asset }}
+          latest: ${{ needs.meta.outputs.maafw_release == 'latest' }}
+          tag: ${{ needs.meta.outputs.maafw_release != 'latest' && needs.meta.outputs.maafw_release || '' }}
+          out-file-path: ${{ needs.meta.outputs.dependencies_directory }}
           extract: true
 
-      - name: Download MFAAvalonia
-        if: matrix.os != 'android'
-        id: download_mfa
+      - name: Download MXU
+        id: download_mxu
         uses: robinraju/release-downloader@v1
         with:
-          repository: SweetSmellFox/MFAAvalonia
-          fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
-          latest: ${{ env.MFAA_VERSION == '' }}
-          tag: ${{ env.MFAA_VERSION }}
-          out-file-path: "MFA"
+          repository: ${{ needs.meta.outputs.mxu_repository }}
+          fileName: ${{ steps.build_names.outputs.mxu_asset }}
+          latest: ${{ needs.meta.outputs.mxu_release == 'latest' }}
+          tag: ${{ needs.meta.outputs.mxu_release != 'latest' && needs.meta.outputs.mxu_release || '' }}
+          out-file-path: ${{ needs.meta.outputs.downloads_directory }}/MXU
           extract: true
 
-      - name: Clean up MFAAvalonia archive
-        if: matrix.os != 'android'
+      - name: Clean up MXU archive
         shell: bash
         run: |
-          ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mfa.outputs.downloaded_files)[0] }}"
+          ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mxu.outputs.downloaded_files)[0] }}"
           rm -f "${ARCHIVE_FILE_PATH}"
-          echo "Archive cleanup command executed for MFAAvalonia."
+          echo "Archive cleanup command executed for MXU."
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7.5.0
+        with:
+          enable-cache: true
 
       - name: Install
         shell: bash
+        env:
+          UV_INDEX: ${{ needs.meta.outputs.uv_index }}
         run: |
-          cd tools/
-          python -m pip install -r ./requirements.txt
-          python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
-          cd ..
+          uv run \
+            --python "${{ needs.meta.outputs.python_version }}" \
+            --with-requirements tools/requirements.txt \
+            python tools/install.py \
+            "${{ needs.meta.outputs.tag }}" \
+            "${{ matrix.platform }}" \
+            "${{ matrix.arch }}" \
+            --config build.config.json
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MaDOAXVV-${{ matrix.os }}-${{ matrix.arch }}
-          path: "install"
+          name: ${{ steps.build_names.outputs.package_name }}
+          path: ${{ needs.meta.outputs.output_directory }}
 
   changelog:
     name: Generate changelog
@@ -160,14 +223,15 @@ jobs:
           path: assets
 
       - run: |
-          cd assets
-          for f in *; do
-            (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
+          mkdir packages
+          for dir in assets/*; do
+            name=$(basename "$dir")
+            (cd "$dir" && zip -r "../../packages/$name" .)
           done
-          
+
       - uses: softprops/action-gh-release@v2
         with:
-          files: assets/*
+          files: packages/*
           tag_name: ${{ needs.meta.outputs.tag }}
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false

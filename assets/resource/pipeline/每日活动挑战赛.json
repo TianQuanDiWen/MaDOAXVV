@@ -40,7 +40,9 @@
                 "contact": 1
             }
         },
-        "focus": "日活动赛：没有可挑战比赛 任务结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "日活动赛：没有可挑战比赛 任务结束"
+        },
         "$__mpe_code": {
             "position": {
                 "x": 2629,
@@ -103,7 +105,9 @@
         },
         "post_delay": 1000,
         "timeout": 15000,
-        "focus": "每日活动赛：完成",
+        "focus": {
+            "Node.Recognition.Succeeded": "每日活动赛：完成"
+        },
         "next": [
             "日活动赛_结束"
         ],
@@ -505,7 +509,9 @@
                 ]
             }
         },
-        "focus": "每日活动赛：自动挑战赛券不足",
+        "focus": {
+            "Node.Recognition.Succeeded": "每日活动赛：自动挑战赛券不足"
+        },
         "next": [
             "日活动赛_点击确定(没有券了)"
         ],
@@ -536,7 +542,9 @@
                 ]
             }
         },
-        "focus": "体力不足，补充体力",
+        "focus": {
+            "Node.Recognition.Succeeded": "体力不足，补充体力"
+        },
         "next": [
             "日活动赛_点击确认",
             "日活动赛_补充体力"
@@ -615,7 +623,9 @@
                 ]
             }
         },
-        "focus": "排位：长时间游玩弹窗 任务结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
+        },
         "next": [
             "日活动赛_退出长时间游玩返回"
         ],

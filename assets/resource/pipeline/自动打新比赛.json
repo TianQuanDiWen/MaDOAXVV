@@ -32,7 +32,9 @@
         },
         "post_delay": 5000,
         "timeout": 15000,
-        "focus": "新比赛：打完一场",
+        "focus": {
+            "Node.Recognition.Succeeded": "新比赛：打完一场"
+        },
         "next": [
             "新比赛_检测新比赛是否存在",
             "新比赛_新比赛不存在"
@@ -133,7 +135,9 @@
                 ]
             }
         },
-        "focus": "新比赛：不存在 结束流程",
+        "focus": {
+            "Node.Recognition.Succeeded": "新比赛：不存在 结束流程"
+        },
         "next": [
             "新比赛_新比赛返回主页"
         ],
@@ -245,7 +249,9 @@
         },
         "post_delay": 1500,
         "timeout": 20000,
-        "focus": "新比赛：开始比赛",
+        "focus": {
+            "Node.Recognition.Succeeded": "新比赛：开始比赛"
+        },
         "next": [
             "新比赛_补充体力",
             "新比赛_长时间游玩确认",
@@ -317,7 +323,9 @@
                 ]
             }
         },
-        "focus": "新比赛：补充体力",
+        "focus": {
+            "Node.Recognition.Succeeded": "新比赛：补充体力"
+        },
         "next": [
             "新比赛_点击确认"
         ],
@@ -414,7 +422,9 @@
                 ]
             }
         },
-        "focus": "排位：长时间游玩弹窗 任务结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
+        },
         "next": [
             "新比赛_退出长时间游玩返回"
         ],

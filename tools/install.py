@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import argparse
 import json
 import shutil
 import sys
@@ -17,138 +18,88 @@ from configure import configure_ocr_model
 
 
 working_dir = Path(__file__).parent.parent.resolve()
-install_path = working_dir / Path("install")
-version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
-
-# the first parameter is self name
-if sys.argv.__len__() < 4:
-    print("Usage: python install.py <version> <os> <arch>")
-    print("Example: python install.py v1.0.0 win x86_64")
-    sys.exit(1)
-
-os_name = sys.argv[2]
-arch = sys.argv[3]
-project_name = "MaDOAXVV"
 
 
-def get_dotnet_platform_tag():
-    """自动检测当前平台并返回对应的dotnet平台标签"""
-    if os_name == "win" and arch == "x86_64":
-        platform_tag = "win-x64"
-    elif os_name == "win" and arch == "aarch64":
-        platform_tag = "win-arm64"
-    elif os_name == "macos" and arch == "x86_64":
-        platform_tag = "osx-x64"
-    elif os_name == "macos" and arch == "aarch64":
-        platform_tag = "osx-arm64"
-    elif os_name == "linux" and arch == "x86_64":
-        platform_tag = "linux-x64"
-    elif os_name == "linux" and arch == "aarch64":
-        platform_tag = "linux-arm64"
-    else:
-        print("Unsupported OS or architecture.")
-        print("available parameters:")
-        print("version: e.g., v1.0.0")
-        print("os: [win, macos, linux, android]")
-        print("arch: [aarch64, x86_64]")
-        sys.exit(1)
+def resolve_project_path(relative_path, field_name):
+    path = Path(relative_path)
+    if path.is_absolute():
+        raise ValueError(f"{field_name} must be relative to the repository root")
 
-    return platform_tag
+    resolved_path = (working_dir / path).resolve()
+    if not resolved_path.is_relative_to(working_dir):
+        raise ValueError(f"{field_name} escapes the repository root")
+    return resolved_path
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("version")
+parser.add_argument("os_name", choices=("win", "linux", "macos"))
+parser.add_argument("arch", choices=("x86_64", "aarch64"))
+parser.add_argument("--config", default="build.config.json")
+args = parser.parse_args()
+
+config_path = Path(args.config)
+if not config_path.is_absolute():
+    config_path = working_dir / config_path
+with config_path.resolve().open("r", encoding="utf-8") as file:
+    build_config = json.load(file)
+
+version = args.version
+os_name = args.os_name
+arch = args.arch
+project_name = build_config["projectName"]
+install_path = resolve_project_path(
+    build_config["directories"]["output"],
+    "directories.output",
+)
+dependencies_path = resolve_project_path(
+    build_config["directories"]["dependencies"],
+    "directories.dependencies",
+)
+downloads_path = resolve_project_path(
+    build_config["directories"]["downloads"],
+    "directories.downloads",
+)
 
 
 def install_deps():
-    if not (working_dir / "deps" / "bin").exists():
+    if not (dependencies_path / "bin").exists():
         print('Please download the MaaFramework to "deps" first.')
         print('请先下载 MaaFramework 到 "deps"。')
         sys.exit(1)
 
-    if os_name == "android":
+    shutil.copytree(
+        dependencies_path / "bin",
+        install_path / "maafw",
+        dirs_exist_ok=True,
+    )
+
+    agent_binary_path = dependencies_path / "share" / "MaaAgentBinary"
+    if agent_binary_path.exists():
         shutil.copytree(
-            working_dir / "deps" / "bin",
-            install_path,
-            dirs_exist_ok=True,
-        )
-        shutil.copytree(
-            working_dir / "deps" / "share" / "MaaAgentBinary",
-            install_path / "MaaAgentBinary",
-            dirs_exist_ok=True,
-        )
-    else:
-        shutil.copytree(
-            working_dir / "deps" / "bin",
-            install_path / "runtimes" / get_dotnet_platform_tag() / "native",
-            ignore=shutil.ignore_patterns(
-                "*MaaDbgControlUnit*",
-                "*MaaThriftControlUnit*",
-                "*MaaRpc*",
-                "*MaaHttp*",
-                "plugins",
-                "*.node",
-                "*MaaPiCli*",
-            ),
-            dirs_exist_ok=True,
-        )
-        shutil.copytree(
-            working_dir / "deps" / "share" / "MaaAgentBinary",
-            install_path / "libs" / "MaaAgentBinary",
-            dirs_exist_ok=True,
-        )
-        shutil.copytree(
-            working_dir / "deps" / "bin" / "plugins",
-            install_path / "plugins" / get_dotnet_platform_tag(),
+            agent_binary_path,
+            install_path / "maafw" / "MaaAgentBinary",
             dirs_exist_ok=True,
         )
 
 
-def install_mfa():
-    if os_name == "android":
-        return
+def install_mxu():
+    mxu_path = downloads_path / "MXU"
+    if not mxu_path.exists():
+        raise FileNotFoundError(f"MXU directory not found: {mxu_path}")
 
-    mfa_path = working_dir / "MFA"
-    if not mfa_path.exists():
-        raise FileNotFoundError(f"MFAAvalonia directory not found: {mfa_path}")
+    executable_name = "mxu.exe" if os_name == "win" else "mxu"
+    executable_candidates = list(mxu_path.rglob(executable_name))
+    if not executable_candidates:
+        raise FileNotFoundError(
+            f"MXU executable not found under: {mxu_path}"
+        )
 
     install_path.mkdir(parents=True, exist_ok=True)
-    for source in mfa_path.iterdir():
-        if source.name == "runtimes":
-            continue
-
-        destination = install_path / source.name
-        if source.is_dir():
-            shutil.copytree(source, destination, dirs_exist_ok=True)
-        else:
-            shutil.copy2(source, destination)
-
+    original_executable = executable_candidates[0]
     executable_suffix = ".exe" if os_name == "win" else ""
-    original_executable = install_path / f"MFAAvalonia{executable_suffix}"
     project_executable = install_path / f"{project_name}{executable_suffix}"
-
-    if original_executable.exists():
-        project_executable.unlink(missing_ok=True)
-        original_executable.rename(project_executable)
-    elif not project_executable.exists():
-        raise FileNotFoundError(
-            f"MFAAvalonia executable not found: {original_executable}"
-        )
-
-
-def configure_update_source():
-    config_path = install_path / "config" / "config.json"
-    config_path.parent.mkdir(parents=True, exist_ok=True)
-
-    if config_path.exists():
-        with open(config_path, "r", encoding="utf-8") as f:
-            config = json.load(f)
-    else:
-        config = {}
-
-    # MFAAvalonia uses 0 for GitHub and 1 for MirrorChyan.
-    config.setdefault("DownloadSourceIndex", 0)
-
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, ensure_ascii=False, indent=2)
-        f.write("\n")
-
+    shutil.copy2(original_executable, project_executable)
 
 
 def install_resource():
@@ -194,8 +145,7 @@ def install_agent():
 
 
 if __name__ == "__main__":
-    install_mfa()
-    configure_update_source()
+    install_mxu()
     install_deps()
     install_resource()
     install_chores()

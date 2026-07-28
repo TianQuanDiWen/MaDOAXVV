@@ -447,13 +447,11 @@ deps/tools/*
 build
 install
 cache
-MFA
+downloads
 
 # Tools
 tools/ImageCropper/**/*.png
 
 config
-!assets/config/
-!assets/config/config.json
 debug
 启动调试.bat

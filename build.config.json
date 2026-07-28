@@ -1,0 +1,34 @@
+{
+    "projectName": "MaDOAXVV",
+    "defaultTarget": "win-x86_64",
+    "dependencies": {
+        "maaFramework": {
+            "repository": "MaaXYZ/MaaFramework",
+            "release": "latest",
+            "assetPattern": "MAA-{platform}-{arch}*"
+        },
+        "mxu": {
+            "repository": "MistEO/MXU",
+            "release": "latest",
+            "assetPattern": "*{platform}-{arch}*"
+        }
+    },
+    "toolchain": {
+        "pythonVersion": "3.12",
+        "uvIndex": "https://pypi.org/simple"
+    },
+    "directories": {
+        "output": "install",
+        "dependencies": "deps",
+        "downloads": "downloads",
+        "cache": "cache/downloads"
+    },
+    "packageName": "{project}-{platform}-{arch}-{version}.zip",
+    "targets": [
+        {
+            "runner": "ubuntu-latest",
+            "platform": "win",
+            "arch": "x86_64"
+        }
+    ]
+}

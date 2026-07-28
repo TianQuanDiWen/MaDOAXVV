@@ -1,45 +1,70 @@
 param(
+    [string]$ConfigPath = "build.config.json",
     [ValidateSet("Build", "Clean")]
     [string]$Action = "",
+    [string]$Target = "",
     [string]$Version = "",
-    [string]$PythonPath = "",
-    [ValidateSet("win", "linux", "macos", "android")]
-    [string]$TargetOS = "win",
-    [ValidateSet("x86_64", "aarch64")]
-    [string]$Arch = "x86_64",
-    [string]$MaaFrameworkVersion = "",
-    [string]$MfaAvaloniaVersion = "",
     [switch]$Clean,
-    [switch]$SkipNodeCheck,
-    [switch]$SkipPythonDeps,
-    [switch]$SkipSchemaCheck,
+    [switch]$SkipChecks,
     [switch]$NoPause,
-    [switch]$Package
+    [switch]$DryRun
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 
 $Root = $PSScriptRoot
-$InstallDir = Join-Path $Root "install"
-$DistDir = Join-Path $Root "dist"
-$DepsBin = Join-Path $Root "deps\bin"
-$DepsAgentBinary = Join-Path $Root "deps\share\MaaAgentBinary"
-$MfaDir = Join-Path $Root "MFA"
-$DownloadCacheDir = Join-Path $Root "cache\downloads"
 $env:PYTHONUTF8 = "1"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 function Write-Step {
     param([string]$Message)
+
     Write-Host ""
     Write-Host "==> $Message" -ForegroundColor Cyan
 }
 
+function Resolve-WorkspacePath {
+    param(
+        [string]$RelativePath,
+        [string]$FieldName
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RelativePath)) {
+        throw "$FieldName cannot be empty."
+    }
+    if ([IO.Path]::IsPathRooted($RelativePath)) {
+        throw "$FieldName must be relative to the repository root: $RelativePath"
+    }
+
+    $ResolvedRoot = [IO.Path]::GetFullPath($Root)
+    $ResolvedPath = [IO.Path]::GetFullPath((Join-Path $Root $RelativePath))
+    $RootPrefix = $ResolvedRoot.TrimEnd(
+        [IO.Path]::DirectorySeparatorChar,
+        [IO.Path]::AltDirectorySeparatorChar
+    ) + [IO.Path]::DirectorySeparatorChar
+
+    if (-not $ResolvedPath.StartsWith(
+        $RootPrefix,
+        [StringComparison]::OrdinalIgnoreCase
+    )) {
+        throw "$FieldName escapes the repository root: $RelativePath"
+    }
+
+    return $ResolvedPath
+}
+
 function Remove-SafeDirectory {
-    param([string]$Path)
+    param(
+        [string]$Path,
+        [switch]$Quiet
+    )
 
     if (-not (Test-Path -LiteralPath $Path)) {
-        Write-Host "Already clean: $Path"
+        if (-not $Quiet) {
+            Write-Host "Already clean: $Path"
+        }
         return
     }
 
@@ -57,13 +82,17 @@ function Remove-SafeDirectory {
         throw "Refusing to remove a directory outside the repository: $ResolvedPath"
     }
 
-    Write-Host "Removing: $ResolvedPath"
+    if (-not $Quiet) {
+        Write-Host "Removing: $ResolvedPath"
+    }
     Remove-Item -LiteralPath $ResolvedPath -Recurse -Force
 }
 
 function Clear-LocalBuildResources {
-    Write-Step "Cleaning local build resources"
-    foreach ($Path in @($InstallDir, $DistDir, $DownloadCacheDir)) {
+    param([string[]]$Paths)
+
+    Write-Step "Cleaning configured local build resources"
+    foreach ($Path in $Paths) {
         Remove-SafeDirectory -Path $Path
     }
 }
@@ -159,52 +188,16 @@ function Wait-OnBuildFailure {
     }
 }
 
-function Require-Command {
-    param([string]$Command)
-    if (-not (Get-Command $Command -ErrorAction SilentlyContinue)) {
-        throw "Required command '$Command' was not found in PATH."
+function Resolve-NativeCommand {
+    param([string]$Name)
+
+    $Command = Get-Command $Name -All -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandType -eq "Application" } |
+        Select-Object -First 1
+    if (-not $Command) {
+        throw "Required command '$Name' was not found."
     }
-}
-
-function Resolve-Python {
-    param([string]$RequestedPath)
-
-    $Candidates = [System.Collections.Generic.List[string]]::new()
-
-    if ($RequestedPath) {
-        $Candidates.Add($RequestedPath)
-    }
-    elseif ($env:PYTHON) {
-        $Candidates.Add($env:PYTHON)
-    }
-
-    foreach ($CommandName in @("python", "python3")) {
-        Get-Command $CommandName -All -ErrorAction SilentlyContinue |
-            Where-Object { $_.CommandType -eq "Application" } |
-            ForEach-Object { $Candidates.Add($_.Source) }
-    }
-
-    foreach ($Candidate in ($Candidates | Select-Object -Unique)) {
-        try {
-            $VersionOutput = & $Candidate --version 2>&1
-            if ($LASTEXITCODE -eq 0 -and "$VersionOutput" -match '^Python 3\.') {
-                if (Test-Path -LiteralPath $Candidate) {
-                    return (Resolve-Path -LiteralPath $Candidate).Path
-                }
-
-                return $Candidate
-            }
-        }
-        catch {
-            continue
-        }
-    }
-
-    if ($RequestedPath) {
-        throw "The requested Python executable '$RequestedPath' is unavailable or is not Python 3."
-    }
-
-    throw "Python 3 was not found. Pass -PythonPath <path> or set the PYTHON environment variable."
+    return $Command.Source
 }
 
 function Invoke-NativeCommand {
@@ -219,33 +212,99 @@ function Invoke-NativeCommand {
     }
 }
 
-function Remove-TemporaryDirectory {
+function Resolve-Version {
+    param([string]$RequestedVersion)
+
+    if (-not [string]::IsNullOrWhiteSpace($RequestedVersion)) {
+        return $RequestedVersion
+    }
+
+    $Git = Get-Command git -ErrorAction SilentlyContinue
+    if ($Git) {
+        $PreviousPreference = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        try {
+            $Tag = & $Git.Source -C $Root describe --tags --match "v*" 2>$null |
+                Select-Object -First 1
+            if ($Tag) {
+                return ("$Tag").Trim()
+            }
+
+            $ShortSha = & $Git.Source -C $Root rev-parse --short HEAD 2>$null |
+                Select-Object -First 1
+            if ($ShortSha) {
+                return "v0.0.0-dev.$(("$ShortSha").Trim())"
+            }
+        }
+        finally {
+            $ErrorActionPreference = $PreviousPreference
+        }
+    }
+
+    return "v0.0.0-dev"
+}
+
+function Expand-BuildTemplate {
     param(
-        [string]$Path,
-        [switch]$BestEffort
+        [string]$Template,
+        [hashtable]$Values
     )
 
-    if (-not (Test-Path $Path)) {
+    $Result = $Template
+    foreach ($Key in $Values.Keys) {
+        $Result = $Result.Replace("{$Key}", "$($Values[$Key])")
+    }
+    return $Result
+}
+
+function Get-GitHubHeaders {
+    param([string]$ProjectName)
+
+    $Headers = @{
+        Accept = "application/vnd.github+json"
+        "User-Agent" = "$ProjectName-MXU-builder"
+        "X-GitHub-Api-Version" = "2022-11-28"
+    }
+    $Token = [Environment]::GetEnvironmentVariable("GITHUB_TOKEN")
+    if ($Token) {
+        $Headers.Authorization = "Bearer $Token"
+    }
+    return $Headers
+}
+
+function Download-File {
+    param(
+        [string]$Uri,
+        [string]$Destination,
+        [hashtable]$Headers
+    )
+
+    $Parent = Split-Path -Parent $Destination
+    New-Item -ItemType Directory -Force -Path $Parent | Out-Null
+    Invoke-WebRequest `
+        -Uri $Uri `
+        -Headers $Headers `
+        -OutFile $Destination `
+        -UseBasicParsing
+}
+
+function Remove-TemporaryDirectory {
+    param([string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
         return
     }
 
     for ($Attempt = 1; $Attempt -le 3; $Attempt++) {
         try {
-            Remove-Item -LiteralPath $Path -Recurse -Force -ErrorAction Stop
+            Remove-SafeDirectory -Path $Path -Quiet
             return
         }
         catch {
-            if ($Attempt -lt 3) {
-                Start-Sleep -Milliseconds 300
-                continue
+            if ($Attempt -eq 3) {
+                throw
             }
-
-            if ($BestEffort) {
-                Write-Warning "Could not clean temporary directory '$Path': $($_.Exception.Message)"
-                return
-            }
-
-            throw
+            Start-Sleep -Milliseconds 300
         }
     }
 }
@@ -254,158 +313,74 @@ function Install-GitHubReleaseAsset {
     param(
         [string]$Repository,
         [string]$AssetPattern,
-        [string]$Tag,
-        [string]$Destination
+        [string]$Release,
+        [string]$Destination,
+        [string]$CacheDirectory,
+        [hashtable]$Headers
     )
 
-    $Headers = @{
-        Accept = "application/vnd.github+json"
-        "User-Agent" = "MaDOAXVV-local-build"
-        "X-GitHub-Api-Version" = "2022-11-28"
-    }
-    $GitHubToken = [Environment]::GetEnvironmentVariable("GITHUB_TOKEN")
-    if ($GitHubToken) {
-        $Headers.Authorization = "Bearer $GitHubToken"
-    }
-
-    if ($Tag) {
-        $EncodedTag = [Uri]::EscapeDataString($Tag)
-        $ReleaseUri = "https://api.github.com/repos/$Repository/releases/tags/$EncodedTag"
+    $ReleaseUri = if ($Release -eq "latest") {
+        "https://api.github.com/repos/$Repository/releases/latest"
     }
     else {
-        $ReleaseUri = "https://api.github.com/repos/$Repository/releases/latest"
+        $EncodedRelease = [Uri]::EscapeDataString($Release)
+        "https://api.github.com/repos/$Repository/releases/tags/$EncodedRelease"
     }
 
     Write-Step "Resolving $Repository release"
-    $Release = Invoke-RestMethod -Uri $ReleaseUri -Headers $Headers
-    $Asset = $Release.assets |
+    $ReleaseInfo = Invoke-RestMethod -Uri $ReleaseUri -Headers $Headers
+    $Asset = $ReleaseInfo.assets |
         Where-Object {
             $_.name -like $AssetPattern -and
-            ($_.name -match '\.zip$' -or $_.name -match '\.tar\.gz$')
+            (
+                $_.name -match '\.zip$' -or
+                $_.name -match '\.(tar\.gz|tgz)$'
+            )
         } |
         Select-Object -First 1
 
     if (-not $Asset) {
-        throw "No release asset matching '$AssetPattern' was found in $Repository release '$($Release.tag_name)'."
+        throw "No release asset matched '$AssetPattern' in release '$($ReleaseInfo.tag_name)'."
     }
 
-    New-Item -ItemType Directory -Force -Path $DownloadCacheDir | Out-Null
-    $ArchivePath = Join-Path $DownloadCacheDir $Asset.name
-    if (-not (Test-Path $ArchivePath)) {
+    New-Item -ItemType Directory -Force -Path $CacheDirectory | Out-Null
+    $ArchivePath = Join-Path $CacheDirectory $Asset.name
+    if (-not (Test-Path -LiteralPath $ArchivePath -PathType Leaf)) {
         Write-Step "Downloading $($Asset.name)"
-        Invoke-WebRequest -Uri $Asset.browser_download_url -Headers $Headers -OutFile $ArchivePath -UseBasicParsing
+        Download-File `
+            -Uri $Asset.browser_download_url `
+            -Destination $ArchivePath `
+            -Headers $Headers
     }
     else {
         Write-Host "Using cached archive: $ArchivePath"
     }
 
-    $ExtractDir = Join-Path $DownloadCacheDir ("extract-" + [IO.Path]::GetFileNameWithoutExtension($Asset.name))
-    Remove-TemporaryDirectory -Path $ExtractDir
-    New-Item -ItemType Directory -Force -Path $ExtractDir | Out-Null
+    $ExtractName = "extract-" + [IO.Path]::GetFileNameWithoutExtension(
+        $Asset.name
+    )
+    $ExtractDirectory = Join-Path $CacheDirectory $ExtractName
+    Remove-TemporaryDirectory -Path $ExtractDirectory
+    New-Item -ItemType Directory -Force -Path $ExtractDirectory | Out-Null
 
     Write-Step "Extracting $($Asset.name)"
     if ($Asset.name -match '\.zip$') {
-        Expand-Archive -LiteralPath $ArchivePath -DestinationPath $ExtractDir -Force
+        Expand-Archive `
+            -LiteralPath $ArchivePath `
+            -DestinationPath $ExtractDirectory `
+            -Force
     }
     else {
-        Require-Command tar
-        Invoke-NativeCommand "tar" @("-xzf", $ArchivePath, "-C", $ExtractDir)
+        $Tar = Resolve-NativeCommand -Name "tar"
+        Invoke-NativeCommand `
+            -FilePath $Tar `
+            -Arguments @("-xzf", $ArchivePath, "-C", $ExtractDirectory)
     }
 
     New-Item -ItemType Directory -Force -Path $Destination | Out-Null
-    Get-ChildItem -LiteralPath $ExtractDir -Force |
+    Get-ChildItem -LiteralPath $ExtractDirectory -Force |
         Copy-Item -Destination $Destination -Recurse -Force
-    Remove-TemporaryDirectory -Path $ExtractDir -BestEffort
-}
-
-function Install-MissingBuildDependencies {
-    $CommonOcrDir = Join-Path $Root "assets\MaaCommonAssets\OCR"
-    if (-not (Test-Path $CommonOcrDir)) {
-        Write-Step "Initializing MaaCommonAssets submodule"
-        Require-Command git
-        Invoke-NativeCommand "git" @(
-            "-C", $Root,
-            "submodule", "update", "--init", "--depth", "1", "--",
-            "assets/MaaCommonAssets"
-        )
-    }
-
-    if (-not (Test-Path $CommonOcrDir)) {
-        throw "MaaCommonAssets OCR resources were not found after initializing the submodule."
-    }
-
-    if (-not (Test-Path $DepsBin) -or -not (Test-Path $DepsAgentBinary)) {
-        Install-GitHubReleaseAsset `
-            -Repository "MaaXYZ/MaaFramework" `
-            -AssetPattern "MAA-$TargetOS-$Arch*" `
-            -Tag $MaaFrameworkVersion `
-            -Destination (Join-Path $Root "deps")
-    }
-
-    if (-not (Test-Path $DepsBin) -or -not (Test-Path $DepsAgentBinary)) {
-        throw "Downloaded MaaFramework package did not contain the required bin and share\MaaAgentBinary directories."
-    }
-
-    if ($TargetOS -eq "android" -or (Test-Path $MfaDir)) {
-        return
-    }
-
-    $MfaOS = switch ($TargetOS) {
-        "win" { "win" }
-        "macos" { "osx" }
-        "linux" { "linux" }
-    }
-    $MfaArch = if ($Arch -eq "x86_64") { "x64" } else { "arm64" }
-
-    Install-GitHubReleaseAsset `
-        -Repository "SweetSmellFox/MFAAvalonia" `
-        -AssetPattern "MFAAvalonia-*-$MfaOS-$MfaArch*" `
-        -Tag $MfaAvaloniaVersion `
-        -Destination $MfaDir
-
-    if (-not (Test-Path $MfaDir)) {
-        throw "MFAAvalonia download did not create the MFA directory."
-    }
-}
-
-function Resolve-Version {
-    if ($Version) {
-        return $Version
-    }
-
-    function Invoke-GitText {
-        param([string[]]$Arguments)
-
-        if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-            return ""
-        }
-
-        $previousErrorActionPreference = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        try {
-            $output = & git -C $Root @Arguments 2>$null
-            if ($LASTEXITCODE -eq 0 -and $output) {
-                return ($output | Select-Object -First 1).Trim()
-            }
-        }
-        finally {
-            $ErrorActionPreference = $previousErrorActionPreference
-        }
-
-        return ""
-    }
-
-    $tag = Invoke-GitText @("describe", "--tags", "--match", "v*")
-    if ($tag) {
-        return $tag
-    }
-
-    $shortSha = Invoke-GitText @("rev-parse", "--short", "HEAD")
-    if ($shortSha) {
-        return "v0.0.0-dev.$shortSha"
-    }
-
-    return "v0.0.0-dev"
+    Remove-TemporaryDirectory -Path $ExtractDirectory
 }
 
 try {
@@ -419,84 +394,223 @@ try {
         "Build"
     }
 
+    $ResolvedConfigPath = if ([IO.Path]::IsPathRooted($ConfigPath)) {
+        [IO.Path]::GetFullPath($ConfigPath)
+    }
+    else {
+        Resolve-WorkspacePath `
+            -RelativePath $ConfigPath `
+            -FieldName "ConfigPath"
+    }
+    if (-not (Test-Path -LiteralPath $ResolvedConfigPath -PathType Leaf)) {
+        throw "Build configuration was not found: $ResolvedConfigPath"
+    }
+
+    $Config = Get-Content -Raw -Encoding UTF8 $ResolvedConfigPath |
+        ConvertFrom-Json
+    foreach ($RequiredValue in @(
+        $Config.projectName,
+        $Config.defaultTarget,
+        $Config.dependencies.maaFramework.repository,
+        $Config.dependencies.maaFramework.release,
+        $Config.dependencies.maaFramework.assetPattern,
+        $Config.dependencies.mxu.repository,
+        $Config.dependencies.mxu.release,
+        $Config.dependencies.mxu.assetPattern,
+        $Config.toolchain.pythonVersion,
+        $Config.toolchain.uvIndex,
+        $Config.directories.output,
+        $Config.directories.dependencies,
+        $Config.directories.downloads,
+        $Config.directories.cache,
+        $Config.packageName
+    )) {
+        if ([string]::IsNullOrWhiteSpace("$RequiredValue")) {
+            throw "The build configuration contains an empty required value."
+        }
+    }
+
+    $ResolvedTargetName = if ($Target) {
+        $Target
+    }
+    else {
+        $Config.defaultTarget
+    }
+    $TargetConfig = $Config.targets |
+        Where-Object {
+            "$($_.platform)-$($_.arch)" -eq $ResolvedTargetName
+        } |
+        Select-Object -First 1
+    if (-not $TargetConfig) {
+        $AvailableTargets = $Config.targets |
+            ForEach-Object { "$($_.platform)-$($_.arch)" }
+        throw "Unknown target '$ResolvedTargetName'. Available targets: $($AvailableTargets -join ', ')"
+    }
+
+    $OutputDir = Resolve-WorkspacePath `
+        -RelativePath $Config.directories.output `
+        -FieldName "directories.output"
+    $DependenciesDir = Resolve-WorkspacePath `
+        -RelativePath $Config.directories.dependencies `
+        -FieldName "directories.dependencies"
+    $DownloadsDir = Resolve-WorkspacePath `
+        -RelativePath $Config.directories.downloads `
+        -FieldName "directories.downloads"
+    $CacheDir = Resolve-WorkspacePath `
+        -RelativePath $Config.directories.cache `
+        -FieldName "directories.cache"
+    $MxuDir = Join-Path $DownloadsDir "MXU"
+    $DepsBin = Join-Path $DependenciesDir "bin"
+    $DepsAgentBinary = Join-Path $DependenciesDir "share\MaaAgentBinary"
+    $ResolvedVersion = Resolve-Version -RequestedVersion $Version
+    $TemplateValues = @{
+        project = $Config.projectName
+        platform = $TargetConfig.platform
+        arch = $TargetConfig.arch
+        version = $ResolvedVersion
+    }
+    $MaaFrameworkAssetPattern = Expand-BuildTemplate `
+        -Template $Config.dependencies.maaFramework.assetPattern `
+        -Values $TemplateValues
+    $MxuAssetPattern = Expand-BuildTemplate `
+        -Template $Config.dependencies.mxu.assetPattern `
+        -Values $TemplateValues
+
+    [PSCustomObject]@{
+        Action = $ResolvedAction
+        Config = $ResolvedConfigPath
+        Target = $ResolvedTargetName
+        Version = $ResolvedVersion
+        MaaFramework = $Config.dependencies.maaFramework.release
+        MXU = $Config.dependencies.mxu.release
+        OutputDirectory = $OutputDir
+    } | Format-List
+
+    if ($DryRun) {
+        Write-Host "Dry run completed." -ForegroundColor Green
+        return
+    }
+
+    $CleanPaths = @($OutputDir, $DownloadsDir, $CacheDir)
     if ($ResolvedAction -eq "Clean") {
-        Clear-LocalBuildResources
+        Clear-LocalBuildResources -Paths $CleanPaths
         Write-Host ""
         Write-Host "Local build resources cleaned." -ForegroundColor Green
         return
     }
 
+    Write-Step "Checking build tools"
+    $Uv = Resolve-NativeCommand -Name "uv"
+    $Npx = $null
+    if (-not $SkipChecks) {
+        $Npx = Resolve-NativeCommand -Name "npx"
+    }
+
+    if ($Clean) {
+        Clear-LocalBuildResources -Paths $CleanPaths
+    }
+    else {
+        Remove-SafeDirectory -Path $OutputDir -Quiet
+    }
+
+    $Headers = Get-GitHubHeaders -ProjectName $Config.projectName
+    $CommonOcrDir = Join-Path $Root "assets\MaaCommonAssets\OCR"
+    if (-not (Test-Path -LiteralPath $CommonOcrDir)) {
+        Write-Step "Initializing MaaCommonAssets submodule"
+        $Git = Resolve-NativeCommand -Name "git"
+        Invoke-NativeCommand `
+            -FilePath $Git `
+            -Arguments @(
+                "-C", $Root,
+                "submodule", "update", "--init", "--depth", "1", "--",
+                "assets/MaaCommonAssets"
+            )
+    }
+
+    if (-not (Test-Path -LiteralPath $CommonOcrDir)) {
+        throw "MaaCommonAssets OCR resources were not found."
+    }
+
+    if (
+        -not (Test-Path -LiteralPath $DepsBin) -or
+        -not (Test-Path -LiteralPath $DepsAgentBinary)
+    ) {
+        Install-GitHubReleaseAsset `
+            -Repository $Config.dependencies.maaFramework.repository `
+            -AssetPattern $MaaFrameworkAssetPattern `
+            -Release $Config.dependencies.maaFramework.release `
+            -Destination $DependenciesDir `
+            -CacheDirectory $CacheDir `
+            -Headers $Headers
+    }
+    if (
+        -not (Test-Path -LiteralPath $DepsBin) -or
+        -not (Test-Path -LiteralPath $DepsAgentBinary)
+    ) {
+        throw "MaaFramework package is missing bin or share\MaaAgentBinary."
+    }
+
+    if (-not (Test-Path -LiteralPath $MxuDir)) {
+        Install-GitHubReleaseAsset `
+            -Repository $Config.dependencies.mxu.repository `
+            -AssetPattern $MxuAssetPattern `
+            -Release $Config.dependencies.mxu.release `
+            -Destination $MxuDir `
+            -CacheDirectory $CacheDir `
+            -Headers $Headers
+    }
+
     Push-Location $Root
     try {
-        $ResolvedVersion = Resolve-Version
+        $env:UV_INDEX = $Config.toolchain.uvIndex
 
-        Write-Step "Checking local tools"
-        $Python = Resolve-Python -RequestedPath $PythonPath
-        Write-Host "Using Python: $Python"
-
-        if (-not $SkipNodeCheck) {
-            Require-Command npm
-            Require-Command npx
+        if (-not $SkipChecks) {
+            Write-Step "Running resource checks"
+            Invoke-NativeCommand `
+                -FilePath $Npx `
+                -Arguments @("@nekosu/maa-tools", "check")
+            Invoke-NativeCommand `
+                -FilePath $Uv `
+                -Arguments @(
+                    "run",
+                    "--python", $Config.toolchain.pythonVersion,
+                    "--with", "jsonschema==4.26.0",
+                    "--with", "referencing==0.37.0",
+                    "python",
+                    "tools/validate_schema.py",
+                    "--schema-dir", "deps/tools",
+                    "--resource-dirs", "assets/resource",
+                    "--exclude-dirs", "assets/resource/announcement",
+                    "--interface-files", "assets/interface.json"
+                )
         }
 
-        Install-MissingBuildDependencies
-
-        if ($Clean) {
-            Clear-LocalBuildResources
-        }
-
-        if (-not $SkipPythonDeps) {
-            Write-Step "Installing Python build dependencies"
-            Invoke-NativeCommand $Python @("-m", "pip", "install", "-r", "tools\requirements.txt")
-            Invoke-NativeCommand $Python @("-m", "pip", "install", "jsonschema==4.26.0", "referencing==0.37.0")
-        }
-
-        if (-not $SkipNodeCheck) {
-            Write-Step "Running maa-tools checks"
-            if (-not (Test-Path (Join-Path $Root "node_modules"))) {
-                Invoke-NativeCommand "npm" @("ci")
-            }
-            Invoke-NativeCommand "npx" @("@nekosu/maa-tools", "check")
-        }
-
-        if (-not $SkipSchemaCheck) {
-            Write-Step "Validating Maa resource schemas"
-            Invoke-NativeCommand $Python @(
-                "tools\validate_schema.py",
-                "--schema-dir", "deps\tools",
-                "--resource-dirs", "assets\resource",
-                "--interface-files", "assets\interface.json"
+        Write-Step "Installing MXU project files"
+        Invoke-NativeCommand `
+            -FilePath $Uv `
+            -Arguments @(
+                "run",
+                "--python", $Config.toolchain.pythonVersion,
+                "--with-requirements", "tools/requirements.txt",
+                "python",
+                "tools/install.py",
+                $ResolvedVersion,
+                $TargetConfig.platform,
+                $TargetConfig.arch,
+                "--config", $ResolvedConfigPath
             )
-        }
-
-        Write-Step "Installing project files"
-        New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
-
-        Invoke-NativeCommand $Python @("tools\install.py", $ResolvedVersion, $TargetOS, $Arch)
-
-        if ($Package) {
-            Write-Step "Creating zip package"
-            New-Item -ItemType Directory -Force -Path $DistDir | Out-Null
-            $PackageName = "MaDOAXVV-$ResolvedVersion-$TargetOS-$Arch.zip"
-            $PackagePath = Join-Path $DistDir $PackageName
-            if (Test-Path $PackagePath) {
-                Remove-Item -LiteralPath $PackagePath -Force
-            }
-            Compress-Archive -Path (Join-Path $InstallDir "*") -DestinationPath $PackagePath
-            Write-Host "Package: $PackagePath" -ForegroundColor Green
-        }
-
-        Write-Host ""
-        Write-Host "Build completed: $InstallDir" -ForegroundColor Green
     }
     finally {
         Pop-Location
     }
+
+    Write-Host ""
+    Write-Host "MXU build completed: $OutputDir" -ForegroundColor Green
 }
 catch {
     $BuildError = $_
     Write-Host ""
-    Write-Host "Local build failed" -ForegroundColor Red
+    Write-Host "MXU build failed" -ForegroundColor Red
     Write-Host $BuildError.Exception.Message -ForegroundColor Red
 
     if ($BuildError.InvocationInfo.PositionMessage) {

@@ -80,7 +80,9 @@
             }
         },
         "post_wait_freezes": 1000,
-        "focus": "任务奖励领取完毕",
+        "focus": {
+            "Node.Recognition.Succeeded": "任务奖励领取完毕"
+        },
         "next": [
             "领取_开始领取信箱"
         ],
@@ -271,7 +273,9 @@
             }
         },
         "post_wait_freezes": 1000,
-        "focus": "信箱领取结束",
+        "focus": {
+            "Node.Recognition.Succeeded": "信箱领取结束"
+        },
         "$__mpe_code": {
             "position": {
                 "x": 4022,
@@ -781,7 +785,9 @@
             "type": "Click"
         },
         "post_wait_freezes": 1000,
-        "focus": "开始领取任务奖励",
+        "focus": {
+            "Node.Recognition.Succeeded": "开始领取任务奖励"
+        },
         "next": [
             "领取_加载中重试",
             "领取_每日",
@@ -838,7 +844,9 @@
         },
         "post_delay": 1000,
         "timeout": 15000,
-        "focus": "开始领取信箱道具",
+        "focus": {
+            "Node.Recognition.Succeeded": "开始领取信箱道具"
+        },
         "next": [
             "领取_信箱"
         ],

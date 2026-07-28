@@ -114,7 +114,9 @@
             }
         },
         "post_wait_freezes": 1234,
-        "focus": "每日挑战：自动战斗完成",
+        "focus": {
+            "Node.Recognition.Succeeded": "每日挑战：自动战斗完成"
+        },
         "next": [
             "每日挑战_点击确定（结算）",
             "每日挑战_主页流程结束",
@@ -432,7 +434,9 @@
                 "contact": 1
             }
         },
-        "focus": "每日挑战：次数不足任务不执行",
+        "focus": {
+            "Node.Recognition.Succeeded": "每日挑战：次数不足任务不执行"
+        },
         "next": [
             "每日挑战_主页流程结束"
         ],

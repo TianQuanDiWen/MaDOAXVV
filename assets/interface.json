@@ -69,5 +69,45 @@
             "entry": "赌场_开始",
             "description": "打满赌场奖励，流程还在测试中"
         }
+    ],
+    "preset": [
+        {
+            "name": "默认配置",
+            "label": "默认配置",
+            "task": [
+                {
+                    "name": "抽免费券",
+                    "enabled": true
+                },
+                {
+                    "name": "岛主房间",
+                    "enabled": true
+                },
+                {
+                    "name": "自动打新比赛",
+                    "enabled": true
+                },
+                {
+                    "name": "每日自动挑战券",
+                    "enabled": true
+                },
+                {
+                    "name": "每日活动挑战赛",
+                    "enabled": true
+                },
+                {
+                    "name": "自动排位",
+                    "enabled": true
+                },
+                {
+                    "name": "领取邮件与任务奖励",
+                    "enabled": true
+                },
+                {
+                    "name": "赌场",
+                    "enabled": true
+                }
+            ]
+        }
     ]
 }
