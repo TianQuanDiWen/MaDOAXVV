@@ -1,0 +1,9 @@
+{
+    "Launcher_ClickStartGame": {
+        "recognition": "OCR",
+        "expected": [
+            "开始游戏"
+        ],
+        "action": "Click"
+    }
+}

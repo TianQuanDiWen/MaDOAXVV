@@ -9,6 +9,9 @@ on:
     paths:
       - ".github/workflows/install.yml"
       - "assets/**"
+      - "agent/**"
+      - "go.mod"
+      - "go.sum"
       - "build.config.json"
       - "build.ps1"
       - "tools/**"
@@ -19,6 +22,9 @@ on:
     paths:
       - ".github/workflows/install.yml"
       - "assets/**"
+      - "agent/**"
+      - "go.mod"
+      - "go.sum"
       - "build.config.json"
       - "build.ps1"
       - "tools/**"
@@ -45,6 +51,7 @@ jobs:
             echo "mxu_release=$(jq -r '.dependencies.mxu.release' build.config.json)"
             echo "mxu_asset_template=$(jq -r '.dependencies.mxu.assetPattern' build.config.json)"
             echo "python_version=$(jq -r '.toolchain.pythonVersion' build.config.json)"
+            echo "go_version=$(jq -r '.toolchain.goVersion' build.config.json)"
             echo "uv_index=$(jq -r '.toolchain.uvIndex' build.config.json)"
             echo "output_directory=$(jq -r '.directories.output' build.config.json)"
             echo "dependencies_directory=$(jq -r '.directories.dependencies' build.config.json)"
@@ -93,6 +100,7 @@ jobs:
       mxu_release: ${{ steps.build_config.outputs.mxu_release }}
       mxu_asset_template: ${{ steps.build_config.outputs.mxu_asset_template }}
       python_version: ${{ steps.build_config.outputs.python_version }}
+      go_version: ${{ steps.build_config.outputs.go_version }}
       uv_index: ${{ steps.build_config.outputs.uv_index }}
       output_directory: ${{ steps.build_config.outputs.output_directory }}
       dependencies_directory: ${{ steps.build_config.outputs.dependencies_directory }}
@@ -167,6 +175,12 @@ jobs:
         uses: astral-sh/setup-uv@v7.5.0
         with:
           enable-cache: true
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ needs.meta.outputs.go_version }}
+          cache: true
 
       - name: Install
         shell: bash

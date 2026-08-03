@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784412308901,
+            "lastSyncTime": 1785716449673,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
             "savedViewport": {
-                "x": -2504,
-                "y": -280,
-                "zoom": 0.85
+                "x": -2837,
+                "y": 242,
+                "zoom": 1.5
             },
             "filename": "领取邮件与任务奖励",
             "version": "v1.7.4"
@@ -47,31 +47,6 @@
             "height": 1489
         }
     },
-    "领取_开始": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    415,
-                    154,
-                    435,
-                    393
-                ],
-                "contact": 1
-            }
-        },
-        "post_delay": 500,
-        "timeout": 10000,
-        "next": [
-            "领取_点下主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1321,
-                "y": 20
-            }
-        }
-    },
     "领取_任务领完": {
         "action": {
             "type": "Click",
@@ -88,8 +63,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2155,
-                "y": -117
+                "x": 2152,
+                "y": 0
             }
         }
     },
@@ -143,12 +118,13 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "领取_信箱_点击确认"
+            "领取_信箱_点击确认",
+            "领取_信箱_全部领取"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3099,
-                "y": 318
+                "x": 3136,
+                "y": 300
             }
         }
     },
@@ -276,6 +252,9 @@
         "focus": {
             "Node.Recognition.Succeeded": "信箱领取结束"
         },
+        "next": [
+            "领取_结束"
+        ],
         "$__mpe_code": {
             "position": {
                 "x": 4022,
@@ -438,6 +417,57 @@
             "position": {
                 "x": 2963,
                 "y": -445
+            }
+        }
+    },
+    "领取_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    415,
+                    154,
+                    435,
+                    393
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "领取_点下主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1321,
+                "y": 20
+            }
+        }
+    },
+    "领取_开始领取信箱": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "开始领取信箱道具"
+        },
+        "next": [
+            "领取_信箱"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1924,
+                "y": 328
             }
         }
     },
@@ -830,30 +860,11 @@
             }
         }
     },
-    "领取_开始领取信箱": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "主页.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_delay": 1000,
-        "timeout": 15000,
-        "focus": {
-            "Node.Recognition.Succeeded": "开始领取信箱道具"
-        },
-        "next": [
-            "领取_信箱"
-        ],
+    "领取_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 1924,
-                "y": 328
+                "x": 4479,
+                "y": 646
             }
         }
     }

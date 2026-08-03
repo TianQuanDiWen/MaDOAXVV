@@ -1,0 +1,123 @@
+{
+    "$__mpe_config_登陆游戏": {
+        "$__mpe_code": {
+            "coordinateMode": "absolute-v1",
+            "filename": "登陆游戏",
+            "prefix": "",
+            "savedViewport": {
+                "x": -6972,
+                "y": 71,
+                "zoom": 1.03
+            },
+            "version": "v1.7.4"
+        }
+    },
+    "登陆游戏_关闭公告": {
+        "$__mpe_code": {
+            "position": {
+                "x": 7511,
+                "y": 425
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "登陆游戏_判断状态"
+        ],
+        "recognition": {
+            "param": {
+                "green_mask": true,
+                "template": [
+                    "关闭X.png"
+                ]
+            },
+            "type": "TemplateMatch"
+        }
+    },
+    "登陆游戏_判断状态": {
+        "$__mpe_code": {
+            "position": {
+                "x": 7036,
+                "y": 259
+            }
+        },
+        "next": [
+            "登陆游戏_点下主页",
+            "登陆游戏_关闭公告",
+            "登陆游戏_随机点击屏幕区域"
+        ],
+        "post_wait_freezes": 200,
+        "rate_limit": 1000
+    },
+    "登陆游戏_开始": {
+        "$__mpe_code": {
+            "position": {
+                "x": 6526,
+                "y": 252
+            }
+        },
+        "next": [
+            "登陆游戏_判断状态"
+        ]
+    },
+    "登陆游戏_点下主页": {
+        "$__mpe_code": {
+            "position": {
+                "x": 7509,
+                "y": 26
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "登陆游戏_结束"
+        ],
+        "post_delay": 1000,
+        "recognition": {
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            },
+            "type": "FeatureMatch"
+        },
+        "timeout": 10000
+    },
+    "登陆游戏_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 7934,
+                "y": 58
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 10000
+    },
+    "登陆游戏_随机点击屏幕区域": {
+        "$__mpe_code": {
+            "position": {
+                "x": 7512,
+                "y": 744
+            }
+        },
+        "action": {
+            "param": {
+                "target": [
+                    243,
+                    140,
+                    821,
+                    390
+                ]
+            },
+            "type": "Click"
+        },
+        "next": [
+            "登陆游戏_判断状态"
+        ]
+    }
+}

@@ -7,6 +7,9 @@ on:
     paths:
       - ".github/workflows/check.yml"
       - "assets/**"
+      - "agent/**"
+      - "go.mod"
+      - "go.sum"
       - "**.py"
   pull_request:
     branches:
@@ -14,6 +17,9 @@ on:
     paths:
       - ".github/workflows/check.yml"
       - "assets/**"
+      - "agent/**"
+      - "go.mod"
+      - "go.sum"
       - "**.py"
   workflow_dispatch:
 
@@ -24,6 +30,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Use Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Test Go agent
+        run: go test ./...
 
       - name: Use Node
         uses: actions/setup-node@v4

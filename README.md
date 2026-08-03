@@ -32,7 +32,11 @@
 - [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)（Windows 10/11 通常已内置）。
 - [Microsoft Visual C++ 2015–2022 Redistributable（x64）](https://aka.ms/vs/17/release/vc_redist.x64.exe)。
 
-首次运行前请确认游戏能够正常启动，并保持游戏窗口可见，窗口标题应为 `DOAX VenusVacation`。发布包使用 MXU 读取 `interface.json`，用户配置会由 MXU 保存在运行目录的 `config/` 下。
+首次运行前请确认 Steam 已登录且游戏能够正常启动。默认任务列表中的“启动游戏”会通过 `steam://rungameid/958260` 启动 Steam 版游戏，按进程名 `DOAX_VV_Launcher.exe` 定位启动器，使用 MaaFramework OCR 识别并点击“开始游戏”，然后等待标题为 `DOAX VenusVacation` 的游戏窗口就绪。游戏已经运行时会直接跳过启动步骤。
+
+发布包使用 MXU 读取 `interface.json`，用户配置会由 MXU 保存在运行目录的 `config/` 下。不需要自动启动时，可在 MXU 任务列表中取消勾选“启动游戏”。
+
+虽然项目支持后台运行，但是建议保持游戏在前台，后台运行会加大弹出金球验证的概率，在弹出金球验证后会直接关闭挑战选项不继续执行挑战
 
 ## 目录结构
 
@@ -41,6 +45,8 @@ assets/interface.json              # MaaFramework 项目入口配置
 assets/resource/pipeline/          # 任务流程定义
 assets/resource/image/             # 图像识别模板
 assets/resource/model/ocr/         # 本地 OCR 模型
+agent/                             # Go Agent、启动器任务及自定义识别扩展
+go.mod / go.sum                    # Go 依赖及可复现版本锁定
 build.ps1                          # 本地构筑与清理入口
 build.config.json                  # 本地与线上共享的构筑配置
 tools/                             # MXU 安装、OCR 配置和 schema 校验脚本
@@ -52,7 +58,7 @@ tools/                             # MXU 安装、OCR 配置和 schema 校验脚
 
 运行 `build.ps1` 后，可使用方向键选择构筑或清理：
 
-需要预先安装 PowerShell 5.1 或 PowerShell 7、[uv](https://docs.astral.sh/uv/)；Node.js 仅用于 Maa 资源检查。
+需要预先安装 PowerShell 5.1 或 PowerShell 7、[Go](https://go.dev/dl/) 1.24、[uv](https://docs.astral.sh/uv/)；Node.js 仅用于 Maa 资源检查。Go 只在构筑时使用，发布包中的 Agent 为 AOT 编译的原生可执行文件，运行时不要求用户安装 Go、Python 或额外依赖。
 
 ```powershell
 # 交互选择
@@ -70,11 +76,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 
 本地与 GitHub Actions 共用 `build.config.json`，均从配置指定的 MXU 和 MaaFramework GitHub Release 获取前端及运行库。需要固定版本或调整目标平台时直接修改构筑配置，脚本不维护额外的前端下载规则。可使用 `-SkipChecks` 跳过 Node 与 Schema 检查。本地构筑只生成 `install/` 目录，不生成发布压缩包；GitHub Release 流程仍会按配置中的 `packageName` 生成 ZIP。
 
+## Go Agent 扩展
+
+发布包只包含一个 `agent/MaDOAXVV.Agent.exe`。MXU 在 Controller 连接前以 `launch-game` 模式调用它完成 Steam 启动、启动器 OCR 点击和游戏窗口等待；MXU 同时可按 Project Interface 的 `agent` 配置，以 `agent` 模式启动 MaaFramework AgentServer。
+
+使用 MaaTools 本地插件调试时，`assets/interface.json` 会通过 `go run` 直接启动 Agent 源码，并自动使用 `deps/bin` 和 `assets/resource`，无需预先生成 EXE。构筑发布包时，安装脚本会将这两处命令改写为编译后的 `agent/MaDOAXVV.Agent.exe`，运行时不依赖 Go 工具链。
+
+后续的分数识别、场景判断或特殊操作应分别实现为 MaaFramework 自定义 Recognition 或 Action，并集中在 `agent/internal/agentserver` 注册。模式入口、框架生命周期、启动器流程与具体识别算法相互分离，增加新能力时不需要修改 MXU，也不需要再增加一种运行时。
+
 ## 开发注意
 
 - `assets/resource/model/ocr/` 体积较大，作为本地依赖保留即可。
 - 新增任务后需要同步更新 `assets/interface.json` 的 `task` 列表。
 - 图像模板应放在 `assets/resource/image/` 下，并在 pipeline 中使用相对文件名引用。
+- Go 自定义能力在 `agent/internal/agentserver.BuildRegistry` 统一装配；通用算法可继续拆分为独立 package。
 
 ## 鸣谢
 

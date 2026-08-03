@@ -417,8 +417,11 @@ try {
         $Config.dependencies.mxu.repository,
         $Config.dependencies.mxu.release,
         $Config.dependencies.mxu.assetPattern,
+        $Config.toolchain.goVersion,
         $Config.toolchain.pythonVersion,
         $Config.toolchain.uvIndex,
+        $Config.agent.source,
+        $Config.agent.output,
         $Config.directories.output,
         $Config.directories.dependencies,
         $Config.directories.downloads,
@@ -501,6 +504,7 @@ try {
 
     Write-Step "Checking build tools"
     $Uv = Resolve-NativeCommand -Name "uv"
+    $Go = Resolve-NativeCommand -Name "go"
     $Npx = $null
     if (-not $SkipChecks) {
         $Npx = Resolve-NativeCommand -Name "npx"
@@ -565,6 +569,11 @@ try {
         $env:UV_INDEX = $Config.toolchain.uvIndex
 
         if (-not $SkipChecks) {
+            Write-Step "Running Go checks"
+            Invoke-NativeCommand `
+                -FilePath $Go `
+                -Arguments @("test", "./...")
+
             Write-Step "Running resource checks"
             Invoke-NativeCommand `
                 -FilePath $Npx `

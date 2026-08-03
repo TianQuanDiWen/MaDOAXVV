@@ -7,13 +7,47 @@
     "welcome": "欢迎使用 MaDOAXVV。",
     "github": "https://github.com/TianQuanDiWen/MaDOAXVV",
     "version": "0.1.0",
+    "pretask": {
+        "name": "启动游戏",
+        "label": "启动游戏",
+        "description": "通过 Steam 启动游戏，在启动器中识别并点击“开始游戏”，等待游戏窗口就绪后再连接。",
+        "exec": "go",
+        "args": [
+            "run",
+            "../agent/cmd/madoaxvv-agent",
+            "launch-game",
+            "--root",
+            "..",
+            "--steam-uri",
+            "steam://rungameid/958260",
+            "--launcher-process",
+            "DOAX_VV_Launcher.exe",
+            "--game-window",
+            "^DOAX VenusVacation$",
+            "--timeout",
+            "300s"
+        ],
+        "controller": [
+            "桌面端"
+        ]
+    },
+    "agent": {
+        "child_exec": "go",
+        "child_args": [
+            "run",
+            "../agent/cmd/madoaxvv-agent",
+            "agent",
+            "--root",
+            ".."
+        ]
+    },
     "controller": [
         {
             "name": "桌面端",
             "type": "Win32",
             "win32": {
                 "class_regex": ".*",
-                "window_regex": "DOAX VenusVacation",
+                "window_regex": "^DOAX VenusVacation$",
                 "screencap": "FramePool",
                 "mouse": "PostMessageWithCursorPos",
                 "keyboard": "PostMessageWithCursorPos"
@@ -29,6 +63,20 @@
         }
     ],
     "task": [
+        {
+            "name": "__MXU_PRETASK__启动游戏",
+            "label": "启动游戏",
+            "entry": "Launcher_ClickStartGame",
+            "description": "通过 Steam 启动游戏，在启动器中识别并点击“开始游戏”，等待游戏窗口就绪后再连接。",
+            "controller": [
+                "桌面端"
+            ]
+        },
+        {
+            "name": "登陆游戏",
+            "entry": "登陆游戏_开始",
+            "description": "进入到主页前自动点击，领取每日签到奖励和关闭公告"
+        },
         {
             "name": "抽免费券",
             "entry": "抽免费券_开始",
@@ -75,6 +123,14 @@
             "name": "默认配置",
             "label": "默认配置",
             "task": [
+                {
+                    "name": "__MXU_PRETASK__启动游戏",
+                    "enabled": true
+                },
+                {
+                    "name": "登陆游戏",
+                    "enabled": true
+                },
                 {
                     "name": "抽免费券",
                     "enabled": true

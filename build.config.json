@@ -14,8 +14,13 @@
         }
     },
     "toolchain": {
+        "goVersion": "1.24.x",
         "pythonVersion": "3.12",
         "uvIndex": "https://pypi.org/simple"
+    },
+    "agent": {
+        "source": "./agent/cmd/madoaxvv-agent",
+        "output": "agent/MaDOAXVV.Agent{exe}"
     },
     "directories": {
         "output": "install",

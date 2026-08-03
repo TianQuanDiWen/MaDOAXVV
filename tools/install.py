@@ -2,7 +2,9 @@ from pathlib import Path
 
 import argparse
 import json
+import os
 import shutil
+import subprocess
 import sys
 
 try:
@@ -60,6 +62,22 @@ downloads_path = resolve_project_path(
     build_config["directories"]["downloads"],
     "directories.downloads",
 )
+
+
+def expand_agent_output(template):
+    executable_suffix = ".exe" if os_name == "win" else ""
+    return template.replace("{exe}", executable_suffix)
+
+
+def resolve_install_path(relative_path, field_name):
+    path = Path(relative_path)
+    if path.is_absolute():
+        raise ValueError(f"{field_name} must be relative to the install root")
+
+    resolved_path = (install_path / path).resolve()
+    if not resolved_path.is_relative_to(install_path):
+        raise ValueError(f"{field_name} escapes the install root")
+    return resolved_path
 
 
 def install_deps():
@@ -120,6 +138,24 @@ def install_resource():
         interface = jsonc.load(f)
 
     interface["version"] = version
+    # assets/interface.json 面向 MaaTools 源码调试，直接通过 go run 启动 Agent。
+    # 发布包不应依赖 Go 工具链，因此在复制后改写为已编译的原生 Agent。
+    interface["pretask"]["exec"] = "./agent/MaDOAXVV.Agent.exe"
+    interface["pretask"]["args"] = [
+        "launch-game",
+        "--root",
+        ".",
+        "--steam-uri",
+        "steam://rungameid/958260",
+        "--launcher-process",
+        "DOAX_VV_Launcher.exe",
+        "--game-window",
+        "^DOAX VenusVacation$",
+        "--timeout",
+        "300s",
+    ]
+    interface["agent"]["child_exec"] = "./agent/MaDOAXVV.Agent.exe"
+    interface["agent"]["child_args"] = ["agent", "--root", "."]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
@@ -137,10 +173,38 @@ def install_chores():
 
 
 def install_agent():
-    shutil.copytree(
-        working_dir / "agent",
-        install_path / "agent",
-        dirs_exist_ok=True,
+    source_path = resolve_project_path(
+        build_config["agent"]["source"],
+        "agent.source",
+    )
+    output_path = resolve_install_path(
+        expand_agent_output(build_config["agent"]["output"]),
+        "agent.output",
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    go_os = {"win": "windows", "linux": "linux", "macos": "darwin"}[os_name]
+    go_arch = {"x86_64": "amd64", "aarch64": "arm64"}[arch]
+    environment = os.environ.copy()
+    environment.update({
+        "CGO_ENABLED": "0",
+        "GOOS": go_os,
+        "GOARCH": go_arch,
+    })
+    subprocess.run(
+        [
+            "go",
+            "build",
+            "-trimpath",
+            "-buildvcs=false",
+            "-ldflags=-s -w",
+            "-o",
+            str(output_path),
+            str(source_path),
+        ],
+        cwd=working_dir,
+        env=environment,
+        check=True,
     )
 
 
