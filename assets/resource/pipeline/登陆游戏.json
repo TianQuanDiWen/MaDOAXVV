@@ -1,22 +1,31 @@
 {
     "$__mpe_config_登陆游戏": {
         "$__mpe_code": {
-            "coordinateMode": "absolute-v1",
-            "filename": "登陆游戏",
             "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1785967652253,
+            "isModifiedExternally": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\登陆游戏.json",
             "savedViewport": {
-                "x": -6972,
-                "y": 71,
-                "zoom": 1.03
+                "x": -4229,
+                "y": 147,
+                "zoom": 0.7
             },
+            "filename": "登陆游戏",
             "version": "v1.7.4"
         }
     },
     "登陆游戏_关闭公告": {
-        "$__mpe_code": {
-            "position": {
-                "x": 7511,
-                "y": 425
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "关闭X.png"
+                ],
+                "green_mask": true,
+                "threshold": [
+                    0.35
+                ]
             }
         },
         "action": {
@@ -25,87 +34,69 @@
         "next": [
             "登陆游戏_判断状态"
         ],
-        "recognition": {
-            "param": {
-                "green_mask": true,
-                "template": [
-                    "关闭X.png"
-                ]
-            },
-            "type": "TemplateMatch"
+        "$__mpe_code": {
+            "position": {
+                "x": 7528,
+                "y": 322
+            }
         }
     },
     "登陆游戏_判断状态": {
-        "$__mpe_code": {
-            "position": {
-                "x": 7036,
-                "y": 259
-            }
-        },
+        "post_wait_freezes": 200,
+        "timeout": 600000,
+        "rate_limit": 1000,
         "next": [
-            "登陆游戏_点下主页",
+            "登陆游戏_已在主页",
             "登陆游戏_关闭公告",
+            "登陆游戏_识别到SKIP",
             "登陆游戏_随机点击屏幕区域"
         ],
-        "post_wait_freezes": 200,
-        "rate_limit": 1000
+        "$__mpe_code": {
+            "position": {
+                "x": 6951,
+                "y": 229
+            }
+        }
     },
     "登陆游戏_开始": {
+        "next": [
+            "登陆游戏_判断状态"
+        ],
         "$__mpe_code": {
             "position": {
                 "x": 6526,
                 "y": 252
             }
-        },
-        "next": [
-            "登陆游戏_判断状态"
-        ]
+        }
     },
-    "登陆游戏_点下主页": {
-        "$__mpe_code": {
-            "position": {
-                "x": 7509,
-                "y": 26
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "登陆游戏_结束"
-        ],
-        "post_delay": 1000,
+    "登陆游戏_已在主页": {
         "recognition": {
+            "type": "FeatureMatch",
             "param": {
                 "template": [
                     "主页.png"
                 ]
-            },
-            "type": "FeatureMatch"
-        },
-        "timeout": 10000
-    },
-    "登陆游戏_结束": {
-        "$__mpe_code": {
-            "position": {
-                "x": 7934,
-                "y": 58
             }
         },
         "action": {
             "type": "Click"
         },
         "post_delay": 1000,
-        "timeout": 10000
-    },
-    "登陆游戏_随机点击屏幕区域": {
+        "timeout": 10000,
+        "next": [
+            "登陆游戏_点击活动",
+            "登陆游戏_判断状态"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 7512,
-                "y": 744
+                "x": 7525,
+                "y": -55
             }
-        },
+        }
+    },
+    "登陆游戏_随机点击屏幕区域": {
         "action": {
+            "type": "Click",
             "param": {
                 "target": [
                     243,
@@ -113,11 +104,146 @@
                     821,
                     390
                 ]
-            },
-            "type": "Click"
+            }
         },
         "next": [
             "登陆游戏_判断状态"
-        ]
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 7533,
+                "y": 1067
+            }
+        }
+    },
+    "登陆游戏_点击活动": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    12,
+                    -10,
+                    -24,
+                    -8
+                ]
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 1000,
+        "post_wait_freezes": 1500,
+        "timeout": 20000,
+        "next": [
+            "登陆游戏_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 7884,
+                "y": -72
+            }
+        }
+    },
+    "登陆游戏_识别到SKIP": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    963,
+                    584,
+                    312,
+                    128
+                ],
+                "expected": [
+                    "SKIP"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 600000,
+        "rate_limit": 3000,
+        "focus": {
+            "Node.Action.Succeeded": "播放宣传动画中"
+        },
+        "next": [
+            "登陆游戏_识别不到SKIP"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 7529,
+                "y": 690
+            }
+        }
+    },
+    "登陆游戏_识别不到SKIP": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    963,
+                    584,
+                    312,
+                    128
+                ],
+                "expected": [
+                    "SKIP"
+                ]
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 600000,
+        "focus": {
+            "Node.Action.Succeeded": "动画播放结束"
+        },
+        "next": [
+            "登陆游戏_播放动画结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 7879,
+                "y": 684
+            }
+        }
+    },
+    "登陆游戏_播放动画结束": {
+        "next": [
+            "登陆游戏_判断状态"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 8206,
+                "y": 764
+            }
+        }
+    },
+    "登陆游戏_结束": {
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 10000,
+        "$__mpe_code": {
+            "position": {
+                "x": 8213,
+                "y": 23
+            }
+        }
     }
 }
