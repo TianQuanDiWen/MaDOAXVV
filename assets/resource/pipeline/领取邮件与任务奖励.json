@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1785716449673,
+            "lastSyncTime": 1785965183120,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
             "savedViewport": {
-                "x": -2837,
-                "y": 242,
-                "zoom": 1.5
+                "x": -3355,
+                "y": 5,
+                "zoom": 1.03
             },
             "filename": "领取邮件与任务奖励",
             "version": "v1.7.4"
@@ -54,7 +54,6 @@
                 "contact": 1
             }
         },
-        "post_wait_freezes": 1000,
         "focus": {
             "Node.Recognition.Succeeded": "任务奖励领取完毕"
         },
@@ -86,7 +85,6 @@
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
         "next": [
             "领取_信箱_确认已经在信箱",
             "领取_信箱"
@@ -113,18 +111,18 @@
                 ]
             }
         },
+        "pre_wait_freezes": 500,
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
         "next": [
             "领取_信箱_点击确认",
             "领取_信箱_全部领取"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3136,
-                "y": 300
+                "x": 3123,
+                "y": 227
             }
         }
     },
@@ -137,6 +135,7 @@
                 ]
             }
         },
+        "post_wait_freezes": 500,
         "next": [
             "领取_信箱_点击确认"
         ],
@@ -162,14 +161,13 @@
                 ]
             }
         },
-        "post_wait_freezes": 1000,
         "next": [
             "领取_信箱_全部领取"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2802,
-                "y": 317
+                "x": 2827,
+                "y": 233
             }
         }
     },
@@ -183,20 +181,44 @@
                 "green_mask": true
             }
         },
+        "pre_wait_freezes": 200,
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
         "next": [
             "领取_信箱_加载中重试",
+            "领取_信箱_达到上限",
             "领取_信箱_点击确认",
-            "领取_信箱_确认已经在信箱",
-            "领取_信箱_达到上限"
+            "领取_信箱_确认已经在信箱"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3438,
-                "y": 256
+                "x": 3425,
+                "y": 259
+            }
+        }
+    },
+    "领取_信箱_确认上限": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "pre_wait_freezes": 200,
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "领取_信箱_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4008,
+                "y": 390
             }
         }
     },
@@ -205,29 +227,28 @@
             "type": "OCR",
             "param": {
                 "roi": [
-                    536,
-                    83,
-                    213,
-                    48
+                    567,
+                    34,
+                    125,
+                    46
                 ],
                 "expected": [
-                    "无期限"
+                    "信箱"
                 ]
             }
         },
-        "post_wait_freezes": 500,
         "next": [
             "领取_信箱_检查可领取",
-            "领取_信箱_结束"
+            "领取_信箱_确认无道具"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2509,
-                "y": 315
+                "x": 2518,
+                "y": 316
             }
         }
     },
-    "领取_信箱_结束": {
+    "领取_信箱_确认无道具": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -242,23 +263,55 @@
                 ]
             }
         },
+        "post_wait_freezes": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "已无可领道具"
+        },
+        "next": [
+            "领取_信箱_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3280,
+                "y": 737
+            }
+        }
+    },
+    "领取_信箱_结束": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    583,
+                    40,
+                    100,
+                    43
+                ],
+                "expected": [
+                    "信箱"
+                ]
+            }
+        },
         "action": {
             "type": "Click",
             "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "contact": 1
             }
         },
-        "post_wait_freezes": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "信箱领取结束"
-        },
         "next": [
+            "领取_信箱_结束",
             "领取_结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4022,
-                "y": 749
+                "x": 4330,
+                "y": 690
             }
         }
     },
@@ -267,26 +320,26 @@
             "type": "OCR",
             "param": {
                 "roi": [
-                    224,
-                    85,
-                    817,
-                    553
+                    490,
+                    159,
+                    276,
+                    106
                 ],
                 "expected": [
                     "上限"
                 ]
             }
         },
-        "action": {
-            "type": "Click"
+        "focus": {
+            "Node.Action.Succeeded": "信箱存在到达领取上限道具"
         },
         "next": [
-            "领取_信箱_结束"
+            "领取_信箱_确认上限"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3734,
-                "y": 577
+                "x": 3740,
+                "y": 409
             }
         }
     },
@@ -457,7 +510,6 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
         "focus": {
             "Node.Recognition.Succeeded": "开始领取信箱道具"
         },
@@ -863,8 +915,8 @@
     "领取_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 4479,
-                "y": 646
+                "x": 4627,
+                "y": 603
             }
         }
     }

@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784593529912,
+            "lastSyncTime": 1785967450990,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\抽免费券.json",
             "savedViewport": {
-                "x": -929,
-                "y": 161,
-                "zoom": 1.03
+                "x": -1565,
+                "y": -36,
+                "zoom": 1.32
             },
             "filename": "抽免费券",
             "version": "v1.7.4"
@@ -83,10 +83,10 @@
                 ]
             }
         },
+        "pre_wait_freezes": 200,
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
         "timeout": 10000,
         "next": [
             "抽免费券_点击免费扭蛋",
@@ -129,20 +129,6 @@
         }
     },
     "抽免费券_点击画面继续": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    975,
-                    593,
-                    298,
-                    117
-                ],
-                "expected": [
-                    "继续"
-                ]
-            }
-        },
         "action": {
             "type": "Click",
             "param": {
@@ -157,12 +143,12 @@
         "repeat": 2,
         "repeat_delay": 1000,
         "next": [
-            "抽免费券_结束"
+            "抽免费券_等待抽卡动画结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3278,
-                "y": 92
+                "x": 3694,
+                "y": -173
             }
         }
     },
@@ -183,7 +169,8 @@
             "Node.Recognition.Succeeded": "抽免费券：开抽"
         },
         "next": [
-            "抽免费券_点击画面继续"
+            "抽免费券_点击确认",
+            "抽免费券_抽卡开始"
         ],
         "$__mpe_code": {
             "position": {
@@ -240,8 +227,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2724,
-                "y": -247
+                "x": 3029,
+                "y": -343
             }
         }
     },
@@ -269,8 +256,68 @@
         },
         "$__mpe_code": {
             "position": {
-                "x": 3280,
-                "y": -252
+                "x": 3457,
+                "y": -442
+            }
+        }
+    },
+    "抽免费券_点击SKIP": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    975,
+                    593,
+                    298,
+                    117
+                ],
+                "expected": [
+                    "SKIP"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        "next": [
+            "抽免费券_等待抽卡动画结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3704,
+                "y": 248
+            }
+        }
+    },
+    "抽免费券_等待抽卡动画结束": {
+        "next": [
+            "抽免费券_结束",
+            "抽免费券_抽卡开始"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4089,
+                "y": 149
+            }
+        }
+    },
+    "抽免费券_抽卡开始": {
+        "next": [
+            "抽免费券_点击SKIP",
+            "抽免费券_点击画面继续"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3379,
+                "y": 157
             }
         }
     }
