@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784679595192,
+            "lastSyncTime": 1785968496685,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -2998,
-                "y": 557,
-                "zoom": 1.51
+                "x": -2772,
+                "y": 264,
+                "zoom": 0.91
             },
             "filename": "自动排位",
             "version": "v1.7.4"
@@ -23,8 +23,8 @@
             },
             "color": "blue",
             "childrenLabels": [
-                "排位_长时间游玩确认",
                 "排位_退出长时间游玩返回",
+                "排位_长时间游玩确认",
                 "排位_长时间游玩退出到主页"
             ],
             "width": 926,
@@ -194,7 +194,7 @@
             }
         },
         "post_delay": 1500,
-        "timeout": 60000,
+        "timeout": 360000,
         "rate_limit": 5000,
         "focus": {
             "Node.Recognition.Succeeded": "排位：比赛结算"
@@ -350,6 +350,34 @@
             }
         }
     },
+    "排位_退出长时间游玩返回": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    485,
+                    497,
+                    155,
+                    149
+                ],
+                "template": [
+                    "返回.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "排位_长时间游玩退出到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3732,
+                "y": 627
+            }
+        }
+    },
     "排位_选择对手": {
         "recognition": {
             "type": "TemplateMatch",
@@ -382,32 +410,6 @@
             }
         }
     },
-    "排位_随机点屏幕几下": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    250,
-                    124,
-                    836,
-                    441
-                ]
-            }
-        },
-        "repeat": 8,
-        "repeat_delay": 5000,
-        "timeout": 300000,
-        "rate_limit": 5000,
-        "next": [
-            "排位_比赛结算"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3701,
-                "y": 125
-            }
-        }
-    },
     "排位_长时间游玩确认": {
         "recognition": {
             "type": "OCR",
@@ -426,34 +428,6 @@
         "$__mpe_code": {
             "position": {
                 "x": 3469,
-                "y": 627
-            }
-        }
-    },
-    "排位_退出长时间游玩返回": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "roi": [
-                    485,
-                    497,
-                    155,
-                    149
-                ],
-                "template": [
-                    "返回.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "排位_长时间游玩退出到主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3732,
                 "y": 627
             }
         }
@@ -480,6 +454,32 @@
             "position": {
                 "x": 4094,
                 "y": 620
+            }
+        }
+    },
+    "排位_随机点屏幕几下": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    250,
+                    124,
+                    836,
+                    441
+                ]
+            }
+        },
+        "repeat": 8,
+        "repeat_delay": 5000,
+        "timeout": 300000,
+        "rate_limit": 5000,
+        "next": [
+            "排位_比赛结算"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3701,
+                "y": 125
             }
         }
     }

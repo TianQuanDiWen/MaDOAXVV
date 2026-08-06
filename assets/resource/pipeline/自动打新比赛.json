@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1785720084955,
+            "lastSyncTime": 1786036253230,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -1307,
-                "y": 128,
-                "zoom": 0.7
+                "x": -931,
+                "y": 163,
+                "zoom": 0.91
             },
             "filename": "自动打新比赛",
             "version": "v1.7.4"
@@ -101,8 +101,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1753,
-                "y": 67
+                "x": 1445,
+                "y": 28
             }
         }
     },
@@ -126,8 +126,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1420,
-                "y": 93
+                "x": 1112,
+                "y": 54
             }
         }
     },
@@ -147,12 +147,13 @@
         "timeout": 20000,
         "next": [
             "新比赛_选择推荐",
+            "新比赛_检测到剧情",
             "新比赛_挑战赛"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2054,
-                "y": 71
+                "x": 1746,
+                "y": 32
             }
         }
     },
@@ -422,15 +423,15 @@
             }
         }
     },
-    "新比赛_选择推荐": {
+    "新比赛_确认在推荐": {
         "recognition": {
             "type": "OCR",
             "param": {
                 "roi": [
-                    863,
-                    112,
-                    412,
-                    165
+                    195,
+                    56,
+                    187,
+                    78
                 ],
                 "expected": [
                     "推荐"
@@ -438,13 +439,6 @@
             }
         },
         "pre_wait_freezes": 1000,
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": true
-            }
-        },
-        "post_delay": 1000,
         "timeout": 5000,
         "next": [
             "新比赛_检测新比赛是否存在",
@@ -455,8 +449,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2388,
-                "y": 64
+                "x": 2343,
+                "y": 54
             }
         }
     },
@@ -530,6 +524,66 @@
             "position": {
                 "x": 3474,
                 "y": 141
+            }
+        }
+    },
+    "新比赛_检测到剧情": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "SKIP"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "新比赛：存在新剧情"
+        },
+        "next": [
+            "新比赛_检测到剧情",
+            "新比赛_挑战赛"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1748,
+                "y": 488
+            }
+        }
+    },
+    "新比赛_选择推荐": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    863,
+                    112,
+                    412,
+                    165
+                ],
+                "expected": [
+                    "推荐"
+                ]
+            }
+        },
+        "pre_wait_freezes": 1000,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_delay": 1000,
+        "timeout": 5000,
+        "next": [
+            "新比赛_确认在推荐"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2079,
+                "y": 39
             }
         }
     }
