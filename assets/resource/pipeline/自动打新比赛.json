@@ -3,16 +3,56 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1786036253230,
+            "lastSyncTime": 1786050479155,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -931,
-                "y": 163,
+                "x": -2172,
+                "y": 464,
                 "zoom": 0.91
             },
             "filename": "自动打新比赛",
             "version": "v1.7.4"
+        }
+    },
+    "新比赛_选择推荐(兜底)": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    863,
+                    112,
+                    412,
+                    165
+                ],
+                "expected": [
+                    "主要"
+                ]
+            }
+        },
+        "pre_wait_freezes": 1000,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true,
+                "target_offset": [
+                    -101,
+                    -1,
+                    2,
+                    4
+                ]
+            }
+        },
+        "timeout": 5000,
+        "next": [
+            "新比赛_确认在推荐",
+            "新比赛_选择推荐(兜底)"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2057,
+                "y": 385
+            }
         }
     },
     "$__mpe_group_长时间游玩确定_自动打新比赛": {
@@ -36,17 +76,16 @@
             "type": "OCR",
             "param": {
                 "roi": [
-                    801,
-                    109,
-                    239,
-                    607
+                    195,
+                    56,
+                    187,
+                    78
                 ],
                 "expected": [
                     "推荐"
                 ]
             }
         },
-        "post_delay": 5000,
         "timeout": 15000,
         "focus": {
             "Node.Recognition.Succeeded": "新比赛：打完一场"
@@ -147,13 +186,14 @@
         "timeout": 20000,
         "next": [
             "新比赛_选择推荐",
+            "新比赛_选择推荐(兜底)",
             "新比赛_检测到剧情",
             "新比赛_挑战赛"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1746,
-                "y": 32
+                "x": 1762,
+                "y": 23
             }
         }
     },
@@ -186,15 +226,10 @@
         }
     },
     "新比赛_新比赛返回主页": {
-        "recognition": {
-            "type": "OCR",
+        "action": {
+            "type": "Click",
             "param": {
-                "roi": [
-                    809,
-                    320,
-                    98,
-                    377
-                ]
+                "contact": 1
             }
         },
         "next": [
@@ -233,7 +268,6 @@
                 ]
             }
         },
-        "post_delay": 1000,
         "timeout": 5000,
         "next": [
             "新比赛_检测新比赛是否存在",
@@ -267,7 +301,6 @@
             }
         },
         "post_delay": 1500,
-        "timeout": 8000,
         "next": [
             "新比赛_比赛结算",
             "新比赛_一轮完成"
@@ -306,8 +339,6 @@
                 ]
             }
         },
-        "post_delay": 1500,
-        "timeout": 20000,
         "focus": {
             "Node.Recognition.Succeeded": "新比赛：开始比赛"
         },
@@ -575,15 +606,15 @@
                 "target": true
             }
         },
-        "post_delay": 1000,
         "timeout": 5000,
         "next": [
-            "新比赛_确认在推荐"
+            "新比赛_确认在推荐",
+            "新比赛_选择推荐"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2079,
-                "y": 39
+                "x": 2053,
+                "y": -12
             }
         }
     }
