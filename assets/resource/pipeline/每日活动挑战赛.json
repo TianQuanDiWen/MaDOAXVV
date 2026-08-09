@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1785714818589,
+            "lastSyncTime": 1786217843445,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -3955,
-                "y": 311,
-                "zoom": 0.88
+                "x": -2035,
+                "y": 254,
+                "zoom": 1.13
             },
             "filename": "每日活动挑战赛",
             "version": "v1.7.4"
@@ -349,7 +349,15 @@
         },
         "pre_wait_freezes": 1000,
         "action": {
-            "type": "Click"
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    20,
+                    10,
+                    -52,
+                    -15
+                ]
+            }
         },
         "post_wait_freezes": 1000,
         "timeout": 20000,
@@ -491,6 +499,32 @@
             "position": {
                 "x": 3262,
                 "y": 73
+            }
+        }
+    },
+    "日活动赛_确认真的在活动": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    215,
+                    62,
+                    136,
+                    69
+                ],
+                "expected": [
+                    "活动"
+                ]
+            }
+        },
+        "inverse": true,
+        "next": [
+            "日活动赛_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2625,
+                "y": -231
             }
         }
     },
@@ -660,35 +694,6 @@
             "position": {
                 "x": 5075,
                 "y": -629
-            }
-        }
-    },
-    "日活动赛_确认真的在活动": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    215,
-                    62,
-                    136,
-                    69
-                ],
-                "expected": [
-                    "活动"
-                ]
-            }
-        },
-        "inverse": true,
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "日活动赛_点击活动"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2625,
-                "y": -231
             }
         }
     }

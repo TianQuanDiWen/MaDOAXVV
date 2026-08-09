@@ -3,16 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1785968496685,
+            "lastSyncTime": 1786307727497,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -2772,
-                "y": 264,
-                "zoom": 0.91
+                "x": -2610,
+                "y": 87,
+                "zoom": 1
             },
             "filename": "自动排位",
-            "version": "v1.7.4"
+            "version": "v1.7.5"
         }
     },
     "$__mpe_group_长时间游玩确定_自动排位": {
@@ -157,10 +157,10 @@
                 ]
             }
         },
+        "pre_wait_freezes": 200,
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
         "next": [
             "排位_确认比赛开始",
             "排位_长时间游玩确认",
@@ -194,13 +194,13 @@
             }
         },
         "post_delay": 1500,
-        "timeout": 360000,
         "rate_limit": 5000,
         "focus": {
             "Node.Recognition.Succeeded": "排位：比赛结算"
         },
         "next": [
-            "排位_点击对战"
+            "排位_点击对战",
+            "排位_比赛结算"
         ],
         "$__mpe_code": {
             "position": {
