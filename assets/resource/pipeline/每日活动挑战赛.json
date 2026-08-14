@@ -3,16 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1786217843445,
+            "lastSyncTime": 1786603843436,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -2035,
-                "y": 254,
-                "zoom": 1.13
+                "x": -1605,
+                "y": 95,
+                "zoom": 1
             },
             "filename": "每日活动挑战赛",
-            "version": "v1.7.4"
+            "version": "v1.7.6"
         }
     },
     "$__mpe_group_长时间游玩_每日活动挑战赛": {
@@ -360,12 +360,11 @@
             }
         },
         "post_wait_freezes": 1000,
-        "timeout": 20000,
+        "timeout": 10000,
         "next": [
             "日活动赛_确认真的在活动",
             "日活动赛_点击最高挑战赛",
-            "日活动赛_无可挑战",
-            "日活动赛_点击活动"
+            "日活动赛_无可挑战"
         ],
         "$__mpe_code": {
             "position": {
