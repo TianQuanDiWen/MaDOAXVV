@@ -3,16 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1786492142202,
+            "lastSyncTime": 1787261881578,
             "isModifiedExternally": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\登陆游戏.json",
             "savedViewport": {
-                "x": -5523,
-                "y": -54,
-                "zoom": 0.88
+                "x": -6100,
+                "y": -348,
+                "zoom": 0.91
             },
             "filename": "登陆游戏",
-            "version": "v1.7.6"
+            "version": "v1.8.0"
         }
     },
     "登陆游戏_关闭公告": {
@@ -146,6 +146,29 @@
             }
         }
     },
+    "登陆游戏_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "登陆游戏_判断状态"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 7528,
+                "y": 1042
+            }
+        }
+    },
     "登陆游戏_结束": {
         "action": {
             "type": "Click"
@@ -244,32 +267,6 @@
             "position": {
                 "x": 7519,
                 "y": 1413
-            }
-        }
-    },
-    "登陆游戏_点击确认": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "抽免费券：开抽"
-        },
-        "next": [
-            "登陆游戏_判断状态"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 7528,
-                "y": 1042
             }
         }
     }

@@ -8,7 +8,7 @@
             "assetPattern": "MAA-{platform}-{arch}*"
         },
         "mxu": {
-            "repository": "MistEO/MXU",
+            "repository": "TianQuanDiWen/MXU_tqdw",
             "release": "latest",
             "assetPattern": "*{platform}-{arch}*"
         }

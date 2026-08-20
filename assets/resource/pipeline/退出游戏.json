@@ -1,0 +1,203 @@
+{
+    "$__mpe_config_退出游戏": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
+            "lastSyncTime": 1787262071444,
+            "coordinateMode": "absolute-v1",
+            "isModifiedExternally": false,
+            "savedViewport": {
+                "x": -1106,
+                "y": 96,
+                "zoom": 1.17
+            },
+            "filename": "退出游戏",
+            "version": "v1.8.0"
+        }
+    },
+    "退出游戏_确认已在选项": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    591,
+                    64,
+                    120,
+                    45
+                ],
+                "expected": [
+                    "选项"
+                ]
+            }
+        },
+        "action": {
+            "type": "Scroll",
+            "param": {
+                "target": [
+                    295,
+                    161,
+                    734,
+                    481
+                ],
+                "dy": -120
+            }
+        },
+        "repeat": 10,
+        "next": [
+            "退出游戏_点击结束游戏",
+            "退出游戏_确认已在选项"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2343,
+                "y": 124
+            }
+        }
+    },
+    "退出游戏_点击结束游戏": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    558,
+                    588,
+                    173,
+                    60
+                ],
+                "expected": [
+                    "结束游戏"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出游戏_点击结束游戏",
+            "退出游戏_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2673,
+                "y": 177
+            }
+        }
+    },
+    "退出游戏_结束": {
+        "focus": {
+            "Node.Action.Succeeded": "结束游戏"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3298,
+                "y": 198
+            }
+        }
+    },
+    "退出游戏_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "抽免费券：开抽"
+        },
+        "next": [
+            "退出游戏_结束",
+            "退出游戏_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2982,
+                "y": 127
+            }
+        }
+    },
+    "退出游戏_点击选项": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    290,
+                    619,
+                    141,
+                    84
+                ],
+                "expected": [
+                    "选项"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 200,
+        "next": [
+            "退出游戏_确认已在选项",
+            "退出游戏_点击选项"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2041,
+                "y": 144
+            }
+        }
+    },
+    "退出游戏_主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "退出游戏_点击选项"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1698,
+                "y": 111
+            }
+        }
+    },
+    "退出游戏_开始": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "退出游戏_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1411,
+                "y": 118
+            }
+        }
+    }
+}
