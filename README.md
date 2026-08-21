@@ -1,96 +1,321 @@
 # MaDOAXVV
 
-基于 MaaFramework、使用 MXU 前端的《DEAD OR ALIVE Xtreme Venus Vacation》自动化项目。
+基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的《DEAD OR ALIVE Xtreme Venus Vacation》自动化项目。
+
+项目使用自维护的 MXU 前端，并通过 MaaFramework Pipeline 与 Go Agent 实现游戏启动、登录、日常任务执行以及退出游戏等自动化流程。
 
 ## 免责声明
 
-本项目为非官方自动化工具，与游戏开发商、运营商无关。使用自动化脚本可能违反游戏的用户协议或运营规则，并可能导致账号限制、暂停或永久封禁。
+本项目为非官方自动化工具，与游戏开发商、运营商无关。
+
+使用自动化脚本可能违反游戏的用户协议或运营规则，并可能导致账号限制、暂停或永久封禁。
 
 使用者应在使用前自行了解并遵守相关规则，充分评估风险。使用本项目所产生的一切后果由使用者自行承担，项目作者及贡献者不对账号损失或其他直接、间接损失承担责任。
 
-当前已维护以下任务：
-
-- 自动打新比赛
-- 自动排位五次
-- 每日自动挑战券
-- 每日活动挑战赛
-- 抽免费券
-- 岛主房间
-- 领取邮件与任务奖励
-- 赌场(测试中)
-
-项目使用 Win32 控制器连接游戏窗口，默认匹配标题 `DOAX VenusVacation`。
-
 ## 下载
 
-[下载最新版本](https://github.com/TianQuanDiWen/MaDOAXVV/releases/latest)
+最新版本：
+
+https://github.com/TianQuanDiWen/MaDOAXVV/releases/latest
+
+
+## 功能
+
+当前已维护以下任务：
+
+* 启动游戏
+* 登录游戏
+* 抽免费券
+* 岛主房间
+* 自动打新比赛
+* 每日自动挑战券
+* 每日活动挑战赛
+* 自动排位
+* 领取邮件与任务奖励
+* 赌场（测试中）
+* 退出游戏
+
+项目使用 Win32 控制器连接游戏窗口，默认匹配：
+
+```text
+DOAX VenusVacation
+```
+
+### 启动游戏
+
+默认任务中的“启动游戏”会：
+
+1. 通过 Steam URI 启动游戏。
+2. 检测 `DOAX_VV_Launcher.exe` 启动器。
+3. 使用 MaaFramework OCR 识别并点击“开始游戏”。
+4. 等待 `DOAX VenusVacation` 游戏窗口就绪。
+5. 连接控制器并继续后续任务。
+
+如果游戏已经运行，会直接跳过启动步骤。
+
+### 登录游戏
+
+自动处理启动后的登录流程，包括：
+
+* 登录界面点击。
+* 确认窗口。
+* 公告关闭。
+* 宣传动画 / `SKIP` 判断。
+* 等待进入游戏主页。
+
+### 退出游戏
+
+可通过游戏自身的退出选项正常关闭游戏：
+
+```text
+主页 → 选项 → 结束游戏 → 确认
+```
+
+“退出游戏”默认不启用，可根据无人值守任务需求自行加入任务队列。
+
+因此可以组成完整流程：
+
+```text
+启动游戏
+  ↓
+登录游戏
+  ↓
+执行日常任务
+  ↓
+退出游戏
+```
+
+## 自动更新
+
+项目目前使用自行维护的 MXU Fork：
+
+https://github.com/TianQuanDiWen/MXU_tqdw
+
+相较于直接使用官方 MXU，本项目维护的版本主要用于适配 MaDOAXVV 的发布与更新需求，使前端能够通过 **GitHub Release 检查并获取 MaDOAXVV 的新版本**。
+
+项目更新以 GitHub Release 为主要发布渠道，不依赖 MirrorChyan。
+
+构筑时同样会从配置指定的 GitHub Release 获取 MXU 与 MaaFramework。
 
 ## 运行环境
 
-- Windows 10 或 Windows 11（x64）。
-- Steam 版《DEAD OR ALIVE Xtreme Venus Vacation》，运行区域需与当前图像模板匹配。
-- [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)（Windows 10/11 通常已内置）。
-- [Microsoft Visual C++ 2015–2022 Redistributable（x64）](https://aka.ms/vs/17/release/vc_redist.x64.exe)。
+* Windows 10 / Windows 11 x64
+* Steam 版《DEAD OR ALIVE Xtreme Venus Vacation》
+* Microsoft Edge WebView2 Runtime
+* Microsoft Visual C++ 2015–2022 Redistributable x64
 
-首次运行前请确认 Steam 已登录且游戏能够正常启动。默认任务列表中的“启动游戏”会通过 `steam://rungameid/958260` 启动 Steam 版游戏，按进程名 `DOAX_VV_Launcher.exe` 定位启动器，使用 MaaFramework OCR 识别并点击“开始游戏”，然后等待标题为 `DOAX VenusVacation` 的游戏窗口就绪。游戏已经运行时会直接跳过启动步骤。
+发布包中的 Go Agent 已编译为原生可执行文件。
 
-发布包使用 MXU 读取 `interface.json`，用户配置会由 MXU 保存在运行目录的 `config/` 下。不需要自动启动时，可在 MXU 任务列表中取消勾选“启动游戏”。
+普通用户运行发布版时 **不需要安装 Go、Python 或 Node.js**。
 
-虽然项目支持后台运行，但是建议保持游戏在前台，后台运行会加大弹出金球验证的概率，在弹出金球验证后会直接关闭挑战选项不继续执行挑战
+建议保持游戏窗口可见。
 
-## 目录结构
+虽然部分流程支持后台运行，但后台运行可能增加游戏验证弹出的概率。自动比赛和自动排位检测到验证场景后会停止继续挑战，请手动完成验证。
+
+## 当前任务说明
+
+### 抽免费券
+
+自动识别可用的免费扭蛋并完成抽取，同时处理抽卡动画与 `SKIP`。
+
+### 岛主房间
+
+自动处理温泉、温泉剂以及工作奖励领取等流程。
+
+### 自动打新比赛
+
+存在新比赛时自动执行比赛。
+
+支持：
+
+* 推荐入口识别。
+* 新剧情跳过。
+* 比赛结算。
+* 无新比赛退出。
+* 部分异常界面恢复。
+
+遇到无法继续挑战或游戏验证时停止执行。
+
+### 每日自动挑战券
+
+自动领取并使用每日挑战券，目前主要适配 SS 级自动挑战券流程。
+
+### 每日活动挑战赛
+
+自动进入活动挑战赛并使用自动挑战券。
+
+目前主要针对 SSS+ 活动流程，未识别到支持的活动时不会强制继续执行。
+
+### 自动排位
+
+自动进行排位比赛，直到当前次数完成或无法继续。
+
+遇到游戏验证时提前结束。
+
+### 领取邮件与任务奖励
+
+自动领取：
+
+* 信箱奖励。
+* 每日任务奖励。
+* 其他已支持的任务奖励。
+
+包含道具达到持有上限时的异常处理。
+
+### 赌场
+
+目前仍处于测试阶段。
+
+当前主要以累计获得约 `24000` 金筹码作为流程完成判断。
+
+## 项目结构
 
 ```text
-assets/interface.json              # MaaFramework 项目入口配置
-assets/resource/pipeline/          # 任务流程定义
-assets/resource/image/             # 图像识别模板
-assets/resource/model/ocr/         # 本地 OCR 模型
-agent/                             # Go Agent、启动器任务及自定义识别扩展
-go.mod / go.sum                    # Go 依赖及可复现版本锁定
-build.ps1                          # 本地构筑与清理入口
-build.config.json                  # 本地与线上共享的构筑配置
-tools/                             # MXU 安装、OCR 配置和 schema 校验脚本
+assets/
+├─ interface.json              # MaaFramework / MXU 项目入口配置
+└─ resource/
+   ├─ pipeline/                # Pipeline 自动化流程
+   ├─ image/                   # 图像识别模板
+   └─ model/ocr/               # OCR 模型
+
+agent/
+├─ cmd/
+│  └─ madoaxvv-agent/          # Agent 程序入口
+└─ internal/
+   ├─ agentserver/             # MaaFramework AgentServer 与自定义能力
+   └─ launcher/                # Steam / 游戏启动流程
+
+build.ps1                      # Windows 本地构筑脚本
+build.config.json              # 本地与 GitHub Actions 共用构筑配置
+tools/                         # 安装、资源处理与检查脚本
+go.mod / go.sum                # Go 模块与依赖
 ```
 
-发布目录以 MXU 官方结构为准：`MaDOAXVV.exe` 位于根目录，MaaFramework 运行库位于 `maafw/`，项目入口和资源分别为 `interface.json` 与 `resource/`。
+发布包结构大致为：
+
+```text
+MaDOAXVV.exe
+interface.json
+resource/
+maafw/
+agent/
+config/
+```
+
+其中：
+
+* `MaDOAXVV.exe`：MXU 前端
+* `maafw/`：MaaFramework 运行库
+* `resource/`：Pipeline 与识别资源
+* `agent/`：MaDOAXVV Agent
+* `config/`：用户配置
 
 ## 本地构筑
 
-运行 `build.ps1` 后，可使用方向键选择构筑或清理：
+开发环境需要：
 
-需要预先安装 PowerShell 5.1 或 PowerShell 7、[Go](https://go.dev/dl/) 1.24、[uv](https://docs.astral.sh/uv/)；Node.js 仅用于 Maa 资源检查。Go 只在构筑时使用，发布包中的 Agent 为 AOT 编译的原生可执行文件，运行时不要求用户安装 Go、Python 或额外依赖。
+* PowerShell 5.1 或 PowerShell 7
+* Go 1.24
+* uv
+* Node.js（仅 Maa 资源检查时需要）
+
+### 交互构筑
 
 ```powershell
-# 交互选择
 .\build.ps1
+```
 
-# 直接构筑
+### 直接构筑
+
+```powershell
 .\build.ps1 -Action Build
+```
 
-# 清理配置指定的输出、downloads 和下载缓存
+### 清理构筑目录
+
+```powershell
 .\build.ps1 -Action Clean
+```
 
-# 当前 PowerShell 执行策略禁止直接运行脚本时
+如果 PowerShell 执行策略禁止脚本运行：
+
+```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-本地与 GitHub Actions 共用 `build.config.json`，均从配置指定的 MXU 和 MaaFramework GitHub Release 获取前端及运行库。需要固定版本或调整目标平台时直接修改构筑配置，脚本不维护额外的前端下载规则。可使用 `-SkipChecks` 跳过 Node 与 Schema 检查。本地构筑只生成 `install/` 目录，不生成发布压缩包；GitHub Release 流程仍会按配置中的 `packageName` 生成 ZIP。
+本地构筑与 GitHub Actions 共用：
 
-## Go Agent 扩展
+```text
+build.config.json
+```
 
-发布包只包含一个 `agent/MaDOAXVV.Agent.exe`。MXU 在 Controller 连接前以 `launch-game` 模式调用它完成 Steam 启动、启动器 OCR 点击和游戏窗口等待；MXU 同时可按 Project Interface 的 `agent` 配置，以 `agent` 模式启动 MaaFramework AgentServer。
+当前配置会从 GitHub Release 获取：
 
-使用 MaaTools 本地插件调试时，`assets/interface.json` 会通过 `go run` 直接启动 Agent 源码，并自动使用 `deps/bin` 和 `assets/resource`，无需预先生成 EXE。构筑发布包时，安装脚本会将这两处命令改写为编译后的 `agent/MaDOAXVV.Agent.exe`，运行时不依赖 Go 工具链。
+* MaaFramework
+* TianQuanDiWen/MXU_tqdw
 
-后续的分数识别、场景判断或特殊操作应分别实现为 MaaFramework 自定义 Recognition 或 Action，并集中在 `agent/internal/agentserver` 注册。模式入口、框架生命周期、启动器流程与具体识别算法相互分离，增加新能力时不需要修改 MXU，也不需要再增加一种运行时。
+本地构筑默认生成：
 
-## 开发注意
+```text
+install/
+```
 
-- `assets/resource/model/ocr/` 体积较大，作为本地依赖保留即可。
-- 新增任务后需要同步更新 `assets/interface.json` 的 `task` 列表。
-- 图像模板应放在 `assets/resource/image/` 下，并在 pipeline 中使用相对文件名引用。
-- Go 自定义能力在 `agent/internal/agentserver.BuildRegistry` 统一装配；通用算法可继续拆分为独立 package。
+GitHub Release 构筑则会进一步生成发布 ZIP。
+
+## Go Agent
+
+项目使用一个统一的：
+
+```text
+MaDOAXVV.Agent.exe
+```
+
+承担扩展功能。
+
+当前主要包含两种运行模式：
+
+### launch-game
+
+用于：
+
+* 启动 Steam 游戏。
+* 等待启动器。
+* OCR 识别“开始游戏”。
+* 等待游戏窗口就绪。
+
+### agent
+
+启动 MaaFramework AgentServer，用于注册自定义 Recognition、Action 以及后续扩展能力。
+
+本地使用 MaaTools 开发时，可以通过：
+
+```text
+go run
+```
+
+直接运行 Agent 源码。
+
+正式构筑时会自动编译为：
+
+```text
+agent/MaDOAXVV.Agent.exe
+```
+
+因此发布版本运行时不依赖 Go 工具链。
+
+## 开发说明
+
+* Pipeline 位于 `assets/resource/pipeline/`。
+* 图像模板位于 `assets/resource/image/`。
+* 新增任务后需要同步修改 `assets/interface.json`。
+* Go 自定义能力统一在 AgentServer 中注册。
+* 通用算法建议拆分为独立 package。
+* 本地与 GitHub Actions 应尽量保持相同的 `build.config.json` 构筑配置。
 
 ## 鸣谢
 
-本项目由 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 驱动，并使用 [MXU](https://github.com/MistEO/MXU) 作为通用前端。
+本项目由 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 驱动。
+
+通用前端基于 [MXU](https://github.com/MistEO/MXU)，项目使用自行维护的 [MXU_tqdw](https://github.com/TianQuanDiWen/MXU_tqdw) Fork 进行适配与扩展。
+
+感谢 MaaFramework、MXU 及相关开源项目的开发者与贡献者。
