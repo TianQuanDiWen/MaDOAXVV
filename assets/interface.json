@@ -4,7 +4,7 @@
     "description": "DEAD OR ALIVE Xtreme Venus Vacation 自动化项目。",
     "contact": "",
     "license": "MIT",
-    "welcome": "欢迎使用 MaDOAXVV。",
+    "welcome": "欢迎使用 MaDOAXVV。\n\n本项目为免费开源项目，请勿付费购买。如您通过付费方式获得，请及时退款并谨防受骗。\n\n自动化工具可能违反游戏用户协议，请自行评估风险，谨慎使用。",
     "github": "https://github.com/TianQuanDiWen/MaDOAXVV",
     "version": "0.1.0",
     "pretask": {
@@ -28,7 +28,10 @@
             "300s"
         ],
         "controller": [
-            "桌面端"
+            "前台模式",
+            "后台模式"
+            
+            
         ]
     },
     "agent": {
@@ -43,8 +46,9 @@
     },
     "controller": [
         {
-            "name": "桌面端",
+            "name": "后台模式",
             "type": "Win32",
+            "description": "后台操作，旧的操作方式，防检测不友好，弹无限金球概率高，推荐在右上连接设置-控制器-选项里选择使用前台模式",
             "win32": {
                 "class_regex": ".*",
                 "window_regex": "^DOAX VenusVacation$",
@@ -52,11 +56,24 @@
                 "mouse": "PostMessageWithCursorPos",
                 "keyboard": "PostMessageWithCursorPos"
             }
+        }, 
+        {
+        "name": "前台模式",
+        "label": "前台模式",
+        "description": "前台操作，使用 Seize 输入。兼容性最高，但运行时会占用真实鼠标键盘。",
+        "type": "Win32",
+        "win32": {
+            "class_regex": ".*",
+            "window_regex": "^DOAX VenusVacation$",
+            "screencap": "FramePool",
+            "mouse": "Seize",
+            "keyboard": "Seize"
+        }
         }
     ],
     "resource": [
         {
-            "name": "官服",
+            "name": "国际服",
             "path": [
                 "./resource"
             ]
@@ -69,7 +86,8 @@
             "entry": "Launcher_ClickStartGame",
             "description": "通过 Steam 启动游戏，在启动器中识别并点击“开始游戏”，等待游戏窗口就绪后再连接。",
             "controller": [
-                "桌面端"
+                "前台模式",
+                "后台模式"
             ]
         },
         {
