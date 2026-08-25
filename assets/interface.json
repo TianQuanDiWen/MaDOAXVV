@@ -46,9 +46,22 @@
     },
     "controller": [
         {
+            "name": "前台模式",
+            "label": "前台模式",
+            "description": "前台操作，每步操作移动鼠标位置，运行时会占用真实鼠标键盘。",
+            "type": "Win32",
+            "win32": {
+                "class_regex": ".*",
+                "window_regex": "^DOAX VenusVacation$",
+                "screencap": "FramePool",
+                "mouse": "Seize",
+                "keyboard": "Seize"
+            }
+        },
+        {
             "name": "后台模式",
             "type": "Win32",
-            "description": "后台操作，旧的操作方式，防检测不友好，弹无限金球概率高，推荐在右上连接设置-控制器-选项里选择使用前台模式",
+            "description": "后台操作，防检测不友好，弹无限金球概率高，推荐在右上连接设置-控制器-选项里选择使用前台模式",
             "win32": {
                 "class_regex": ".*",
                 "window_regex": "^DOAX VenusVacation$",
@@ -56,19 +69,6 @@
                 "mouse": "PostMessageWithCursorPos",
                 "keyboard": "PostMessageWithCursorPos"
             }
-        }, 
-        {
-        "name": "前台模式",
-        "label": "前台模式",
-        "description": "前台操作，使用 Seize 输入。兼容性最高，但运行时会占用真实鼠标键盘。",
-        "type": "Win32",
-        "win32": {
-            "class_regex": ".*",
-            "window_regex": "^DOAX VenusVacation$",
-            "screencap": "FramePool",
-            "mouse": "Seize",
-            "keyboard": "Seize"
-        }
         }
     ],
     "resource": [
