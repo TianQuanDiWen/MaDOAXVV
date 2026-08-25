@@ -3,16 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1784678241462,
+            "lastSyncTime": 1787689914396,
             "isModifiedExternally": false,
+            "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -2893,
-                "y": -341,
-                "zoom": 1.17
+                "x": -4128,
+                "y": 85,
+                "zoom": 1.33
             },
             "filename": "每日自动挑战券",
-            "version": "v1.7.4"
+            "version": "v1.8.1"
         }
     },
     "每日挑战_主页": {
@@ -84,6 +85,44 @@
             "position": {
                 "x": 1308,
                 "y": 69
+            }
+        }
+    },
+    "每日挑战_次数不足": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    864,
+                    174,
+                    90,
+                    539
+                ],
+                "template": [
+                    "锁头.png"
+                ],
+                "green_mask": true,
+                "threshold": [
+                    0.5
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "contact": 1
+            }
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "每日挑战：次数不足任务不执行"
+        },
+        "next": [
+            "每日挑战_主页流程结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3144,
+                "y": 543
             }
         }
     },
@@ -399,6 +438,7 @@
         "action": {
             "type": "Click"
         },
+        "post_wait_freezes": 300,
         "next": [
             "每日挑战_点击确定"
         ],
@@ -406,44 +446,6 @@
             "position": {
                 "x": 3469,
                 "y": 21
-            }
-        }
-    },
-    "每日挑战_次数不足": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "roi": [
-                    864,
-                    174,
-                    90,
-                    539
-                ],
-                "template": [
-                    "锁头.png"
-                ],
-                "green_mask": true,
-                "threshold": [
-                    0.5
-                ]
-            }
-        },
-        "action": {
-            "type": "Click",
-            "param": {
-                "contact": 1
-            }
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "每日挑战：次数不足任务不执行"
-        },
-        "next": [
-            "每日挑战_主页流程结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3144,
-                "y": 543
             }
         }
     }
