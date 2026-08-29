@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787935401282,
+            "lastSyncTime": 1788037806406,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
             "savedViewport": {
-                "x": -3300,
-                "y": -361,
-                "zoom": 1.46
+                "x": -2088,
+                "y": -151,
+                "zoom": 1.23
             },
             "filename": "领取邮件与任务奖励",
             "version": "v1.9.1"
@@ -77,6 +77,12 @@
                     669,
                     43,
                     25
+                ],
+                "roi_offset": [
+                    9,
+                    -29,
+                    -5,
+                    -5
                 ],
                 "expected": [
                     "信箱"
@@ -197,6 +203,31 @@
             "position": {
                 "x": 3425,
                 "y": 259
+            }
+        }
+    },
+    "领取_信箱_点击确认(处理延迟)": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "pre_wait_freezes": 200,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 200,
+        "next": [
+            "领取_信箱_确认已经在信箱"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2830,
+                "y": 736
             }
         }
     },
@@ -921,31 +952,6 @@
             "position": {
                 "x": 4627,
                 "y": 603
-            }
-        }
-    },
-    "领取_信箱_点击确认(处理延迟)": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "pre_wait_freezes": 200,
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 200,
-        "next": [
-            "领取_信箱_确认已经在信箱"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2830,
-                "y": 736
             }
         }
     }
