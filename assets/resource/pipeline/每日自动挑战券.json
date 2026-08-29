@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787689914396,
+            "lastSyncTime": 1787941930743,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -4128,
-                "y": 85,
-                "zoom": 1.33
+                "x": -986,
+                "y": 280,
+                "zoom": 0.53
             },
             "filename": "每日自动挑战券",
-            "version": "v1.8.1"
+            "version": "v1.9.1"
         }
     },
     "每日挑战_主页": {
@@ -59,8 +59,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 5052,
-                "y": 7
+                "x": 5398,
+                "y": 120
             }
         }
     },
@@ -121,8 +121,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3144,
-                "y": 543
+                "x": 3859,
+                "y": 744
             }
         }
     },
@@ -163,8 +163,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4382,
-                "y": 27
+                "x": 4728,
+                "y": 140
             }
         }
     },
@@ -226,8 +226,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4058,
-                "y": 17
+                "x": 4342,
+                "y": 139
             }
         }
     },
@@ -346,8 +346,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3745,
-                "y": 140
+                "x": 3963,
+                "y": 288
             }
         }
     },
@@ -369,8 +369,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4738,
-                "y": 145
+                "x": 5084,
+                "y": 258
             }
         }
     },
@@ -393,6 +393,7 @@
             "type": "Click"
         },
         "next": [
+            "每日挑战_打开全部skip",
             "每日挑战_选择最多次数",
             "每日挑战_点击确定"
         ],
@@ -412,8 +413,8 @@
         },
         "$__mpe_code": {
             "position": {
-                "x": 5454,
-                "y": 26
+                "x": 5642,
+                "y": 157
             }
         }
     },
@@ -444,8 +445,40 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3469,
-                "y": 21
+                "x": 3718,
+                "y": -81
+            }
+        }
+    },
+    "每日挑战_打开全部skip": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    460,
+                    313,
+                    61,
+                    44
+                ],
+                "expected": [
+                    "OFF"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "自动跳过OFF->ON"
+        },
+        "next": [
+            "每日挑战_打开全部skip",
+            "每日挑战_选择最多次数"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3453,
+                "y": -258
             }
         }
     }
