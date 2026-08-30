@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1788037806406,
-            "isModifiedExternally": false,
+            "lastSyncTime": 1788127803634,
+            "isModifiedExternally": true,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
             "savedViewport": {
-                "x": -2088,
-                "y": -151,
-                "zoom": 1.23
+                "x": -1265,
+                "y": -36,
+                "zoom": 0.88
             },
             "filename": "领取邮件与任务奖励",
-            "version": "v1.9.1"
+            "version": "v1.9.2"
         }
     },
     "$__mpe_group_领取任务奖励_领取邮件与任务奖励": {
@@ -78,19 +78,21 @@
                     43,
                     25
                 ],
-                "roi_offset": [
-                    9,
-                    -29,
-                    -5,
-                    -5
-                ],
                 "expected": [
                     "信箱"
                 ]
             }
         },
         "action": {
-            "type": "Click"
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    -5,
+                    -40,
+                    14,
+                    5
+                ]
+            }
         },
         "next": [
             "领取_信箱_确认已经在信箱",
@@ -553,8 +555,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1924,
-                "y": 328
+                "x": 1795,
+                "y": 279
             }
         }
     },
