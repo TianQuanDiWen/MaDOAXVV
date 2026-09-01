@@ -120,6 +120,33 @@ def install_mxu():
     shutil.copy2(original_executable, project_executable)
 
 
+def transform_pipeline_recognition(pipeline_dir: Path):
+    valid_reco = {"OCR", "TemplateMatch", "FeatureMatch"}
+    for json_file in pipeline_dir.glob("*.json"):
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = jsonc.load(f)
+        modified = False
+        for k, node in data.items():
+            if k.startswith("$") or not isinstance(node, dict):
+                continue
+            reco = node.get("recognition", {})
+            if isinstance(reco, dict) and reco.get("type") in valid_reco:
+                node["recognition"] = {
+                    "type": "Custom",
+                    "param": {
+                        "custom_recognition": "SafeRecognition",
+                        "custom_recognition_param": {
+                            "type": reco.get("type"),
+                            "param": reco.get("param", {})
+                        }
+                    }
+                }
+                modified = True
+        if modified:
+            with open(json_file, "w", encoding="utf-8") as f:
+                jsonc.dump(data, f, ensure_ascii=False, indent=4)
+
+
 def install_resource():
 
     configure_ocr_model()
@@ -129,6 +156,9 @@ def install_resource():
         install_path / "resource",
         dirs_exist_ok=True,
     )
+    
+    transform_pipeline_recognition(install_path / "resource" / "pipeline")
+
     shutil.copy2(
         working_dir / "assets" / "interface.json",
         install_path,

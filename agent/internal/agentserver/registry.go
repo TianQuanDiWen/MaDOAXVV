@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
+	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/clickaway"
 )
 
 // Registry 保存项目提供给 MaaFramework 的自定义识别和自定义动作。
@@ -64,6 +65,15 @@ func (r *Registry) RegisterAgentServer() error {
 // 后续的分数识别、场景判断和特殊操作应在这里按模块注册。
 func BuildRegistry() (*Registry, error) {
 	registry := NewRegistry()
+
+	// 防遮挡退避：识别失败达到阈值时自动随机移开鼠标
+	if err := registry.AddRecognition(
+		"SafeRecognition",
+		clickaway.NewSafeRecognitionRunner(),
+	); err != nil {
+		return nil, fmt.Errorf("register SafeRecognition: %w", err)
+	}
+
 	return registry, nil
 }
 
