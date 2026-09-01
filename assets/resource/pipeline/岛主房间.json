@@ -3,16 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1785714623561,
+            "lastSyncTime": 1788293440987,
             "isModifiedExternally": false,
+            "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\岛主房间.json",
             "savedViewport": {
-                "x": -2035,
-                "y": 271,
-                "zoom": 0.88
+                "x": -1224,
+                "y": 214,
+                "zoom": 0.53
             },
             "filename": "岛主房间",
-            "version": "v1.7.4"
+            "version": "v1.9.2"
         }
     },
     "岛主房间_开始": {
@@ -45,10 +46,10 @@
             "type": "OCR",
             "param": {
                 "roi": [
-                    6,
-                    214,
-                    147,
-                    128
+                    8,
+                    269,
+                    99,
+                    70
                 ],
                 "expected": [
                     "女孩"
@@ -264,8 +265,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2809,
-                "y": -85
+                "x": 2796,
+                "y": -127
             }
         }
     },
