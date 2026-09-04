@@ -3,16 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787261881578,
+            "lastSyncTime": 1788441176412,
             "isModifiedExternally": false,
+            "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\登陆游戏.json",
             "savedViewport": {
-                "x": -6100,
-                "y": -348,
-                "zoom": 0.91
+                "x": -9278,
+                "y": -616,
+                "zoom": 1.29
             },
             "filename": "登陆游戏",
-            "version": "v1.8.0"
+            "version": "v1.9.2"
         }
     },
     "登陆游戏_关闭公告": {
@@ -198,9 +199,6 @@
             }
         },
         "inverse": true,
-        "action": {
-            "type": "Click"
-        },
         "timeout": 600000,
         "focus": {
             "Node.Action.Succeeded": "动画播放结束"
@@ -243,8 +241,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 7529,
-                "y": 690
+                "x": 7547,
+                "y": 674
             }
         }
     },
