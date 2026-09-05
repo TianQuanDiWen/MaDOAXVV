@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787941956090,
+            "lastSyncTime": 1788567070130,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -1229,
-                "y": 356,
-                "zoom": 0.53
+                "x": -2834,
+                "y": -258,
+                "zoom": 0.88
             },
             "filename": "每日活动挑战赛",
-            "version": "v1.9.1"
+            "version": "v1.9.3"
         }
     },
     "$__mpe_group_长时间游玩_每日活动挑战赛": {
@@ -104,8 +104,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4133,
-                "y": 583
+                "x": 4155,
+                "y": 617
             }
         }
     },
@@ -131,6 +131,37 @@
             "position": {
                 "x": 1419,
                 "y": 92
+            }
+        }
+    },
+    "日活动赛_打开全部skip": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    460,
+                    313,
+                    61,
+                    44
+                ],
+                "expected": [
+                    "OFF"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "自动跳过OFF->ON"
+        },
+        "next": [
+            "日活动赛_选择最多次数"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3634,
+                "y": -447
             }
         }
     },
@@ -174,13 +205,14 @@
             "type": "OCR",
             "param": {
                 "roi": [
-                    518,
-                    3,
-                    262,
-                    67
+                    1037,
+                    640,
+                    205,
+                    63
                 ],
                 "expected": [
-                    "跳过完成"
+                    "点击画面继续",
+                    "继续"
                 ]
             }
         },
@@ -198,9 +230,9 @@
         "post_wait_freezes": 1234,
         "timeout": 10000,
         "next": [
+            "日活动赛_比赛结算",
             "日活动赛_点击确定（结算）",
-            "日活动赛_主页流程结束",
-            "日活动赛_比赛结算"
+            "日活动赛_主页流程结束"
         ],
         "$__mpe_code": {
             "position": {
@@ -417,8 +449,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3875,
-                "y": 522
+                "x": 3878,
+                "y": 597
             }
         }
     },
@@ -554,8 +586,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3620,
-                "y": 504
+                "x": 3610,
+                "y": 633
             }
         }
     },
@@ -695,37 +727,6 @@
             "position": {
                 "x": 5075,
                 "y": -629
-            }
-        }
-    },
-    "日活动赛_打开全部skip": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    460,
-                    313,
-                    61,
-                    44
-                ],
-                "expected": [
-                    "OFF"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "自动跳过OFF->ON"
-        },
-        "next": [
-            "日活动赛_选择最多次数"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3634,
-                "y": -447
             }
         }
     }
