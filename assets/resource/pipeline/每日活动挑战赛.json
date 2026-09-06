@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1788567070130,
+            "lastSyncTime": 1788670984759,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -2834,
-                "y": -258,
-                "zoom": 0.88
+                "x": -4500,
+                "y": 159,
+                "zoom": 1
             },
             "filename": "每日活动挑战赛",
             "version": "v1.9.3"
@@ -227,7 +227,7 @@
                 ]
             }
         },
-        "post_wait_freezes": 1234,
+        "post_delay": 500,
         "timeout": 10000,
         "next": [
             "日活动赛_比赛结算",
@@ -468,6 +468,7 @@
             "type": "Click"
         },
         "next": [
+            "日活动赛_比赛结算",
             "日活动赛_主页流程结束"
         ],
         "$__mpe_code": {
