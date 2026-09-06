@@ -1,7 +1,7 @@
 {
     "interface_version": 2,
     "name": "MaDOAXVV",
-    "description": "DEAD OR ALIVE Xtreme Venus Vacation 自动化项目。",
+    "description": "基于 MaaFramework 的《DEAD OR ALIVE Xtreme Venus Vacation》自动化日常辅助项目。\n\n本项目为**完全免费的开源工具**，请勿付费购买。\n\n制作初衷纯粹是为了自动清理日常，跑完全套流程正好能做完每日日常。旨在减少枯燥的重复劳作，降低大家的每日打卡负担，因此不提供任何形式的无限刷分、挂机清体力等功利性功能。\n\n**项目地址**\nGitHub: https://github.com/TianQuanDiWen/MaDOAXVV",
     "contact": "",
     "license": "MIT",
     "welcome": "欢迎使用 MaDOAXVV。\n\n本项目为免费开源项目，请勿付费购买。如您通过付费方式获得，请及时退款并谨防受骗。\n\n自动化工具可能违反游戏用户协议，请自行评估风险，谨慎使用。",
@@ -9,7 +9,7 @@
     "version": "0.1.0",
     "pretask": {
         "name": "启动游戏",
-        "label": "启动游戏",
+        "label": "🚀 启动游戏",
         "description": "通过 Steam 启动游戏，在启动器中识别并点击“开始游戏”，等待游戏窗口就绪后再连接。",
         "exec": "go",
         "args": [
@@ -82,7 +82,7 @@
     "task": [
         {
             "name": "__MXU_PRETASK__启动游戏",
-            "label": "启动游戏",
+            "label": "🚀 启动游戏",
             "entry": "Launcher_ClickStartGame",
             "description": "通过 Steam 启动游戏，在启动器中识别并点击“开始游戏”，等待游戏窗口就绪后再连接。",
             "controller": [
@@ -92,51 +92,61 @@
         },
         {
             "name": "登陆游戏",
+            "label": "🔑 登录游戏",
             "entry": "登陆游戏_开始",
             "description": "进入到主页前自动点击，领取每日签到奖励和关闭公告"
         },
         {
             "name": "抽免费券",
+            "label": "🎁 抽免费券",
             "entry": "抽免费券_开始",
             "description": "会自动抽免费券，判断依据是扭蛋图标旁边的免费文字（通过文字识别）"
         },
         {
             "name": "岛主房间",
+            "label": "♨️ 岛主房间",
             "entry": "岛主房间_开始",
             "description": "自动领温泉并补充温泉剂，工作完成自动收菜并继续工作"
         },
         {
             "name": "自动打新比赛",
+            "label": "⚔️ 自动打新比赛",
             "entry": "新比赛_开始",
             "description": "有新比赛的情况下会自动打，直到打不过或者弹出金球验证为止"
         },
         {
             "name": "每日自动挑战券",
+            "label": "🎫 每日自动挑战券",
             "entry": "每日挑战_开始",
             "description": "每日自动领取挑战券，用自动战斗打三次，只认SS级自动挑战券"
         },
         {
             "name": "每日活动挑战赛",
+            "label": "🔥 每日活动挑战赛",
             "entry": "日活动赛_开始",
             "description": "每日自动参与活动挑战赛，用自动挑战券打，目前只识别sss+，识别不到不会自动执行"
         },
         {
             "name": "自动排位",
+            "label": "🏆 自动排位",
             "entry": "排位_开始",
             "description": "自动打排位赛，打够次数为止，弹出金球验证会提前结束"
         },
         {
             "name": "领取邮件与任务奖励",
+            "label": "📬 领取邮件与任务奖励",
             "entry": "领取_开始",
             "description": "领取邮件和任务奖励"
         },
         {
             "name": "赌场",
+            "label": "🎰 赌场",
             "entry": "赌场_开始",
             "description": "打满赌场奖励，流程还在测试中，目前打满的判断条件是打够24000金筹码"
         },
         {
             "name": "退出游戏",
+            "label": "🚪 退出游戏",
             "entry": "退出游戏_开始",
             "description": "通过游戏内的退出选项退出游戏"
         }
