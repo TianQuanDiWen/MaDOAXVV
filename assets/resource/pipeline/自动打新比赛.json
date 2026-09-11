@@ -3,16 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1786601989216,
+            "lastSyncTime": 1789142046333,
             "isModifiedExternally": false,
+            "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -4214,
-                "y": 45,
-                "zoom": 1.29
+                "x": -3066,
+                "y": 101,
+                "zoom": 1.13
             },
             "filename": "自动打新比赛",
-            "version": "v1.7.6"
+            "version": "v1.10.0"
         }
     },
     "$__mpe_group_长时间游玩确定_自动打新比赛": {
@@ -127,6 +128,33 @@
             "position": {
                 "x": 1112,
                 "y": 54
+            }
+        }
+    },
+    "新比赛_异常界面（只有返回）": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "返回.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
+        },
+        "next": [
+            "新比赛_主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4084,
+                "y": 122
             }
         }
     },
@@ -268,10 +296,17 @@
     },
     "新比赛_比赛结算": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
-                "template": [
-                    "比赛记录.png"
+                "roi": [
+                    1037,
+                    640,
+                    205,
+                    63
+                ],
+                "expected": [
+                    "点击画面继续",
+                    "继续"
                 ]
             }
         },
@@ -279,10 +314,10 @@
             "type": "Click",
             "param": {
                 "target": [
-                    168,
-                    63,
-                    1024,
-                    507
+                    415,
+                    154,
+                    435,
+                    393
                 ]
             }
         },
@@ -612,39 +647,13 @@
         "post_delay": 1000,
         "timeout": 300000,
         "next": [
-            "新比赛_比赛结算"
+            "新比赛_比赛结算",
+            "新比赛_点击挑战"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3474,
-                "y": 141
-            }
-        }
-    },
-    "新比赛_异常界面（只有返回）": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "返回.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
-        },
-        "next": [
-            "新比赛_主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4084,
-                "y": 122
+                "x": 3469,
+                "y": 137
             }
         }
     }
