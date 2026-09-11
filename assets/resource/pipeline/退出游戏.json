@@ -2,47 +2,18 @@
     "$__mpe_config_退出游戏": {
         "$__mpe_code": {
             "prefix": "",
-            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
-            "lastSyncTime": 1787274039392,
             "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1789137904219,
             "isModifiedExternally": false,
+            "isDeleted": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
             "savedViewport": {
-                "x": -2122,
-                "y": 173,
-                "zoom": 1
+                "x": -3057,
+                "y": 136,
+                "zoom": 1.17
             },
             "filename": "退出游戏",
-            "version": "v1.8.0"
-        }
-    },
-    "退出游戏_点击选项": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    290,
-                    619,
-                    141,
-                    84
-                ],
-                "expected": [
-                    "选项"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 200,
-        "next": [
-            "退出游戏_确认已在选项",
-            "退出游戏_点击选项"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2041,
-                "y": 144
-            }
+            "version": "v1.10.0"
         }
     },
     "退出游戏_主页": {
@@ -94,6 +65,89 @@
             }
         }
     },
+    "退出游戏_点击确认": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出游戏_结束",
+            "退出游戏_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2982,
+                "y": 127
+            }
+        }
+    },
+    "退出游戏_点击结束游戏": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    558,
+                    588,
+                    173,
+                    60
+                ],
+                "expected": [
+                    "结束游戏"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出游戏_点击结束游戏",
+            "退出游戏_点击确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2673,
+                "y": 177
+            }
+        }
+    },
+    "退出游戏_点击选项": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    290,
+                    619,
+                    141,
+                    84
+                ],
+                "expected": [
+                    "选项"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 200,
+        "next": [
+            "退出游戏_确认已在选项",
+            "退出游戏_点击选项"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2041,
+                "y": 144
+            }
+        }
+    },
     "退出游戏_确认已在选项": {
         "recognition": {
             "type": "OCR",
@@ -133,67 +187,26 @@
             }
         }
     },
-    "退出游戏_点击结束游戏": {
-        "recognition": {
-            "type": "OCR",
+    "退出游戏_结束": {
+        "action": {
+            "type": "Command",
             "param": {
-                "roi": [
-                    558,
-                    588,
-                    173,
-                    60
-                ],
-                "expected": [
-                    "结束游戏"
+                "exec": "curl.exe",
+                "args": [
+                    "-s",
+                    "-X",
+                    "POST",
+                    "http://127.0.0.1:12701/maa/instances/t23syek/tasks/stop"
                 ]
             }
         },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "退出游戏_点击结束游戏",
-            "退出游戏_点击确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2673,
-                "y": 177
-            }
-        }
-    },
-    "退出游戏_结束": {
         "focus": {
             "Node.Action.Succeeded": "结束游戏"
         },
         "$__mpe_code": {
             "position": {
-                "x": 3298,
-                "y": 198
-            }
-        }
-    },
-    "退出游戏_点击确认": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "退出游戏_结束",
-            "退出游戏_点击确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2982,
-                "y": 127
+                "x": 3337,
+                "y": 133
             }
         }
     }
