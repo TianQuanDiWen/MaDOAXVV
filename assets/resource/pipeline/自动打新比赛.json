@@ -3,33 +3,25 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789142046333,
+            "lastSyncTime": 1789146126101,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -3066,
-                "y": 101,
-                "zoom": 1.13
+                "x": -1682,
+                "y": 85,
+                "zoom": 0.78
             },
             "filename": "自动打新比赛",
             "version": "v1.10.0"
         }
     },
-    "$__mpe_group_长时间游玩确定_自动打新比赛": {
+    "$__mpe_external_公共_长时间游玩确认_自动打新比赛": {
         "$__mpe_code": {
             "position": {
-                "x": 3468,
-                "y": 584
-            },
-            "color": "blue",
-            "childrenLabels": [
-                "新比赛_退出长时间游玩返回",
-                "新比赛_长时间游玩确认",
-                "新比赛_长时间游玩退出到主页"
-            ],
-            "width": 926,
-            "height": 427
+                "x": 3481,
+                "y": -5
+            }
         }
     },
     "新比赛_一轮完成": {
@@ -368,14 +360,14 @@
         },
         "next": [
             "新比赛_补充体力",
-            "新比赛_长时间游玩确认",
+            "公共_长时间游玩确认",
             "新比赛_点击挑战",
             "新比赛_随机点下屏幕"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3113,
-                "y": 70
+                "x": 3109,
+                "y": 85
             }
         }
     },
@@ -481,34 +473,6 @@
             }
         }
     },
-    "新比赛_退出长时间游玩返回": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "roi": [
-                    485,
-                    497,
-                    155,
-                    149
-                ],
-                "template": [
-                    "返回.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "新比赛_长时间游玩退出到主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3772,
-                "y": 667
-            }
-        }
-    },
     "新比赛_选择推荐": {
         "recognition": {
             "type": "OCR",
@@ -580,53 +544,6 @@
             "position": {
                 "x": 2057,
                 "y": 385
-            }
-        }
-    },
-    "新比赛_长时间游玩确认": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "长时间"
-                ]
-            }
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
-        },
-        "next": [
-            "新比赛_退出长时间游玩返回"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3508,
-                "y": 667
-            }
-        }
-    },
-    "新比赛_长时间游玩退出到主页": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "contact": 1
-            }
-        },
-        "repeat": 2,
-        "repeat_delay": 200,
-        "next": [
-            "新比赛_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4134,
-                "y": 660
             }
         }
     },

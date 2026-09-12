@@ -3,33 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787661785587,
+            "lastSyncTime": 1789200544647,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -3166,
-                "y": 52,
-                "zoom": 1.29
+                "x": -1156,
+                "y": 350,
+                "zoom": 0.48
             },
             "filename": "自动排位",
-            "version": "v1.8.1"
-        }
-    },
-    "$__mpe_group_长时间游玩确定_自动排位": {
-        "$__mpe_code": {
-            "position": {
-                "x": 3429,
-                "y": 544
-            },
-            "color": "blue",
-            "childrenLabels": [
-                "排位_退出长时间游玩返回",
-                "排位_长时间游玩确认",
-                "排位_长时间游玩退出到主页"
-            ],
-            "width": 926,
-            "height": 427
+            "version": "v1.10.0"
         }
     },
     "排位_主页": {
@@ -164,7 +148,7 @@
         },
         "post_wait_freezes": 400,
         "next": [
-            "排位_长时间游玩确认",
+            "公共_长时间游玩确认",
             "排位_确认比赛开始",
             "排位_比赛开始"
         ],
@@ -336,7 +320,7 @@
         },
         "next": [
             "排位_随机点屏幕几下",
-            "排位_长时间游玩确认"
+            "公共_长时间游玩确认"
         ],
         "$__mpe_code": {
             "position": {
@@ -350,34 +334,6 @@
             "position": {
                 "x": 4433,
                 "y": -166
-            }
-        }
-    },
-    "排位_退出长时间游玩返回": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "roi": [
-                    485,
-                    497,
-                    155,
-                    149
-                ],
-                "template": [
-                    "返回.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "排位_长时间游玩退出到主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3732,
-                "y": 627
             }
         }
     },
@@ -413,53 +369,6 @@
             }
         }
     },
-    "排位_长时间游玩确认": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "长时间"
-                ]
-            }
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
-        },
-        "next": [
-            "排位_退出长时间游玩返回"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3469,
-                "y": 627
-            }
-        }
-    },
-    "排位_长时间游玩退出到主页": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "contact": 1
-            }
-        },
-        "repeat": 2,
-        "repeat_delay": 200,
-        "next": [
-            "排位_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4094,
-                "y": 620
-            }
-        }
-    },
     "排位_随机点屏幕几下": {
         "action": {
             "type": "Click",
@@ -483,6 +392,14 @@
             "position": {
                 "x": 3701,
                 "y": 125
+            }
+        }
+    },
+    "$__mpe_external_公共_长时间游玩确认_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3787,
+                "y": 652
             }
         }
     }

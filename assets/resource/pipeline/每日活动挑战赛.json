@@ -3,33 +3,25 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1788670984759,
+            "lastSyncTime": 1789146747707,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -4500,
-                "y": 159,
-                "zoom": 1
+                "x": -3673,
+                "y": 132,
+                "zoom": 1.03
             },
             "filename": "每日活动挑战赛",
-            "version": "v1.9.3"
+            "version": "v1.10.0"
         }
     },
-    "$__mpe_group_长时间游玩_每日活动挑战赛": {
+    "$__mpe_external_公共_长时间游玩确认_每日活动挑战赛": {
         "$__mpe_code": {
             "position": {
-                "x": 4410,
-                "y": -705
-            },
-            "color": "blue",
-            "childrenLabels": [
-                "日活动赛_退出长时间游玩返回",
-                "日活动赛_长时间游玩确认",
-                "日活动赛_长时间游玩退出到主页"
-            ],
-            "width": 926,
-            "height": 427
+                "x": 4318,
+                "y": 360
+            }
         }
     },
     "日活动赛_主页": {
@@ -237,7 +229,7 @@
         "$__mpe_code": {
             "position": {
                 "x": 4955,
-                "y": -9
+                "y": -37
             }
         }
     },
@@ -294,7 +286,7 @@
         "next": [
             "日活动赛_补充体力",
             "日活动赛_比赛结算",
-            "日活动赛_长时间游玩确认",
+            "公共_长时间游玩确认",
             "日活动赛_点击挑战"
         ],
         "$__mpe_code": {
@@ -473,8 +465,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 5270,
-                "y": -143
+                "x": 5343,
+                "y": -171
             }
         }
     },
@@ -498,8 +490,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4666,
-                "y": 181
+                "x": 4671,
+                "y": -352
             }
         }
     },
@@ -621,36 +613,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4396,
-                "y": 229
-            }
-        }
-    },
-    "日活动赛_退出长时间游玩返回": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "roi": [
-                    485,
-                    497,
-                    155,
-                    149
-                ],
-                "template": [
-                    "返回.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "日活动赛_长时间游玩退出到主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4756,
-                "y": -627
+                "x": 4318,
+                "y": -186
             }
         }
     },
@@ -681,53 +645,6 @@
             "position": {
                 "x": 3634,
                 "y": -110
-            }
-        }
-    },
-    "日活动赛_长时间游玩确认": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "长时间"
-                ]
-            }
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "排位：长时间游玩弹窗 任务结束"
-        },
-        "next": [
-            "日活动赛_退出长时间游玩返回"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4450,
-                "y": -622
-            }
-        }
-    },
-    "日活动赛_长时间游玩退出到主页": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "contact": 1
-            }
-        },
-        "repeat": 2,
-        "repeat_delay": 200,
-        "next": [
-            "日活动赛_主页流程结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 5075,
-                "y": -629
             }
         }
     }

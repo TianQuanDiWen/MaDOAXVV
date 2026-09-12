@@ -1,0 +1,105 @@
+{
+    "$__mpe_config_公共流程": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\公共流程.json",
+            "lastSyncTime": 1789146752589,
+            "coordinateMode": "absolute-v1",
+            "savedViewport": {
+                "x": -1917,
+                "y": -477,
+                "zoom": 0.71
+            },
+            "filename": "公共流程",
+            "version": "v1.10.0"
+        }
+    },
+    "$__mpe_group_长时间游玩确定_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3599,
+                "y": 635
+            },
+            "color": "orange",
+            "childrenLabels": [
+                "公共_退出长时间游玩返回",
+                "公共_长时间游玩确认",
+                "公共_长时间游玩退出到主页"
+            ],
+            "width": 980,
+            "height": 389
+        }
+    },
+    "公共_退出长时间游玩返回": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    485,
+                    497,
+                    155,
+                    149
+                ],
+                "template": [
+                    "返回.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "公共_长时间游玩退出到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3934,
+                "y": 705
+            }
+        }
+    },
+    "公共_长时间游玩确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "长时间"
+                ]
+            }
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "触发长时间游玩弹窗 任务结束"
+        },
+        "next": [
+            "公共_退出长时间游玩返回"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3639,
+                "y": 718
+            }
+        }
+    },
+    "公共_长时间游玩退出到主页": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "contact": 1
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 200,
+        "$__mpe_code": {
+            "position": {
+                "x": 4265,
+                "y": 711
+            }
+        }
+    }
+}
