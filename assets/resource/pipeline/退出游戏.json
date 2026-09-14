@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789137904219,
+            "lastSyncTime": 1789411239296,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
             "savedViewport": {
-                "x": -3057,
-                "y": 136,
-                "zoom": 1.17
+                "x": -4869,
+                "y": -174,
+                "zoom": 1.71
             },
             "filename": "退出游戏",
             "version": "v1.10.0"
@@ -78,9 +78,10 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
         "next": [
-            "退出游戏_结束",
-            "退出游戏_点击确认"
+            "退出游戏_点击确认",
+            "退出游戏_结束"
         ],
         "$__mpe_code": {
             "position": {

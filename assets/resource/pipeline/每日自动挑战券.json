@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1787941930743,
+            "lastSyncTime": 1789408310164,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -986,
-                "y": 280,
-                "zoom": 0.53
+                "x": -3828,
+                "y": 9,
+                "zoom": 1.94
             },
             "filename": "每日自动挑战券",
-            "version": "v1.9.1"
+            "version": "v1.10.0"
         }
     },
     "每日挑战_主页": {
@@ -85,6 +85,38 @@
             "position": {
                 "x": 1308,
                 "y": 69
+            }
+        }
+    },
+    "每日挑战_打开全部skip": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    460,
+                    313,
+                    61,
+                    44
+                ],
+                "expected": [
+                    "OFF"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "自动跳过OFF->ON"
+        },
+        "next": [
+            "每日挑战_打开全部skip",
+            "每日挑战_选择最多次数"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3453,
+                "y": -258
             }
         }
     },
@@ -252,7 +284,7 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "每日挑战_点击每日",
+            "每日挑战_点击每日OCR",
             "每日挑战_点击挑战赛"
         ],
         "$__mpe_code": {
@@ -312,13 +344,10 @@
         },
         "post_wait_freezes": 1000,
         "timeout": 20000,
-        "next": [
-            "每日挑战_点击挑战赛券"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 2226,
-                "y": 71
+                "x": 2251,
+                "y": -454
             }
         }
     },
@@ -450,35 +479,37 @@
             }
         }
     },
-    "每日挑战_打开全部skip": {
+    "每日挑战_点击每日OCR": {
+        "max_hit": 10,
         "recognition": {
             "type": "OCR",
             "param": {
                 "roi": [
-                    460,
-                    313,
-                    61,
-                    44
+                    823,
+                    71,
+                    454,
+                    362
                 ],
                 "expected": [
-                    "OFF"
+                    "每日",
+                    "每",
+                    "日"
                 ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "focus": {
-            "Node.Recognition.Succeeded": "自动跳过OFF->ON"
-        },
+        "post_wait_freezes": 1000,
+        "timeout": 20000,
         "next": [
-            "每日挑战_打开全部skip",
-            "每日挑战_选择最多次数"
+            "每日挑战_点击挑战赛券",
+            "每日挑战_点击每日OCR"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3453,
-                "y": -258
+                "x": 2240,
+                "y": 40
             }
         }
     }
