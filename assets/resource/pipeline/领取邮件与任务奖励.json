@@ -182,7 +182,7 @@
     },
     "领取_信箱_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -210,7 +210,7 @@
     },
     "领取_信箱_点击确认(处理延迟)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -235,7 +235,7 @@
     },
     "领取_信箱_确认上限": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -458,7 +458,7 @@
     },
     "领取_岛主_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -618,7 +618,7 @@
     },
     "领取_每周_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -728,7 +728,7 @@
     },
     "领取_每日_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -808,7 +808,7 @@
     },
     "领取_活动_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"

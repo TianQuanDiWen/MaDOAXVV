@@ -67,7 +67,7 @@
     },
     "退出游戏_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"

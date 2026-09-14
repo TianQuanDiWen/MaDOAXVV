@@ -273,7 +273,7 @@
     },
     "日活动赛_点击挑战": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "挑战.png"
@@ -400,7 +400,7 @@
     },
     "日活动赛_点击确定": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -423,7 +423,7 @@
     },
     "日活动赛_点击确定(没有券了)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -448,7 +448,7 @@
     },
     "日活动赛_点击确定（结算）": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -472,7 +472,7 @@
     },
     "日活动赛_点击确认": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"

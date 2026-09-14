@@ -125,7 +125,7 @@
     },
     "新比赛_异常界面（只有返回）": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "返回.png"
@@ -330,7 +330,7 @@
     },
     "新比赛_点击挑战": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "roi": [
                     815,
@@ -340,8 +340,7 @@
                 ],
                 "template": [
                     "挑战.png"
-                ],
-                "count": 20
+                ]
             }
         },
         "action": {

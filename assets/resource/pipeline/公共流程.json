@@ -32,7 +32,7 @@
     },
     "公共_退出长时间游玩返回": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "roi": [
                     485,

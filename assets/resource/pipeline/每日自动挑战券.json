@@ -353,7 +353,7 @@
     },
     "每日挑战_点击确定（结算）": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"

@@ -65,7 +65,7 @@
     },
     "赌场_打满了_返回": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "返回.png"
@@ -336,7 +336,7 @@
     },
     "赌场_点击确认(进入时)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -360,7 +360,7 @@
     },
     "赌场_点击确认(确认倍率)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -412,7 +412,7 @@
     },
     "赌场_点击确认(筹码不足)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
@@ -465,7 +465,7 @@
     },
     "赌场_点击确认(领取筹码)": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
             "param": {
                 "template": [
                     "确定（遮罩）.png"
