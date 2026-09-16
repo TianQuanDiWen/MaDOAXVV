@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789515122425,
+            "lastSyncTime": 1789520647894,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
             "savedViewport": {
-                "x": -3255,
-                "y": -12,
-                "zoom": 1.42
+                "x": -3009,
+                "y": 76,
+                "zoom": 1.25
             },
             "filename": "退出游戏",
             "version": "v1.10.0"
@@ -65,6 +65,30 @@
             }
         }
     },
+    "退出游戏_点击确认": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "pre_delay": 500,
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出游戏_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2982,
+                "y": 127
+            }
+        }
+    },
     "退出游戏_点击结束游戏": {
         "recognition": {
             "type": "OCR",
@@ -83,9 +107,10 @@
         "action": {
             "type": "Click"
         },
+        "post_wait_freezes": 200,
         "next": [
-            "退出游戏_点击结束游戏",
-            "退出游戏_点击确认"
+            "退出游戏_点击确认",
+            "退出游戏_点击结束游戏"
         ],
         "$__mpe_code": {
             "position": {
@@ -164,6 +189,19 @@
         }
     },
     "退出游戏_结束": {
+        "action": {
+            "type": "Command",
+            "param": {
+                "exec": "powershell.exe",
+                "args": [
+                    "-NoProfile",
+                    "-WindowStyle",
+                    "Hidden",
+                    "-Command",
+                    "$p = if (Test-Path 'config/mxu-MaDOAXVV.json') { 'config/mxu-MaDOAXVV.json' } else { 'install/config/mxu-MaDOAXVV.json' }; $c = Get-Content $p -Raw -Encoding utf8 | ConvertFrom-Json; $port = if ($c.settings.webServerPort) { $c.settings.webServerPort } else { 12701 }; $id = $c.lastActiveInstanceId; Invoke-RestMethod -Uri ('http://127.0.0.1:' + $port + '/api/maa/instances/' + $id + '/tasks/stop') -Method Post -ErrorAction SilentlyContinue"
+                ]
+            }
+        },
         "focus": {
             "Node.Action.Succeeded": "结束游戏"
         },
@@ -171,30 +209,6 @@
             "position": {
                 "x": 3337,
                 "y": 133
-            }
-        }
-    },
-    "退出游戏_点击确认": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "pre_delay": 500,
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "退出游戏_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2982,
-                "y": 127
             }
         }
     }
