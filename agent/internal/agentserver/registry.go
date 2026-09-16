@@ -5,6 +5,7 @@ import (
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
 	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/clickaway"
+	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/loopguard"
 )
 
 // Registry 保存项目提供给 MaaFramework 的自定义识别和自定义动作。
@@ -72,6 +73,14 @@ func BuildRegistry() (*Registry, error) {
 		clickaway.NewSafeRecognitionRunner(),
 	); err != nil {
 		return nil, fmt.Errorf("register SafeRecognition: %w", err)
+	}
+
+	// 循环守卫：局部自循环重试计数与超限熔断
+	if err := registry.AddAction(
+		"LoopGuard",
+		loopguard.NewRunner(),
+	); err != nil {
+		return nil, fmt.Errorf("register LoopGuard: %w", err)
 	}
 
 	return registry, nil

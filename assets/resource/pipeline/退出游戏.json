@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789411239296,
+            "lastSyncTime": 1789515122425,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\退出游戏.json",
             "savedViewport": {
-                "x": -4869,
-                "y": -174,
-                "zoom": 1.71
+                "x": -3255,
+                "y": -12,
+                "zoom": 1.42
             },
             "filename": "退出游戏",
             "version": "v1.10.0"
@@ -62,31 +62,6 @@
             "position": {
                 "x": 1411,
                 "y": 118
-            }
-        }
-    },
-    "退出游戏_点击确认": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_delay": 1000,
-        "next": [
-            "退出游戏_点击确认",
-            "退出游戏_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2982,
-                "y": 127
             }
         }
     },
@@ -189,18 +164,6 @@
         }
     },
     "退出游戏_结束": {
-        "action": {
-            "type": "Command",
-            "param": {
-                "exec": "curl.exe",
-                "args": [
-                    "-s",
-                    "-X",
-                    "POST",
-                    "http://127.0.0.1:12701/maa/instances/t23syek/tasks/stop"
-                ]
-            }
-        },
         "focus": {
             "Node.Action.Succeeded": "结束游戏"
         },
@@ -208,6 +171,30 @@
             "position": {
                 "x": 3337,
                 "y": 133
+            }
+        }
+    },
+    "退出游戏_点击确认": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "pre_delay": 500,
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出游戏_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2982,
+                "y": 127
             }
         }
     }

@@ -3,17 +3,33 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789200544647,
+            "lastSyncTime": 1789514496655,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -1156,
-                "y": 350,
-                "zoom": 0.48
+                "x": -2242,
+                "y": -198,
+                "zoom": 1.1
             },
             "filename": "自动排位",
             "version": "v1.10.0"
+        }
+    },
+    "$__mpe_anchor_任务入口_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2888,
+                "y": 582
+            }
+        }
+    },
+    "$__mpe_external_公共_长时间游玩确认_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3787,
+                "y": 652
+            }
         }
     },
     "排位_主页": {
@@ -28,6 +44,7 @@
         "action": {
             "type": "Click"
         },
+        "anchor": "任务入口",
         "post_delay": 1000,
         "timeout": 15000,
         "next": [
@@ -108,6 +125,33 @@
             }
         }
     },
+    "排位_对战守卫": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "LoopGuard",
+                "custom_action_param": {
+                    "max_retry": 10
+                }
+            }
+        },
+        "post_delay": 800,
+        "focus": {
+            "Node.Action.Failed": "排位：检测到游戏界面锁死，重新执行当前任务"
+        },
+        "next": [
+            "排位_点击对战"
+        ],
+        "on_error": [
+            "[Anchor]任务入口"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2575,
+                "y": 417
+            }
+        }
+    },
     "排位_开始": {
         "action": {
             "type": "Click",
@@ -121,6 +165,7 @@
                 "contact": 1
             }
         },
+        "anchor": "任务入口",
         "post_delay": 500,
         "timeout": 10000,
         "next": [
@@ -219,7 +264,7 @@
         "next": [
             "排位_体力不足",
             "排位_选择对手",
-            "排位_点击对战"
+            "排位_对战守卫"
         ],
         "$__mpe_code": {
             "position": {
@@ -392,14 +437,6 @@
             "position": {
                 "x": 3701,
                 "y": 125
-            }
-        }
-    },
-    "$__mpe_external_公共_长时间游玩确认_自动排位": {
-        "$__mpe_code": {
-            "position": {
-                "x": 3787,
-                "y": 652
             }
         }
     }
