@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1788441176412,
+            "lastSyncTime": 1789669390469,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\登陆游戏.json",
             "savedViewport": {
-                "x": -9278,
-                "y": -616,
-                "zoom": 1.29
+                "x": -4512,
+                "y": -405,
+                "zoom": 0.71
             },
             "filename": "登陆游戏",
-            "version": "v1.9.2"
+            "version": "v1.10.1"
         }
     },
     "登陆游戏_关闭公告": {
@@ -32,13 +32,10 @@
         "action": {
             "type": "Click"
         },
-        "next": [
-            "登陆游戏_判断状态"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 7528,
-                "y": 322
+                "x": 7523,
+                "y": 310
             }
         }
     },
@@ -48,15 +45,15 @@
         "rate_limit": 1000,
         "next": [
             "登陆游戏_已在主页",
-            "登陆游戏_关闭公告",
-            "登陆游戏_点击确认",
-            "登陆游戏_识别到SKIP",
-            "登陆游戏_随机点击屏幕区域"
+            "[JumpBack]登陆游戏_关闭公告",
+            "[JumpBack]登陆游戏_点击确认",
+            "[JumpBack]登陆游戏_识别到SKIP",
+            "[JumpBack]登陆游戏_随机点击屏幕区域"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 6951,
-                "y": 229
+                "x": 6956,
+                "y": 307
             }
         }
     },
@@ -97,13 +94,10 @@
         }
     },
     "登陆游戏_播放动画结束": {
-        "next": [
-            "登陆游戏_判断状态"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 8206,
-                "y": 764
+                "x": 8248,
+                "y": 724
             }
         }
     },
@@ -160,9 +154,6 @@
         "action": {
             "type": "Click"
         },
-        "next": [
-            "登陆游戏_判断状态"
-        ],
         "$__mpe_code": {
             "position": {
                 "x": 7528,
@@ -208,8 +199,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 7879,
-                "y": 684
+                "x": 7874,
+                "y": 654
             }
         }
     },
@@ -241,8 +232,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 7547,
-                "y": 674
+                "x": 7520,
+                "y": 653
             }
         }
     },
@@ -259,12 +250,32 @@
             }
         },
         "next": [
-            "登陆游戏_判断状态"
+            "登陆游戏_随机点击屏幕区域_副本1"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 7519,
+                "x": 7523,
                 "y": 1413
+            }
+        }
+    },
+    "登陆游戏_随机点击屏幕区域_副本1": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    243,
+                    140,
+                    821,
+                    390
+                ],
+                "contact": 1
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 7821,
+                "y": 1420
             }
         }
     }

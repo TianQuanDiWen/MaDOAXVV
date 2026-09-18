@@ -3,17 +3,31 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789146126101,
+            "lastSyncTime": 1789689249511,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -1682,
-                "y": 85,
-                "zoom": 0.78
+                "x": -1619,
+                "y": -11,
+                "zoom": 0.82
             },
             "filename": "自动打新比赛",
-            "version": "v1.10.0"
+            "version": "v1.10.1"
+        }
+    },
+    "$__mpe_anchor_任务入口_自动打新比赛": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3079,
+                "y": 696
+            },
+            "extra_positions": [
+                {
+                    "x": 4162,
+                    "y": 269
+                }
+            ]
         }
     },
     "$__mpe_external_公共_长时间游玩确认_自动打新比赛": {
@@ -69,8 +83,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2772,
-                "y": 581
+                "x": 2753,
+                "y": 858
             }
         }
     },
@@ -98,6 +112,46 @@
             }
         }
     },
+    "新比赛_对战守卫": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    801,
+                    109,
+                    239,
+                    607
+                ],
+                "expected": [
+                    "NEW"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "LoopGuard",
+                "custom_action_param": {
+                    "max_retry": 10
+                }
+            }
+        },
+        "focus": {
+            "Node.Action.Failed": "检测到游戏界面锁死，重新执行当前任务"
+        },
+        "next": [
+            "新比赛_检测新比赛是否存在"
+        ],
+        "on_error": [
+            "[Anchor]任务入口"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2757,
+                "y": 507
+            }
+        }
+    },
     "新比赛_开始": {
         "action": {
             "type": "Click",
@@ -111,6 +165,7 @@
                 "contact": 1
             }
         },
+        "anchor": "任务入口",
         "post_delay": 500,
         "timeout": 10000,
         "next": [
@@ -118,35 +173,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1112,
-                "y": 54
-            }
-        }
-    },
-    "新比赛_异常界面（只有返回）": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "返回.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
-        },
-        "next": [
-            "新比赛_主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4084,
-                "y": 122
+                "x": 1068,
+                "y": 23
             }
         }
     },
@@ -274,15 +302,16 @@
                 ]
             }
         },
+        "post_delay": 300,
         "timeout": 5000,
         "next": [
-            "新比赛_检测新比赛是否存在",
-            "新比赛_点击挑战"
+            "新比赛_点击挑战",
+            "新比赛_对战守卫"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2771,
-                "y": 137
+                "x": 2752,
+                "y": 135
             }
         }
     },
@@ -319,18 +348,18 @@
             "新比赛_一轮完成"
         ],
         "on_error": [
-            "新比赛_异常界面（只有返回）"
+            "[Anchor]任务入口"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3762,
-                "y": 146
+                "x": 3827,
+                "y": 144
             }
         }
     },
     "新比赛_点击挑战": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "FeatureMatch",
             "param": {
                 "roi": [
                     815,
@@ -340,33 +369,26 @@
                 ],
                 "template": [
                     "挑战.png"
-                ]
+                ],
+                "count": 10
             }
         },
         "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    0,
-                    0,
-                    -10,
-                    -6
-                ]
-            }
+            "type": "Click"
         },
         "focus": {
             "Node.Recognition.Succeeded": "新比赛：开始比赛"
         },
         "next": [
-            "新比赛_补充体力",
             "公共_长时间游玩确认",
+            "[JumpBack]新比赛_补充体力",
             "新比赛_点击挑战",
             "新比赛_随机点下屏幕"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3109,
-                "y": 85
+                "x": 3099,
+                "y": 89
             }
         }
     },
@@ -384,13 +406,10 @@
             "type": "Click"
         },
         "post_wait_freezes": 1000,
-        "next": [
-            "新比赛_点击挑战"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 3121,
-                "y": 882
+                "x": 3738,
+                "y": 622
             }
         }
     },
@@ -409,7 +428,7 @@
                 ]
             }
         },
-        "pre_wait_freezes": 1000,
+        "pre_wait_freezes": 500,
         "timeout": 5000,
         "next": [
             "新比赛_检测新比赛是否存在",
@@ -467,8 +486,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3120,
-                "y": 567
+                "x": 3467,
+                "y": 601
             }
         }
     },
@@ -487,7 +506,7 @@
                 ]
             }
         },
-        "pre_wait_freezes": 1000,
+        "pre_wait_freezes": 500,
         "action": {
             "type": "Click",
             "param": {
@@ -568,8 +587,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3469,
-                "y": 137
+                "x": 3478,
+                "y": 144
             }
         }
     }

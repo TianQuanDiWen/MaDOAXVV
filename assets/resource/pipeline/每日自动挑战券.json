@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789408310164,
+            "lastSyncTime": 1789699558594,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -3828,
-                "y": 9,
-                "zoom": 1.94
+                "x": -3220,
+                "y": 795,
+                "zoom": 1.71
             },
             "filename": "每日自动挑战券",
-            "version": "v1.10.0"
+            "version": "v1.10.1"
         }
     },
     "每日挑战_主页": {
@@ -73,9 +73,11 @@
                     154,
                     435,
                     393
-                ]
+                ],
+                "contact": 1
             }
         },
+        "anchor": "任务入口",
         "post_delay": 500,
         "timeout": 10000,
         "next": [
@@ -153,8 +155,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3859,
-                "y": 744
+                "x": 3955,
+                "y": 719
             }
         }
     },
@@ -284,7 +286,7 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "每日挑战_点击每日OCR",
+            "每日挑战_点击每日",
             "每日挑战_点击挑战赛"
         ],
         "$__mpe_code": {
@@ -326,7 +328,47 @@
     },
     "每日挑战_点击每日": {
         "recognition": {
-            "type": "FeatureMatch",
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    847,
+                    117,
+                    430,
+                    214
+                ],
+                "template": [
+                    "每日.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    14,
+                    8,
+                    -43,
+                    -18
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "timeout": 20000,
+        "next": [
+            "每日挑战_点击挑战赛券",
+            "每日挑战_点击每日"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2241,
+                "y": -386
+            }
+        }
+    },
+    "每日挑战_点击每日OCR": {
+        "max_hit": 10,
+        "recognition": {
+            "type": "OCR",
             "param": {
                 "roi": [
                     823,
@@ -334,8 +376,10 @@
                     454,
                     362
                 ],
-                "template": [
-                    "每日.png"
+                "expected": [
+                    "每日",
+                    "每",
+                    "日"
                 ]
             }
         },
@@ -344,10 +388,13 @@
         },
         "post_wait_freezes": 1000,
         "timeout": 20000,
+        "next": [
+            "每日挑战_点击每日OCR"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 2251,
-                "y": -454
+                "x": 2240,
+                "y": 40
             }
         }
     },
@@ -476,40 +523,6 @@
             "position": {
                 "x": 3718,
                 "y": -81
-            }
-        }
-    },
-    "每日挑战_点击每日OCR": {
-        "max_hit": 10,
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    823,
-                    71,
-                    454,
-                    362
-                ],
-                "expected": [
-                    "每日",
-                    "每",
-                    "日"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "timeout": 20000,
-        "next": [
-            "每日挑战_点击挑战赛券",
-            "每日挑战_点击每日OCR"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2240,
-                "y": 40
             }
         }
     }

@@ -2,16 +2,18 @@
     "$__mpe_config_公共流程": {
         "$__mpe_code": {
             "prefix": "",
-            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\公共流程.json",
-            "lastSyncTime": 1789146752589,
             "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1789663542932,
+            "isModifiedExternally": false,
+            "isDeleted": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\公共流程.json",
             "savedViewport": {
-                "x": -1917,
-                "y": -477,
-                "zoom": 0.71
+                "x": -3294,
+                "y": -1025,
+                "zoom": 1
             },
             "filename": "公共流程",
-            "version": "v1.10.0"
+            "version": "v1.10.1"
         }
     },
     "$__mpe_group_长时间游玩确定_公共流程": {
@@ -99,6 +101,147 @@
             "position": {
                 "x": 4265,
                 "y": 711
+            }
+        }
+    },
+    "公共_脱离卡死": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    282,
+                    120,
+                    728,
+                    476
+                ],
+                "contact": 1
+            }
+        },
+        "post_delay": 500,
+        "timeout": 10000,
+        "next": [
+            "公共_脱离卡死确认主页",
+            "[JumpBack]公共_异常界面（只有返回）"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3642,
+                "y": 1316
+            }
+        }
+    },
+    "公共_脱离卡死确认主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "公共_脱离卡死点击活动",
+            "公共_脱离卡死"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3977,
+                "y": 1130
+            }
+        }
+    },
+    "公共_脱离卡死点击活动": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    12,
+                    -10,
+                    -24,
+                    -8
+                ]
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 1000,
+        "post_wait_freezes": 1500,
+        "timeout": 20000,
+        "next": [
+            "[Anchor]任务入口"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4275,
+                "y": 1133
+            }
+        }
+    },
+    "$__mpe_anchor_任务入口_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 4590,
+                "y": 1286
+            }
+        }
+    },
+    "$__mpe_group_脱离卡死_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3598,
+                "y": 1080
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "公共_脱离卡死",
+                "公共_脱离卡死确认主页",
+                "公共_脱离卡死点击活动",
+                "任务入口",
+                "公共_异常界面（只有返回）"
+            ],
+            "width": 1238,
+            "height": 866
+        }
+    },
+    "公共_异常界面（只有返回）": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "返回.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3974,
+                "y": 1492
             }
         }
     }

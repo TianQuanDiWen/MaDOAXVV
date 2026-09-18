@@ -3,25 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789514496655,
+            "lastSyncTime": 1789664037928,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -2242,
-                "y": -198,
-                "zoom": 1.1
+                "x": -852,
+                "y": 150,
+                "zoom": 0.69
             },
             "filename": "自动排位",
-            "version": "v1.10.0"
-        }
-    },
-    "$__mpe_anchor_任务入口_自动排位": {
-        "$__mpe_code": {
-            "position": {
-                "x": 2888,
-                "y": 582
-            }
+            "version": "v1.10.1"
         }
     },
     "$__mpe_external_公共_长时间游玩确认_自动排位": {
@@ -44,7 +36,6 @@
         "action": {
             "type": "Click"
         },
-        "anchor": "任务入口",
         "post_delay": 1000,
         "timeout": 15000,
         "next": [
@@ -437,6 +428,14 @@
             "position": {
                 "x": 3701,
                 "y": 125
+            }
+        }
+    },
+    "$__mpe_anchor_任务入口_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2880,
+                "y": 629
             }
         }
     }
