@@ -3,17 +3,43 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789663542932,
+            "lastSyncTime": 1790321158864,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\公共流程.json",
             "savedViewport": {
-                "x": -3294,
-                "y": -1025,
-                "zoom": 1
+                "x": -2722,
+                "y": -256,
+                "zoom": 0.88
             },
             "filename": "公共流程",
             "version": "v1.10.1"
+        }
+    },
+    "$__mpe_anchor_任务入口_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 4590,
+                "y": 1286
+            }
+        }
+    },
+    "$__mpe_group_脱离卡死_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3598,
+                "y": 1080
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "任务入口",
+                "公共_异常界面（只有返回）",
+                "公共_脱离卡死",
+                "公共_脱离卡死点击活动",
+                "公共_脱离卡死确认主页"
+            ],
+            "width": 1238,
+            "height": 866
         }
     },
     "$__mpe_group_长时间游玩确定_公共流程": {
@@ -32,75 +58,27 @@
             "height": 389
         }
     },
-    "公共_退出长时间游玩返回": {
+    "公共_异常界面（只有返回）": {
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [
-                    485,
-                    497,
-                    155,
-                    149
-                ],
                 "template": [
                     "返回.png"
-                ]
+                ],
+                "green_mask": true
             }
         },
         "action": {
             "type": "Click"
         },
-        "next": [
-            "公共_长时间游玩退出到主页"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3934,
-                "y": 705
-            }
-        }
-    },
-    "公共_长时间游玩确认": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "长时间"
-                ]
-            }
-        },
+        "post_wait_freezes": 1000,
         "focus": {
-            "Node.Recognition.Succeeded": "触发长时间游玩弹窗 任务结束"
+            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
         },
-        "next": [
-            "公共_退出长时间游玩返回"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 3639,
-                "y": 718
-            }
-        }
-    },
-    "公共_长时间游玩退出到主页": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "contact": 1
-            }
-        },
-        "repeat": 2,
-        "repeat_delay": 200,
-        "$__mpe_code": {
-            "position": {
-                "x": 4265,
-                "y": 711
+                "x": 3974,
+                "y": 1492
             }
         }
     },
@@ -127,31 +105,6 @@
             "position": {
                 "x": 3642,
                 "y": 1316
-            }
-        }
-    },
-    "公共_脱离卡死确认主页": {
-        "recognition": {
-            "type": "FeatureMatch",
-            "param": {
-                "template": [
-                    "主页.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_delay": 1000,
-        "timeout": 15000,
-        "next": [
-            "公共_脱离卡死点击活动",
-            "公共_脱离卡死"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3977,
-                "y": 1130
             }
         }
     },
@@ -195,53 +148,100 @@
             }
         }
     },
-    "$__mpe_anchor_任务入口_公共流程": {
-        "$__mpe_code": {
-            "position": {
-                "x": 4590,
-                "y": 1286
-            }
-        }
-    },
-    "$__mpe_group_脱离卡死_公共流程": {
-        "$__mpe_code": {
-            "position": {
-                "x": 3598,
-                "y": 1080
-            },
-            "color": "blue",
-            "childrenLabels": [
-                "公共_脱离卡死",
-                "公共_脱离卡死确认主页",
-                "公共_脱离卡死点击活动",
-                "任务入口",
-                "公共_异常界面（只有返回）"
-            ],
-            "width": 1238,
-            "height": 866
-        }
-    },
-    "公共_异常界面（只有返回）": {
+    "公共_脱离卡死确认主页": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "FeatureMatch",
             "param": {
                 "template": [
-                    "返回.png"
-                ],
-                "green_mask": true
+                    "主页.png"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "游戏异常界面：只有返回"
-        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "公共_脱离卡死点击活动",
+            "公共_脱离卡死"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 3974,
-                "y": 1492
+                "x": 3977,
+                "y": 1130
+            }
+        }
+    },
+    "公共_退出长时间游玩返回": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    296,
+                    85,
+                    772,
+                    515
+                ],
+                "template": [
+                    "返回.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "公共_长时间游玩退出到主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3934,
+                "y": 705
+            }
+        }
+    },
+    "公共_长时间游玩确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "长时间"
+                ]
+            }
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "⚠ 触发长时间游玩弹窗 任务结束"
+        },
+        "next": [
+            "公共_退出长时间游玩返回"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3639,
+                "y": 718
+            }
+        }
+    },
+    "公共_长时间游玩退出到主页": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "contact": 1
+            }
+        },
+        "repeat": 2,
+        "repeat_delay": 200,
+        "$__mpe_code": {
+            "position": {
+                "x": 4265,
+                "y": 711
             }
         }
     }

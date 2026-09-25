@@ -3,17 +3,25 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789664037928,
+            "lastSyncTime": 1790321129403,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -852,
-                "y": 150,
-                "zoom": 0.69
+                "x": -359,
+                "y": 360,
+                "zoom": 0.47
             },
             "filename": "自动排位",
             "version": "v1.10.1"
+        }
+    },
+    "$__mpe_anchor_任务入口_自动排位": {
+        "$__mpe_code": {
+            "position": {
+                "x": 2880,
+                "y": 629
+            }
         }
     },
     "$__mpe_external_公共_长时间游玩确认_自动排位": {
@@ -43,8 +51,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1598,
-                "y": 61
+                "x": 1232,
+                "y": 35
             }
         }
     },
@@ -70,7 +78,7 @@
             }
         },
         "focus": {
-            "Node.Recognition.Succeeded": "排位：体力不足"
+            "Node.Recognition.Succeeded": "排位：次数不足，关闭补充体力弹窗"
         },
         "next": [
             "排位_体力补充关闭"
@@ -164,8 +172,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1311,
-                "y": 68
+                "x": 945,
+                "y": 42
             }
         }
     },
@@ -221,8 +229,8 @@
             "Node.Recognition.Succeeded": "排位：比赛结算"
         },
         "next": [
-            "排位_点击对战",
-            "排位_比赛结算"
+            "排位_比赛结算",
+            "排位_中继"
         ],
         "$__mpe_code": {
             "position": {
@@ -298,8 +306,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1912,
-                "y": 60
+                "x": 1546,
+                "y": 34
             }
         }
     },
@@ -331,12 +339,12 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "排位_点击对战"
+            "排位_中继"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2229,
-                "y": 114
+                "x": 1863,
+                "y": 88
             }
         }
     },
@@ -431,11 +439,37 @@
             }
         }
     },
-    "$__mpe_anchor_任务入口_自动排位": {
+    "排位_次数不足": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "0/5"
+                ]
+            }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "排位：次数不足"
+        },
+        "next": [
+            "排位_体力补充关闭"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 2880,
-                "y": 629
+                "x": 2885,
+                "y": -455
+            }
+        }
+    },
+    "排位_中继": {
+        "next": [
+            "排位_次数不足",
+            "排位_点击对战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2234,
+                "y": 39
             }
         }
     }

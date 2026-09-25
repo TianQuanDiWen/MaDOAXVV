@@ -1,9 +1,61 @@
 {
+    "$__mpe_config_启动游戏": {
+        "$__mpe_code": {
+            "prefix": "",
+            "coordinateMode": "absolute-v1",
+            "lastSyncTime": 1790124521980,
+            "isModifiedExternally": false,
+            "isDeleted": false,
+            "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\启动游戏.json",
+            "savedViewport": {
+                "x": 448,
+                "y": 296,
+                "zoom": 1
+            },
+            "filename": "启动游戏",
+            "version": "v1.10.1"
+        }
+    },
     "Launcher_ClickStartGame": {
-        "recognition": "OCR",
-        "expected": [
-            "开始游戏"
+        "next": [
+            "启动_点击开始"
         ],
-        "action": "Click"
+        "$__mpe_code": {
+            "position": {
+                "x": -5,
+                "y": 28
+            }
+        }
+    },
+    "启动_点击开始": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "开始游戏"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "启动_点击开始",
+            "启动_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 315,
+                "y": 18
+            }
+        }
+    },
+    "启动_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 635,
+                "y": 53
+            }
+        }
     }
 }
