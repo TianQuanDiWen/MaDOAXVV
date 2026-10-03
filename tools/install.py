@@ -123,6 +123,8 @@ def install_mxu():
 def transform_pipeline_recognition(pipeline_dir: Path):
     valid_reco = {"OCR", "TemplateMatch", "FeatureMatch"}
     for json_file in pipeline_dir.glob("*.json"):
+        if json_file.name == "启动游戏.json":
+            continue
         with open(json_file, "r", encoding="utf-8") as f:
             data = jsonc.load(f)
         modified = False

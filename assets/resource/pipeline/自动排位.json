@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1790321129403,
+            "lastSyncTime": 1791037353174,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -359,
-                "y": 360,
-                "zoom": 0.47
+                "x": -1345,
+                "y": 314,
+                "zoom": 0.62
             },
             "filename": "自动排位",
-            "version": "v1.10.1"
+            "version": "v2.0.6"
         }
     },
     "$__mpe_anchor_任务入口_自动排位": {
@@ -29,6 +29,18 @@
             "position": {
                 "x": 3787,
                 "y": 652
+            }
+        }
+    },
+    "排位_中继": {
+        "next": [
+            "排位_次数不足",
+            "排位_点击对战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2234,
+                "y": 39
             }
         }
     },
@@ -174,6 +186,28 @@
             "position": {
                 "x": 945,
                 "y": 42
+            }
+        }
+    },
+    "排位_次数不足": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "0/5"
+                ]
+            }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "排位：次数不足"
+        },
+        "next": [
+            "排位_体力补充关闭"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2885,
+                "y": -455
             }
         }
     },
@@ -363,7 +397,7 @@
             "Node.Recognition.Succeeded": "排位：比赛开始"
         },
         "next": [
-            "排位_随机点屏幕几下",
+            "排位_比赛中",
             "公共_长时间游玩确认"
         ],
         "$__mpe_code": {
@@ -413,20 +447,7 @@
             }
         }
     },
-    "排位_随机点屏幕几下": {
-        "action": {
-            "type": "Click",
-            "param": {
-                "target": [
-                    250,
-                    124,
-                    836,
-                    441
-                ]
-            }
-        },
-        "repeat": 8,
-        "repeat_delay": 5000,
+    "排位_比赛中": {
         "timeout": 300000,
         "rate_limit": 5000,
         "next": [
@@ -434,42 +455,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3701,
-                "y": 125
-            }
-        }
-    },
-    "排位_次数不足": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "0/5"
-                ]
-            }
-        },
-        "focus": {
-            "Node.Action.Succeeded": "排位：次数不足"
-        },
-        "next": [
-            "排位_体力补充关闭"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2885,
-                "y": -455
-            }
-        }
-    },
-    "排位_中继": {
-        "next": [
-            "排位_次数不足",
-            "排位_点击对战"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2234,
-                "y": 39
+                "x": 3765,
+                "y": 135
             }
         }
     }

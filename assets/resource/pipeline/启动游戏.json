@@ -17,17 +17,6 @@
         }
     },
     "Launcher_ClickStartGame": {
-        "next": [
-            "启动_点击开始"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": -5,
-                "y": 28
-            }
-        }
-    },
-    "启动_点击开始": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -39,22 +28,10 @@
         "action": {
             "type": "Click"
         },
-        "next": [
-            "启动_点击开始",
-            "启动_结束"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 315,
-                "y": 18
-            }
-        }
-    },
-    "启动_结束": {
-        "$__mpe_code": {
-            "position": {
-                "x": 635,
-                "y": 53
+                "x": -5,
+                "y": 28
             }
         }
     }
