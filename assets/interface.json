@@ -3,7 +3,7 @@
     "name": "MaDOAXVV",
     "description": "基于 MaaFramework 的《DEAD OR ALIVE Xtreme Venus Vacation》自动化日常辅助项目。\n\n本项目为**完全免费的开源工具**，请勿付费购买。\n\n制作初衷纯粹是为了自动清理日常，跑完全套流程正好能做完每日日常。旨在减少枯燥的重复劳作，降低大家的每日打卡负担，因此不提供任何形式的无限刷分、挂机清体力等功利性功能。\n\n**项目地址**\nGitHub: https://github.com/TianQuanDiWen/MaDOAXVV",
     "contact": "",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "welcome": "欢迎使用 MaDOAXVV。\n\n本项目为免费开源项目，请勿付费购买。如您通过付费方式获得，请及时退款并谨防受骗。\n\n自动化工具可能违反游戏用户协议，请自行评估风险，谨慎使用。",
     "github": "https://github.com/TianQuanDiWen/MaDOAXVV",
     "version": "0.1.0",

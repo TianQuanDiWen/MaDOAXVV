@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/TianQuanDiWen/MaDOAXVV?style=flat-square&color=blue)](https://github.com/TianQuanDiWen/MaDOAXVV/releases/latest)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2B%20x64-informational?style=flat-square)](https://github.com/TianQuanDiWen/MaDOAXVV)
 [![Framework](https://img.shields.io/badge/Powered%20by-MaaFramework-blueviolet?style=flat-square)](https://github.com/MaaXYZ/MaaFramework)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg?style=flat-square)](LICENSE)
 
 > 🎮 **基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的《DEAD OR ALIVE Xtreme Venus Vacation》（死或生：沙滩排球女神假期）全自动日常减负辅助工具。**  
 > 一键启动，全套流程跑完正好能做完每日日常，减少枯燥重复劳作，轻松护肝。
@@ -135,4 +135,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 
 * 核心自动化引擎由 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 强力驱动。
 * 通用前端基于 [MistEO/MXU](https://github.com/MistEO/MXU) 进行扩展与适配。
-* 感谢所有为 MaaFramework 及自动化开源生态做出贡献的开发者！\n
+* 感谢所有为 MaaFramework 及自动化开源生态做出贡献的开发者！
+
+---
+
+## 📄 开源许可证与版权署名
+
+* 本项目基于 **[GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE)** 协议开源。
+* Copyright (C) 2024-2026 TianQuanDiWen (https://github.com/TianQuanDiWen/MaDOAXVV)
+* 任何基于本项目进行修改、衍生或二次分发的作品（无论是客户端分发还是网络云端服务），**必须同样以 AGPL-3.0 协议开源其全部源代码**。严禁任何闭源商业倒卖行为。
