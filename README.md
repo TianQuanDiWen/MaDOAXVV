@@ -72,13 +72,18 @@
 * 项目默认采用 **Win32 前台拟真控制模式**。相较于后台直接发消息注入事件，前台模式模拟真实外设交互，防检测更加友好，能显著降低游戏触发无限金球验证的概率。
 * 建议运行时保持游戏窗口可见，分辨率推荐使用默认匹配的 `1280x720`（窗口标题：`DOAX VenusVacation`）。
 
-### 2. 全局防遮挡退避机制 (SafeRecognition)
-前台模式下，鼠标点击后停留在按钮上极易触发游戏的 **悬停（Hover）高亮特效**，导致文字变色或图标被遮盖，造成下一次识别失败。为此我们在底层实现了透明的全局防遮挡：
-* **零侵入注入**：编译期自动为所有底层识别节点包裹包装层，无需在 Pipeline JSON 中手动编写冗余的移开鼠标逻辑。
-* **智能退避**：当任意节点连续识别未命中达到阈值时，自动向识别目标（ROI）外缘安全随机漂移，消除 Hover 遮挡。
-* **坐标钳位保护 (Clamp)**：内置窗口安全边界限制，严格杜绝退避位移超出 1280x720 边缘导致底层动作崩溃的问题。
+### 2. 旁路事件防遮挡退避机制 (EvasionSink)
+前台模式下，鼠标点击后停留在按钮上极易触发游戏的 **悬停（Hover）高亮特效**，导致文字变色或图标被遮盖，造成下一次识别失败。为此我们在 Go Agent 底层通过 MaaFramework `ContextEventSink` 实现了透明高效的旁路防遮挡监听：
+* **非侵入式旁路监听**：直接通过 `AgentServerAddContextSink` 挂载，无需在编译期改写 Pipeline 识别节点或包裹包装层，管线配置原生透明且运行零损耗。
+* **智能退避与漂移**：实时统计节点识别状态，当同一节点连续 3 次识别未命中时，自动判定为 Hover 遮挡，智能就近移出识别目标（ROI）外缘或基于屏幕中心随机漂移。
+* **贴边钳位二次保底 (Clamp)**：内置 ROI 内存缓存与视口安全边界保护，严格避免鼠标位移超出游戏窗口边缘导致底层崩溃。
 
-### 3. 独立自动更新
+### 3. 通用脱离卡死与状态机韧性设计
+* **公共脱离卡死与锚点恢复**：在 `公共流程.json` 中抽离了通用的异常脱离流程，支持安全空白点击唤醒、主页重回活动，并通过 MaaFramework `[Anchor]` 锚点机制无缝回跳各业务任务入口，彻底解决偶发卡死与界面迷路问题。
+* **状态机分支自愈**：各主要业务分支全面应用 `[JumpBack]` 与 `LoopGuard` 防死循环守卫，消除了跨文件调用的冗余连线，提升了复杂网络波动下的自愈能力。
+* **长时间游玩集中处理**：集中拦截游戏防沉迷“长时间游玩”弹窗，优雅退出到主页并结束任务，防止连锁超时崩溃。
+
+### 4. 独立自动更新
 * 前端采用自维护的 [MXU_tqdw](https://github.com/TianQuanDiWen/MXU_tqdw) Fork。
 * 直接通过 **GitHub Release** 检查并获取 MaDOAXVV 的版本更新，发布节奏自主，不依赖第三方镜像渠道。
 
@@ -93,16 +98,17 @@ MaDOAXVV/
 ├─ assets/
 │  ├─ interface.json           # MaaFramework / MXU 前端入口与参数配置
 │  └─ resource/
-│     ├─ pipeline/             # 自动化任务管线 (JSON)
+│     ├─ pipeline/             # 自动化任务管线 (含各业务管线与 公共流程.json)
 │     ├─ image/                # 图像特征模板 (.png)
 │     └─ model/ocr/            # OCR 识别模型
 ├─ agent/
-│  ├─ cmd/madoaxvv-agent/      # Go Agent 入口
+│  ├─ cmd/madoaxvv-agent/      # Go Agent 入口 (launch-game / agent 双模式分发)
 │  └─ internal/
-│     ├─ agentserver/          # MaaFramework AgentServer 自定义扩展能力
-│     ├─ clickaway/            # SafeRecognition 全局防遮挡与状态队列
-│     └─ launcher/             # Steam 游戏启动拉起逻辑
-├─ tools/                      # 资源转译、Schema 校验与安装脚本
+│     ├─ agentserver/          # MaaFramework AgentServer 自定义扩展与 EvasionSink 挂载
+│     ├─ clickaway/            # EvasionSink 旁路事件监听与智能防遮挡退避
+│     ├─ launcher/             # Steam 游戏启动拉起与程序级防抖重试
+│     └─ runtimepath/          # 开发态与发布态运行路径自适应解析
+├─ tools/                      # 资源构建、Schema 校验与安装脚本
 ├─ build.ps1                   # 本地一键构筑脚本
 └─ build.config.json           # 构筑与依赖版本配置
 ```
