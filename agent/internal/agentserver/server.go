@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
+	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/clickaway"
 	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/runtimepath"
 )
 
@@ -42,6 +43,10 @@ func Run(args []string) error {
 	}
 
 	identifier := remaining[0]
+	// 挂载防遮挡退避旁路监听器
+	evasionSink := clickaway.NewEvasionSink()
+	_ = maa.AgentServerAddContextSink(evasionSink)
+
 	// 自定义识别和动作必须在启动通信服务前完成注册。
 	if err := maa.AgentServerStartUp(identifier); err != nil {
 		return fmt.Errorf("start AgentServer: %w", err)
