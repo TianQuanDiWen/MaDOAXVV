@@ -130,7 +130,10 @@
             "name": "自动排位",
             "label": "🏆 自动排位",
             "entry": "排位_开始",
-            "description": "自动打排位赛，打够次数为止，弹出金球验证会提前结束"
+            "description": "自动打排位赛，打够次数为止，弹出金球验证会提前结束",
+            "option": [
+                "排位_跳过开启"
+            ]
         },
         {
             "name": "领取邮件与任务奖励",
@@ -151,6 +154,33 @@
             "description": "通过游戏内的退出选项退出游戏"
         }
     ],
+    "option": {
+        "排位_跳过开启": {
+            "label": "跳过对战",
+            "type": "switch",
+            "description": "是否在排位赛中跳过对战画面（点击 ALLSKIP 跳过本场）",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "排位_跳过开启": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "排位_跳过开启": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    },
     "preset": [
         {
             "name": "默认配置",
@@ -186,7 +216,10 @@
                 },
                 {
                     "name": "自动排位",
-                    "enabled": true
+                    "enabled": true,
+                    "option": {
+                        "排位_跳过开启": "Yes"
+                    }
                 },
                 {
                     "name": "领取邮件与任务奖励",

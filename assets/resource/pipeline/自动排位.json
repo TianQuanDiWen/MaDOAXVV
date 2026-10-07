@@ -3,17 +3,91 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1791037353174,
-            "isModifiedExternally": false,
+            "lastSyncTime": 1791119385119,
+            "isModifiedExternally": true,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -1345,
-                "y": 314,
-                "zoom": 0.62
+                "x": -2628,
+                "y": 195,
+                "zoom": 0.78
             },
             "filename": "自动排位",
             "version": "v2.0.6"
+        }
+    },
+    "排位_跳过本场": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    898,
+                    603,
+                    230,
+                    113
+                ],
+                "expected": [
+                    "ALLSKIP",
+                    "ALL"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "rate_limit": 1000,
+        "focus": "",
+        "next": [
+            "排位_确认跳过",
+            "排位_跳过本场"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4401,
+                "y": 300
+            }
+        }
+    },
+    "排位_跳过开启": {
+        "enabled": true,
+        "focus": "",
+        "next": [
+            "排位_跳过本场"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4108,
+                "y": 340
+            }
+        }
+    },
+    "排位_确认跳过": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    652,
+                    546,
+                    119,
+                    107
+                ],
+                "expected": [
+                    "确定"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": "",
+        "next": [
+            "排位_比赛结算"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4698,
+                "y": 321
+            }
         }
     },
     "$__mpe_anchor_任务入口_自动排位": {
@@ -27,8 +101,8 @@
     "$__mpe_external_公共_长时间游玩确认_自动排位": {
         "$__mpe_code": {
             "position": {
-                "x": 3787,
-                "y": 652
+                "x": 3772,
+                "y": 627
             }
         }
     },
@@ -268,8 +342,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4066,
-                "y": -35
+                "x": 5073,
+                "y": -19
             }
         }
     },
@@ -451,12 +525,13 @@
         "timeout": 300000,
         "rate_limit": 5000,
         "next": [
+            "排位_跳过开启",
             "排位_比赛结算"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3765,
-                "y": 135
+                "x": 3776,
+                "y": 162
             }
         }
     }
