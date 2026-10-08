@@ -9,17 +9,24 @@ import (
 	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/runtimepath"
 )
 
-// Run 启动供 MXU 连接的 MaaFramework AgentServer。
-// MXU 会将通信标识符追加到 child_args 末尾，因此这里要求恰好有一个位置参数。
+// Run 启动供 MXU 或 MPE 连接的 MaaFramework AgentServer。
+// MXU 会将通信标识符追加到 child_args 末尾；MPE 或手动模式可使用 --identifier 或默认 "pi-agent-1"。
 func Run(args []string) error {
 	flags := flag.NewFlagSet("agent", flag.ContinueOnError)
 	root := flags.String("root", ".", "project root containing maafw and resource")
+	identifierFlag := flags.String("identifier", "pi-agent-1", "socket identifier for MaaFramework agent")
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
 	remaining := flags.Args()
-	if len(remaining) != 1 {
-		return fmt.Errorf("agent mode requires the MXU socket identifier")
+	var identifier string
+	switch len(remaining) {
+	case 0:
+		identifier = *identifierFlag
+	case 1:
+		identifier = remaining[0]
+	default:
+		return fmt.Errorf("agent mode accepts at most one socket identifier, got %d", len(remaining))
 	}
 
 	paths, err := runtimepath.Resolve(*root)
@@ -42,7 +49,6 @@ func Run(args []string) error {
 		return err
 	}
 
-	identifier := remaining[0]
 	// 挂载防遮挡退避旁路监听器
 	evasionSink := clickaway.NewEvasionSink()
 	_ = maa.AgentServerAddContextSink(evasionSink)

@@ -35,6 +35,7 @@
         ]
     },
     "agent": {
+        "identifier": "pi-agent-1",
         "child_exec": "go",
         "child_args": [
             "run",
