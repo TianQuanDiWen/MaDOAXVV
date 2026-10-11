@@ -113,7 +113,10 @@
             "name": "自动打新比赛",
             "label": "⚔️ 自动打新比赛",
             "entry": "新比赛_开始",
-            "description": "有新比赛的情况下会自动打，直到打不过或者弹出金球验证为止"
+            "description": "有新比赛的情况下会自动打，直到打不过或者弹出金球验证为止",
+            "option": [
+                "新比赛_作战指示"
+            ]
         },
         {
             "name": "每日自动挑战券",
@@ -180,6 +183,195 @@
                     }
                 }
             ]
+        },
+        "新比赛_作战指示": {
+            "label": "作战指示",
+            "type": "switch",
+            "description": "是否在比赛准备界面设置作战指示",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "option": [
+                        "新比赛_攻击方法",
+                        "新比赛_攻击手",
+                        "新比赛_攻击目标"
+                    ],
+                    "pipeline_override": {
+                        "新比赛_作战指示": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "新比赛_作战指示": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "新比赛_攻击方法": {
+            "label": "攻击方法",
+            "type": "select",
+            "description": "设置排球进攻方式（杀球或佯攻）",
+            "cases": [
+                {
+                    "name": "任意",
+                    "label": "任意",
+                    "description": "不修改攻击方法（跳过该节点）",
+                    "pipeline_override": {
+                        "新比赛_攻击方法": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "杀球",
+                    "label": "杀球",
+                    "pipeline_override": {
+                        "新比赛_攻击方法": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击方法-杀球"
+                            ]
+                        },
+                        "新比赛_攻击方法-杀球": {
+                            "enabled": true
+                        },
+                        "新比赛_攻击方法-佯攻": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "佯攻",
+                    "label": "佯攻",
+                    "pipeline_override": {
+                        "新比赛_攻击方法": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击方法-佯攻"
+                            ]
+                        },
+                        "新比赛_攻击方法-杀球": {
+                            "enabled": false
+                        },
+                        "新比赛_攻击方法-佯攻": {
+                            "enabled": true
+                        }
+                    }
+                }
+            ]
+        },
+        "新比赛_攻击手": {
+            "label": "主攻击手",
+            "type": "select",
+            "description": "选择主攻击手站位（一号位或二号位）",
+            "cases": [
+                {
+                    "name": "任意",
+                    "label": "任意",
+                    "description": "不修改主攻手（跳过该节点）",
+                    "pipeline_override": {
+                        "新比赛_攻击手": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "一号位",
+                    "label": "一号位",
+                    "pipeline_override": {
+                        "新比赛_攻击手": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击手-一号位"
+                            ]
+                        },
+                        "新比赛_攻击手-一号位": {
+                            "enabled": true
+                        },
+                        "新比赛_攻击手-二号位": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "二号位",
+                    "label": "二号位",
+                    "pipeline_override": {
+                        "新比赛_攻击手": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击手-二号位"
+                            ]
+                        },
+                        "新比赛_攻击手-一号位": {
+                            "enabled": false
+                        },
+                        "新比赛_攻击手-二号位": {
+                            "enabled": true
+                        }
+                    }
+                }
+            ]
+        },
+        "新比赛_攻击目标": {
+            "label": "攻击目标",
+            "type": "select",
+            "description": "选择对方防守薄弱目标（一号位或二号位）",
+            "cases": [
+                {
+                    "name": "任意",
+                    "label": "任意",
+                    "description": "不修改攻击目标（跳过该节点）",
+                    "pipeline_override": {
+                        "新比赛_攻击目标": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "一号位",
+                    "label": "一号位",
+                    "pipeline_override": {
+                        "新比赛_攻击目标": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击目标-一号位"
+                            ]
+                        },
+                        "新比赛_攻击目标-一号位": {
+                            "enabled": true
+                        },
+                        "新比赛_攻击目标-二号位": {
+                            "enabled": false
+                        }
+                    }
+                },
+                {
+                    "name": "二号位",
+                    "label": "二号位",
+                    "pipeline_override": {
+                        "新比赛_攻击目标": {
+                            "enabled": true,
+                            "next": [
+                                "新比赛_攻击目标-二号位"
+                            ]
+                        },
+                        "新比赛_攻击目标-一号位": {
+                            "enabled": false
+                        },
+                        "新比赛_攻击目标-二号位": {
+                            "enabled": true
+                        }
+                    }
+                }
+            ]
         }
     },
     "preset": [
@@ -205,7 +397,13 @@
                 },
                 {
                     "name": "自动打新比赛",
-                    "enabled": true
+                    "enabled": true,
+                    "option": {
+                        "新比赛_作战指示": "No",
+                        "新比赛_攻击方法": "任意",
+                        "新比赛_攻击手": "任意",
+                        "新比赛_攻击目标": "任意"
+                    }
                 },
                 {
                     "name": "每日自动挑战券",

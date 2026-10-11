@@ -3,17 +3,280 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789689249511,
+            "lastSyncTime": 1791421692329,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -1619,
-                "y": -11,
-                "zoom": 0.82
+                "x": -800,
+                "y": 227,
+                "zoom": 0.48
             },
             "filename": "自动打新比赛",
-            "version": "v1.10.1"
+            "version": "v2.0.7"
+        }
+    },
+    "新比赛_攻击方法-杀球": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    697,
+                    176,
+                    334,
+                    133
+                ],
+                "expected": [
+                    "杀球"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3870,
+                "y": 312
+            }
+        }
+    },
+    "新比赛_攻击方法-佯攻": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    697,
+                    176,
+                    334,
+                    133
+                ],
+                "expected": [
+                    "佯攻"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3877,
+                "y": 509
+            }
+        }
+    },
+    "新比赛_攻击方法": {
+        "max_hit": 1,
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    697,
+                    176,
+                    334,
+                    133
+                ],
+                "expected": [
+                    "杀球"
+                ]
+            }
+        },
+        "next": [
+            "新比赛_攻击方法-杀球",
+            "新比赛_攻击方法-佯攻"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3606,
+                "y": 375
+            }
+        }
+    },
+    "新比赛_攻击手": {
+        "max_hit": 1,
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    697,
+                    176,
+                    334,
+                    133
+                ],
+                "expected": [
+                    "杀球"
+                ]
+            }
+        },
+        "next": [
+            "新比赛_攻击手-一号位",
+            "新比赛_攻击手-二号位"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3604,
+                "y": 742
+            }
+        }
+    },
+    "新比赛_攻击手-一号位": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    703,
+                    332,
+                    330,
+                    123
+                ],
+                "expected": [
+                    "任意"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    106,
+                    5,
+                    -15,
+                    -5
+                ]
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3884,
+                "y": 700
+            }
+        }
+    },
+    "新比赛_攻击手-二号位": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    703,
+                    332,
+                    330,
+                    123
+                ],
+                "expected": [
+                    "任意"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    206,
+                    2,
+                    -18,
+                    -4
+                ]
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3882,
+                "y": 929
+            }
+        }
+    },
+    "新比赛_攻击目标": {
+        "max_hit": 1,
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    697,
+                    176,
+                    334,
+                    133
+                ],
+                "expected": [
+                    "杀球"
+                ]
+            }
+        },
+        "next": [
+            "新比赛_攻击目标-一号位",
+            "新比赛_攻击目标-二号位"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3602,
+                "y": 1194
+            }
+        }
+    },
+    "新比赛_攻击目标-一号位": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    717,
+                    464,
+                    310,
+                    123
+                ],
+                "expected": [
+                    "任意"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    106,
+                    5,
+                    -15,
+                    -5
+                ]
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3883,
+                "y": 1151
+            }
+        }
+    },
+    "新比赛_攻击目标-二号位": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    733,
+                    465,
+                    290,
+                    125
+                ],
+                "expected": [
+                    "任意"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    206,
+                    2,
+                    -18,
+                    -4
+                ]
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3890,
+                "y": 1398
+            }
         }
     },
     "$__mpe_anchor_任务入口_自动打新比赛": {
@@ -24,8 +287,8 @@
             },
             "extra_positions": [
                 {
-                    "x": 4162,
-                    "y": 269
+                    "x": 5826,
+                    "y": 246
                 }
             ]
         }
@@ -33,8 +296,8 @@
     "$__mpe_external_公共_长时间游玩确认_自动打新比赛": {
         "$__mpe_code": {
             "position": {
-                "x": 3481,
-                "y": -5
+                "x": 5145,
+                "y": -28
             }
         }
     },
@@ -72,13 +335,13 @@
         "action": {
             "type": "Click",
             "param": {
-                "contact": 1,
                 "target": [
                     0,
                     0,
                     0,
                     0
-                ]
+                ],
+                "contact": 1
             }
         },
         "focus": {
@@ -89,8 +352,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2753,
-                "y": 858
+                "x": 2757,
+                "y": 930
             }
         }
     },
@@ -153,8 +416,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2757,
-                "y": 507
+                "x": 2752,
+                "y": 510
             }
         }
     },
@@ -243,13 +506,13 @@
         "action": {
             "type": "Click",
             "param": {
-                "contact": 1,
                 "target": [
                     0,
                     0,
                     0,
                     0
-                ]
+                ],
+                "contact": 1
             }
         },
         "next": [
@@ -317,7 +580,7 @@
         "post_delay": 300,
         "timeout": 5000,
         "next": [
-            "新比赛_点击挑战",
+            "新比赛_确认已进入挑战页",
             "新比赛_对战守卫"
         ],
         "$__mpe_code": {
@@ -364,8 +627,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3827,
-                "y": 144
+                "x": 5491,
+                "y": 121
             }
         }
     },
@@ -395,12 +658,12 @@
             "公共_长时间游玩确认",
             "[JumpBack]新比赛_补充体力",
             "新比赛_点击挑战",
-            "新比赛_随机点下屏幕"
+            "新比赛_确认已在比赛中"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3099,
-                "y": 89
+                "x": 4434,
+                "y": 111
             }
         }
     },
@@ -420,8 +683,8 @@
         "post_wait_freezes": 1000,
         "$__mpe_code": {
             "position": {
-                "x": 3738,
-                "y": 622
+                "x": 5402,
+                "y": 599
             }
         }
     },
@@ -459,8 +722,8 @@
     "新比赛_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 4564,
-                "y": 279
+                "x": 6228,
+                "y": 256
             }
         }
     },
@@ -498,8 +761,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3467,
-                "y": 601
+                "x": 5131,
+                "y": 578
             }
         }
     },
@@ -577,7 +840,7 @@
             }
         }
     },
-    "新比赛_随机点下屏幕": {
+    "新比赛_确认已在比赛中": {
         "action": {
             "type": "Click",
             "param": {
@@ -599,8 +862,70 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3478,
-                "y": 144
+                "x": 5142,
+                "y": 121
+            }
+        }
+    },
+    "新比赛_确认已进入挑战页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    758,
+                    57,
+                    80,
+                    35
+                ],
+                "expected": [
+                    "规则"
+                ]
+            }
+        },
+        "next": [
+            "新比赛_作战指示",
+            "新比赛_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3047,
+                "y": 169
+            }
+        }
+    },
+    "新比赛_作战指示": {
+        "enabled": false,
+        "max_hit": 1,
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    875,
+                    641,
+                    71,
+                    63
+                ],
+                "expected": [
+                    "作战指示"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Action.Succeeded": "切换作战指示"
+        },
+        "next": [
+            "[JumpBack]新比赛_攻击方法",
+            "[JumpBack]新比赛_攻击手",
+            "[JumpBack]新比赛_攻击目标",
+            "新比赛_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3312,
+                "y": 383
             }
         }
     }

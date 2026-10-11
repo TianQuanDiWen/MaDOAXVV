@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789669390469,
+            "lastSyncTime": 1791682877196,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\登陆游戏.json",
             "savedViewport": {
-                "x": -4512,
-                "y": -405,
-                "zoom": 0.71
+                "x": -9767,
+                "y": 283,
+                "zoom": 1.32
             },
             "filename": "登陆游戏",
-            "version": "v1.10.1"
+            "version": "v2.1.0"
         }
     },
     "登陆游戏_关闭公告": {
