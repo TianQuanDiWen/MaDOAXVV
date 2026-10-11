@@ -3,17 +3,41 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789146747707,
+            "lastSyncTime": 1791694719164,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -3673,
-                "y": 132,
-                "zoom": 1.03
+                "x": -1081,
+                "y": 358,
+                "zoom": 0.7
             },
             "filename": "每日活动挑战赛",
-            "version": "v1.10.0"
+            "version": "v2.1.0"
+        }
+    },
+    "日活动赛_SSS+无可挑战": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "contact": 1
+            }
+        },
+        "repeat": 3,
+        "focus": {
+            "Node.Recognition.Succeeded": "日活动赛：SSS+没有可挑战比赛 任务结束"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3263,
+                "y": -329
+            }
         }
     },
     "$__mpe_external_公共_长时间游玩确认_每日活动挑战赛": {
@@ -244,20 +268,12 @@
                     595
                 ],
                 "expected": [
-                    "半决赛"
+                    "(?<!半)决赛"
                 ]
             }
         },
         "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    -165,
-                    -68,
-                    222,
-                    17
-                ]
-            }
+            "type": "Click"
         },
         "post_wait_freezes": 1000,
         "next": [
@@ -347,7 +363,7 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "日活动赛_点击决赛",
+            "日活动赛_确认已经进入比赛列表",
             "日活动赛_点击最高挑战赛"
         ],
         "$__mpe_code": {
@@ -645,6 +661,29 @@
             "position": {
                 "x": 3634,
                 "y": -110
+            }
+        }
+    },
+    "日活动赛_确认已经进入比赛列表": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "取消"
+                ]
+            }
+        },
+        "timeout": 5000,
+        "next": [
+            "日活动赛_点击决赛"
+        ],
+        "on_error": [
+            "日活动赛_SSS+无可挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2966,
+                "y": -288
             }
         }
     }
