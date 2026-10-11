@@ -52,6 +52,12 @@
         "action": {
             "type": "Click",
             "param": {
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "contact": 1
             }
         },

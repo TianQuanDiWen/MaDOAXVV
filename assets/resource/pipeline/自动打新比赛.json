@@ -72,7 +72,13 @@
         "action": {
             "type": "Click",
             "param": {
-                "contact": 1
+                "contact": 1,
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
             }
         },
         "focus": {
@@ -237,7 +243,13 @@
         "action": {
             "type": "Click",
             "param": {
-                "contact": 1
+                "contact": 1,
+                "target": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
             }
         },
         "next": [
