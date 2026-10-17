@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789408618722,
+            "lastSyncTime": 1792278335275,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\岛主房间.json",
             "savedViewport": {
-                "x": -2483,
-                "y": 310,
-                "zoom": 1.17
+                "x": -1571,
+                "y": 74,
+                "zoom": 0.9
             },
             "filename": "岛主房间",
-            "version": "v1.10.0"
+            "version": "v2.1.0"
         }
     },
     "岛主房间_开始": {
@@ -339,18 +339,23 @@
     },
     "岛主房间_点击确认": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
-                "template": [
-                    "确定（遮罩）.png"
+                "roi": [
+                    387,
+                    397,
+                    576,
+                    235
                 ],
-                "green_mask": true
+                "expected": [
+                    "决定"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
+        "post_wait_freezes": 500,
         "focus": {
             "Node.Recognition.Succeeded": "岛主房间：工作流程结束"
         },
@@ -385,7 +390,8 @@
         },
         "post_wait_freezes": 500,
         "next": [
-            "岛主房间_点击确认"
+            "岛主房间_点击确认",
+            "岛主房间_点击确认结果"
         ],
         "$__mpe_code": {
             "position": {
