@@ -206,14 +206,14 @@ jobs:
     needs: meta
     runs-on: ubuntu-latest
     outputs:
-      release_body: ${{ steps.git-cliff.outputs.content }}
+      release_body: ${{ steps.ai_notes.outputs.content || steps.git-cliff.outputs.content }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Generate a changelog
+      - name: Generate a changelog (fallback)
         uses: orhun/git-cliff-action@v4
         id: git-cliff
         with:
@@ -226,6 +226,20 @@ jobs:
         env:
           OUTPUT: CHANGES.md
           GITHUB_REPO: ${{ github.repository }}
+
+      - name: Generate AI release notes
+        id: ai_notes
+        if: ${{ needs.meta.outputs.is_release == 'true' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          AI_TOKEN: ${{ secrets.AI_TOKEN || secrets.GEMINI_API_KEY }}
+          AI_BASE_URL: ${{ vars.AI_BASE_URL || secrets.AI_BASE_URL || '' }}
+          AI_MODEL: ${{ vars.AI_MODEL || 'gemini-3.5-flash-lite' }}
+          TAG_NAME: ${{ needs.meta.outputs.tag }}
+          IS_PRERELEASE: ${{ needs.meta.outputs.is_prerelease }}
+        run: |
+          python tools/generate_release_notes.py
 
   release:
     if: ${{ needs.meta.outputs.is_release == 'true' }}
