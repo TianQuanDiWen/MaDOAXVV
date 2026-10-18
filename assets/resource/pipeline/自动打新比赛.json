@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1792278532809,
+            "lastSyncTime": 1792317569087,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动打新比赛.json",
             "savedViewport": {
-                "x": -1870,
-                "y": -505,
+                "x": -3544,
+                "y": 186,
                 "zoom": 1.02
             },
             "filename": "自动打新比赛",
@@ -145,7 +145,7 @@
             "[JumpBack]新比赛_攻击方法",
             "[JumpBack]新比赛_攻击手",
             "[JumpBack]新比赛_攻击目标",
-            "新比赛_点击挑战"
+            "新比赛_打印比赛信息"
         ],
         "$__mpe_code": {
             "position": {
@@ -217,6 +217,46 @@
             "position": {
                 "x": 1068,
                 "y": 23
+            }
+        }
+    },
+    "新比赛_打印比赛信息": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "OCRLog",
+                "custom_action_param": {
+                    "regions": [
+                        {
+                            "roi": [
+                                272,
+                                62,
+                                402,
+                                73
+                            ]
+                        },
+                        {
+                            "roi": [
+                                1138,
+                                172,
+                                91,
+                                30
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "focus": {
+            "Node.PipelineNode.Succeeded": "目标: {1}级 {0} 准备开始"
+        },
+        "next": [
+            "新比赛_点击挑战"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4120,
+                "y": 132
             }
         }
     },
@@ -683,9 +723,7 @@
         "action": {
             "type": "Click"
         },
-        "focus": {
-            "Node.Recognition.Succeeded": "新比赛：开始比赛"
-        },
+        "focus": "",
         "next": [
             "公共_长时间游玩确认",
             "[JumpBack]新比赛_补充体力",
@@ -795,7 +833,7 @@
         },
         "next": [
             "新比赛_作战指示",
-            "新比赛_点击挑战"
+            "新比赛_打印比赛信息"
         ],
         "$__mpe_code": {
             "position": {

@@ -3,17 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789699558594,
+            "lastSyncTime": 1792317465669,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日自动挑战券.json",
             "savedViewport": {
-                "x": -3220,
-                "y": 795,
-                "zoom": 1.71
+                "x": -1903,
+                "y": 13,
+                "zoom": 0.9
             },
             "filename": "每日自动挑战券",
-            "version": "v1.10.1"
+            "version": "v2.1.0"
         }
     },
     "每日挑战_主页": {
@@ -228,12 +228,12 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "每日挑战_点击自动"
+            "每日挑战_确认已进入挑战页"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2858,
-                "y": 39
+                "x": 2809,
+                "y": -229
             }
         }
     },
@@ -475,7 +475,7 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3163,
+                "x": 3224,
                 "y": 34
             }
         }
@@ -529,6 +529,71 @@
             "position": {
                 "x": 3718,
                 "y": -81
+            }
+        }
+    },
+    "每日挑战_打印比赛信息": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "OCRLog",
+                "custom_action_param": {
+                    "regions": [
+                        {
+                            "roi": [
+                                272,
+                                62,
+                                402,
+                                73
+                            ]
+                        },
+                        {
+                            "roi": [
+                                1138,
+                                172,
+                                91,
+                                30
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "focus": {
+            "Node.PipelineNode.Succeeded": "目标: {1}级 {0} 准备开始"
+        },
+        "next": [
+            "每日挑战_点击自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3032,
+                "y": 411
+            }
+        }
+    },
+    "每日挑战_确认已进入挑战页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    758,
+                    57,
+                    80,
+                    35
+                ],
+                "expected": [
+                    "规则"
+                ]
+            }
+        },
+        "next": [
+            "每日挑战_打印比赛信息"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2897,
+                "y": 139
             }
         }
     }

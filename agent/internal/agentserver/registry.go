@@ -5,6 +5,7 @@ import (
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
 	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/loopguard"
+	"github.com/TianQuanDiWen/MaDOAXVV/agent/internal/ocrlog"
 )
 
 // Registry 保存项目提供给 MaaFramework 的自定义识别和自定义动作。
@@ -72,6 +73,14 @@ func BuildRegistry() (*Registry, error) {
 		loopguard.NewRunner(),
 	); err != nil {
 		return nil, fmt.Errorf("register LoopGuard: %w", err)
+	}
+
+	// 通用 OCR 日志：识别多个指定 ROI 并填入原生 focus 占位符
+	if err := registry.AddAction(
+		"OCRLog",
+		ocrlog.NewRunner(),
+	); err != nil {
+		return nil, fmt.Errorf("register OCRLog: %w", err)
 	}
 
 	return registry, nil
