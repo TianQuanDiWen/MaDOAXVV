@@ -81,7 +81,7 @@ func (r *Runner) Run(ctx *maa.Context, arg *maa.CustomActionArg) bool {
 
 	formattedFocus := formatFocus(template, results)
 
-	fmt.Printf("[OCRLog] 节点 %q 识别完成 -> 结果: %s (目标输出节点: %q)\n", arg.CurrentTaskName, formattedFocus, targetNodeName)
+	// fmt.Printf("[OCRLog] 节点 %q 识别完成 -> 结果: %s (目标输出节点: %q)\n", arg.CurrentTaskName, formattedFocus, targetNodeName)
 
 	var currOrigFocus, targetOrigFocus any
 	if currNode != nil {
