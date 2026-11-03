@@ -3,14 +3,14 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1792278409814,
+            "lastSyncTime": 1793703690187,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\自动排位.json",
             "savedViewport": {
-                "x": -2321,
-                "y": 105,
-                "zoom": 1.16
+                "x": -1279,
+                "y": 86,
+                "zoom": 0.7
             },
             "filename": "自动排位",
             "version": "v2.1.0"
@@ -162,7 +162,8 @@
             "Node.Action.Failed": "排位：检测到游戏界面锁死，重新执行当前任务"
         },
         "next": [
-            "排位_点击对战"
+            "排位_点击对战",
+            "排位_选择对手"
         ],
         "on_error": [
             "[Anchor]任务入口"
@@ -204,8 +205,14 @@
         "recognition": {
             "type": "OCR",
             "param": {
+                "roi": [
+                    147,
+                    243,
+                    269,
+                    135
+                ],
                 "expected": [
-                    "0/5"
+                    "^0/5$"
                 ]
             }
         },
@@ -218,7 +225,7 @@
         "$__mpe_code": {
             "position": {
                 "x": 2885,
-                "y": -455
+                "y": -490
             }
         }
     },
@@ -501,7 +508,7 @@
         "action": {
             "type": "Click"
         },
-        "rate_limit": 1000,
+        "rate_limit": 500,
         "focus": "",
         "next": [
             "排位_确认跳过",
@@ -534,6 +541,8 @@
                 ]
             }
         },
+        "repeat": 2,
+        "repeat_delay": 500,
         "post_wait_freezes": 1000,
         "next": [
             "排位_比赛开始",
