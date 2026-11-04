@@ -31,7 +31,7 @@
     "packageName": "{project}-{platform}-{arch}-{version}.zip",
     "targets": [
         {
-            "runner": "ubuntu-latest",
+            "runner": "windows-latest",
             "platform": "win",
             "arch": "x86_64"
         }

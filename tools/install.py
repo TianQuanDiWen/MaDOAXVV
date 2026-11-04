@@ -101,6 +101,140 @@ def install_deps():
         )
 
 
+def set_windows_exe_icon(exe_path, ico_path):
+    """
+    Embed an .ico file into a Windows PE executable (.exe) using Windows Resource APIs.
+    Sets both RT_ICON and RT_GROUP_ICON for resource IDs 32512 and 1 in languages 1033 (en-US) and 0 (neutral).
+    Gracefully skips on non-Windows platforms.
+    """
+    if sys.platform != "win32":
+        return
+
+    exe_path = Path(exe_path)
+    ico_path = Path(ico_path)
+    if not exe_path.exists() or not ico_path.exists():
+        return
+
+    import ctypes
+    from ctypes import wintypes
+    import struct
+
+    kernel32 = ctypes.windll.kernel32
+
+    RT_ICON = 3
+    RT_GROUP_ICON = 14
+
+    kernel32.BeginUpdateResourceW.argtypes = [wintypes.LPCWSTR, wintypes.BOOL]
+    kernel32.BeginUpdateResourceW.restype = wintypes.HANDLE
+
+    kernel32.UpdateResourceW.argtypes = [
+        wintypes.HANDLE,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        wintypes.WORD,
+        ctypes.c_void_p,
+        wintypes.DWORD,
+    ]
+    kernel32.UpdateResourceW.restype = wintypes.BOOL
+
+    kernel32.EndUpdateResourceW.argtypes = [wintypes.HANDLE, wintypes.BOOL]
+    kernel32.EndUpdateResourceW.restype = wintypes.BOOL
+
+    try:
+        with open(ico_path, "rb") as f:
+            ico_data = f.read()
+
+        reserved, ico_type, image_count = struct.unpack("<HHH", ico_data[:6])
+        if reserved != 0 or ico_type != 1:
+            return
+
+        grp_header = ico_data[:6]
+        grp_entries = bytearray()
+        images = []
+        offset = 6
+
+        for i in range(1, image_count + 1):
+            (
+                width,
+                height,
+                color_count,
+                reserved,
+                planes,
+                bit_count,
+                bytes_in_res,
+                image_offset,
+            ) = struct.unpack("<BBBBHHII", ico_data[offset : offset + 16])
+            offset += 16
+            grp_entry = struct.pack(
+                "<BBBBHHIH",
+                width,
+                height,
+                color_count,
+                reserved,
+                planes,
+                bit_count,
+                bytes_in_res,
+                i,
+            )
+            grp_entries.extend(grp_entry)
+            images.append((i, ico_data[image_offset : image_offset + bytes_in_res]))
+
+        grp_data = bytes(grp_header + grp_entries)
+
+        h_update = kernel32.BeginUpdateResourceW(str(exe_path), False)
+        if not h_update:
+            err = kernel32.GetLastError()
+            print(f"Notice: BeginUpdateResourceW failed for {exe_path.name} (error code: {err}).")
+            return
+
+        committed = False
+        try:
+            target_langs = [1033, 0]
+            for icon_id, img_bytes in images:
+                for lang in target_langs:
+                    ok = kernel32.UpdateResourceW(
+                        h_update,
+                        RT_ICON,
+                        icon_id,
+                        lang,
+                        img_bytes,
+                        len(img_bytes),
+                    )
+                    if not ok:
+                        err = kernel32.GetLastError()
+                        print(f"Notice: Failed to write RT_ICON {icon_id} (lang {lang}) to {exe_path.name} (error code: {err}).")
+                        return
+
+            target_group_ids = [32512, 1]
+            for grp_id in target_group_ids:
+                for lang in target_langs:
+                    ok = kernel32.UpdateResourceW(
+                        h_update,
+                        RT_GROUP_ICON,
+                        grp_id,
+                        lang,
+                        grp_data,
+                        len(grp_data),
+                    )
+                    if not ok:
+                        err = kernel32.GetLastError()
+                        print(f"Notice: Failed to write RT_GROUP_ICON {grp_id} (lang {lang}) to {exe_path.name} (error code: {err}).")
+                        return
+
+            success = kernel32.EndUpdateResourceW(h_update, False)
+            committed = True
+            if success:
+                print(f"Embedded icon into {exe_path.name} successfully.")
+            else:
+                err = kernel32.GetLastError()
+                print(f"Notice: EndUpdateResourceW returned False for {exe_path.name} (error code: {err}).")
+        finally:
+            if not committed:
+                kernel32.EndUpdateResourceW(h_update, True)
+    except Exception as e:
+        print(f"Notice: Failed to embed icon into {exe_path.name}: {e}")
+
+
 def install_mxu():
     mxu_path = downloads_path / "MXU"
     if not mxu_path.exists():
@@ -118,6 +252,9 @@ def install_mxu():
     executable_suffix = ".exe" if os_name == "win" else ""
     project_executable = install_path / f"{project_name}{executable_suffix}"
     shutil.copy2(original_executable, project_executable)
+
+    if os_name == "win":
+        set_windows_exe_icon(project_executable, working_dir / "assets" / "icon.ico")
 
 
 def install_resource():
@@ -157,6 +294,10 @@ def install_resource():
     ]
     interface["agent"]["child_exec"] = "./agent/MaDOAXVV.Agent.exe"
     interface["agent"]["child_args"] = ["agent", "--root", "."]
+    # assets/interface.json 源码调试态使用当前目录下的 icon.png / logo.png；
+    # 发布包中 interface.json 位于根目录，视觉资产统一归入 assets/ 目录。
+    interface["icon"] = "assets/icon.png"
+    interface["logo"] = "assets/logo.png"
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
@@ -171,6 +312,14 @@ def install_chores():
         working_dir / "LICENSE",
         install_path,
     )
+
+    # 仅将应用图标与 Logo 拷贝至 install/assets 目录供界面与 README 使用
+    install_assets_dir = install_path / "assets"
+    install_assets_dir.mkdir(parents=True, exist_ok=True)
+    for icon_name in ("icon.ico", "icon.png", "logo.png"):
+        src = working_dir / "assets" / icon_name
+        if src.exists():
+            shutil.copy2(src, install_assets_dir / icon_name)
 
 
 def install_agent():
@@ -207,6 +356,9 @@ def install_agent():
         env=environment,
         check=True,
     )
+
+    if os_name == "win":
+        set_windows_exe_icon(output_path, working_dir / "assets" / "icon.ico")
 
 
 if __name__ == "__main__":

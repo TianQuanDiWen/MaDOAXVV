@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import io
 import json
 import sys
 import tempfile
@@ -6,6 +7,17 @@ import argparse
 from pathlib import Path
 from jsonschema import Draft7Validator, Draft202012Validator
 from jsonschema.exceptions import ValidationError
+
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, io.UnsupportedOperation):
+        pass
+if sys.stderr.encoding and sys.stderr.encoding.lower() != "utf-8":
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except (AttributeError, io.UnsupportedOperation):
+        pass
 
 try:
     from referencing import Registry, Resource
@@ -88,6 +100,41 @@ def load_jsonc(file_path):
             f.write(clean_content)
         print(f"Cleaned content saved to {debug_file}")
         raise
+
+
+def deep_merge(target, patch):
+    """递归合并 patch 到 target 字典中"""
+    for key, value in patch.items():
+        if isinstance(value, dict) and isinstance(target.get(key), dict):
+            deep_merge(target[key], value)
+        else:
+            target[key] = value
+    return target
+
+
+def load_schema(schema_path, extension_dir=None):
+    """加载 schema 文件并自动应用匹配的项目专用扩展文件"""
+    schema = load_jsonc(schema_path)
+    if extension_dir:
+        ext_dir = Path(extension_dir)
+        if ext_dir.is_dir():
+            schema_path = Path(schema_path)
+            stem_name = schema_path.name.replace(".schema.json", "")
+            ext_candidates = [
+                ext_dir / f"{stem_name}.extension.json",
+                ext_dir / f"{schema_path.name}.extension.json",
+                ext_dir / f"{stem_name}.patch.json",
+            ]
+            for ext_path in ext_candidates:
+                if ext_path.is_file():
+                    try:
+                        patch = load_jsonc(ext_path)
+                        deep_merge(schema, patch)
+                        print(f"Applied extension {ext_path.name} to {schema_path.name}")
+                        break
+                    except Exception as e:
+                        print(f"Warning: Failed to apply extension {ext_path} to {schema_path.name}: {e}")
+    return schema
 
 
 def get_validator_class(schema):
@@ -218,6 +265,12 @@ def main():
         help="Directory containing schema files (default: tools/schema)",
     )
     parser.add_argument(
+        "--extension-dir",
+        type=str,
+        default="tools/schema",
+        help="Directory containing project schema extension files (default: tools/schema)",
+    )
+    parser.add_argument(
         "--resource-dirs",
         type=str,
         nargs="+",
@@ -252,12 +305,15 @@ def main():
 
     # 加载所有 schema 文件
     schema_dir = Path(args.schema_dir).resolve()
+    extension_dir = Path(args.extension_dir).resolve() if args.extension_dir else None
+    if extension_dir and not extension_dir.is_dir():
+        extension_dir = None
     schema_store = {}
 
     print("Loading schemas...")
     for schema_file in schema_dir.glob("*.json"):
         try:
-            schema = load_jsonc(schema_file)
+            schema = load_schema(schema_file, extension_dir)
             # 使用多种格式的 URI 作为 key
             file_uri = schema_file.as_uri()
             relative_path = f"./{schema_file.name}"
@@ -269,9 +325,21 @@ def main():
         except Exception as e:
             print(f"Warning: Failed to load schema {schema_file}: {e}")
 
+    # 加载 extension_dir 中的额外 standalone schema（如有）
+    if extension_dir:
+        for schema_file in extension_dir.glob("*.schema.json"):
+            try:
+                schema = load_jsonc(schema_file)
+                file_uri = schema_file.as_uri()
+                schema_store[file_uri] = schema
+                schema_store[f"./{schema_file.name}"] = schema
+                schema_store[f"/{schema_file.name}"] = schema
+            except Exception as e:
+                print(f"Warning: Failed to load extra schema {schema_file}: {e}")
+
     # 加载并创建 pipeline validator
     pipeline_schema_path = schema_dir / "pipeline.schema.json"
-    pipeline_schema = load_jsonc(pipeline_schema_path)
+    pipeline_schema = load_schema(pipeline_schema_path, extension_dir)
     pipeline_schema_uri = pipeline_schema_path.as_uri()
     schema_store[pipeline_schema_uri] = pipeline_schema
 
@@ -317,7 +385,7 @@ def main():
     # 验证 interface 文件
     interface_schema_path = schema_dir / "interface.schema.json"
     if interface_schema_path.exists():
-        interface_schema = load_jsonc(interface_schema_path)
+        interface_schema = load_schema(interface_schema_path, extension_dir)
         interface_schema_uri = interface_schema_path.as_uri()
         schema_store[interface_schema_uri] = interface_schema
 
@@ -338,7 +406,7 @@ def main():
         print("\nValidating task files...")
         task_schema_path = schema_dir / "interface_import.schema.json"
         if task_schema_path.exists():
-            task_schema = load_jsonc(task_schema_path)
+            task_schema = load_schema(task_schema_path, extension_dir)
             task_schema_uri = task_schema_path.as_uri()
             schema_store[task_schema_uri] = task_schema
 

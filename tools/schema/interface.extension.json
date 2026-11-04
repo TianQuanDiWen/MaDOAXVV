@@ -1,0 +1,20 @@
+{
+    "$comment": "Project-specific interface.schema.json extension for MaDOAXVV",
+    "properties": {
+        "logo": {
+            "$ref": "#/definitions/i18nString",
+            "title": "应用Logo",
+            "description": "应用 Logo 图片路径，相对于项目根目录"
+        },
+        "theme_color": {
+            "$ref": "#/definitions/i18nString",
+            "title": "主题色",
+            "description": "项目的默认主题颜色值"
+        },
+        "accent_color": {
+            "$ref": "#/definitions/i18nString",
+            "title": "色彩名",
+            "description": "项目默认主题颜色的色彩名"
+        }
+    }
+}

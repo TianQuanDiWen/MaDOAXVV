@@ -5,6 +5,7 @@ param(
     [string]$Target = "",
     [string]$Version = "",
     [switch]$Clean,
+    [switch]$UpdateDeps,
     [switch]$SkipChecks,
     [switch]$NoPause,
     [switch]$DryRun
@@ -381,6 +382,11 @@ function Install-GitHubReleaseAsset {
     Get-ChildItem -LiteralPath $ExtractDirectory -Force |
         Copy-Item -Destination $Destination -Recurse -Force
     Remove-TemporaryDirectory -Path $ExtractDirectory
+
+    if (Get-Command Unblock-File -ErrorAction SilentlyContinue) {
+        Get-ChildItem -LiteralPath $Destination -Recurse -File -ErrorAction SilentlyContinue |
+            Unblock-File -ErrorAction SilentlyContinue
+    }
 }
 
 try {
@@ -517,6 +523,11 @@ try {
         Remove-SafeDirectory -Path $OutputDir -Quiet
     }
 
+    if ($UpdateDeps) {
+        Write-Step "Updating dependencies: clearing cached MXU"
+        Remove-SafeDirectory -Path $MxuDir -Quiet
+    }
+
     $Headers = Get-GitHubHeaders -ProjectName $Config.projectName
     $CommonOcrDir = Join-Path $Root "assets\MaaCommonAssets\OCR"
     if (-not (Test-Path -LiteralPath $CommonOcrDir)) {
@@ -588,6 +599,7 @@ try {
                     "python",
                     "tools/validate_schema.py",
                     "--schema-dir", "deps/tools",
+                    "--extension-dir", "tools/schema",
                     "--resource-dirs", "assets/resource",
                     "--exclude-dirs", "assets/resource/announcement",
                     "--interface-files", "assets/interface.json"
@@ -611,6 +623,11 @@ try {
     }
     finally {
         Pop-Location
+    }
+
+    if (Get-Command Unblock-File -ErrorAction SilentlyContinue) {
+        Get-ChildItem -LiteralPath $OutputDir -Recurse -File -ErrorAction SilentlyContinue |
+            Unblock-File -ErrorAction SilentlyContinue
     }
 
     Write-Host ""

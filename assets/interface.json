@@ -1,10 +1,14 @@
 {
     "interface_version": 2,
     "name": "MaDOAXVV",
-    "description": "基于 MaaFramework 的《DEAD OR ALIVE Xtreme Venus Vacation》自动化日常辅助项目。\n\n本项目为**完全免费的开源工具**，请勿付费购买。\n\n制作初衷纯粹是为了自动清理日常，跑完全套流程正好能做完每日日常。旨在减少枯燥的重复劳作，降低大家的每日打卡负担，因此不提供任何形式的无限刷分、挂机清体力等功利性功能。\n\n**项目地址**\nGitHub: https://github.com/TianQuanDiWen/MaDOAXVV",
-    "contact": "",
+    "icon": "icon.png",
+    "logo": "logo.png",
+    "theme_color": "#2EA7E0",
+    "accent_color": "维纳斯蓝",
+    "description": "**✨ 《死或生：沙滩排球女神假期》自动化日常助手 · 基于 MaaFramework ✨**\n\n[🏖️ 前往 GitHub 仓库](https://github.com/TianQuanDiWen/MaDOAXVV) ｜ [💡 问题与建议反馈](https://github.com/TianQuanDiWen/MaDOAXVV/issues)\n\n_如果觉得好用，欢迎在 GitHub 点亮一颗小星星 🌟 鼓励作者！_\n\n---\n🛡️ 本软件永久免费开源（AGPL-3.0），严禁用于倒卖牟利或收费代练。",
+    "contact": "[前往 GitHub Issues 提交反馈](https://github.com/TianQuanDiWen/MaDOAXVV/issues)",
     "license": "AGPL-3.0",
-    "welcome": "欢迎使用 MaDOAXVV。\n\n本项目为免费开源项目，请勿付费购买。如您通过付费方式获得，请及时退款并谨防受骗。\n\n自动化工具可能违反游戏用户协议，请自行评估风险，谨慎使用。",
+    "welcome": "### 🏖️ 欢迎使用 MaDOAXVV！\n基于 **MaaFramework** 开发的《DEAD OR ALIVE Xtreme Venus Vacation》全自动日常助手，助你轻松解放双手。\n\n> **📢 免费与开源声明**  \n> 本项目遵循 AGPL-3.0 协议**完全免费开源**，严禁任何形式的倒卖、转售或收费代练。若您通过付费途径购得，请立即维权退款并举报商家！\n\n> **⚠️ 使用提示与免责**  \n> 软件基于图像识别与模拟操作，仅供个人学习研究与日常减负使用，使用风险由使用者自行评估承担。\n\n---\n⭐ **开源不易**：如果 MaDOAXVV 帮您节省了日常时间，欢迎前往 [GitHub 仓库](https://github.com/TianQuanDiWen/MaDOAXVV) 点亮一颗 Star 给予支持！使用遇到异常请在 [Issues 反馈区](https://github.com/TianQuanDiWen/MaDOAXVV/issues) 附带 `debug/` 日志提交。",
     "github": "https://github.com/TianQuanDiWen/MaDOAXVV",
     "version": "0.1.0",
     "pretask": {
@@ -430,7 +434,7 @@
                 },
                 {
                     "name": "退出游戏",
-                    "enabled": false
+                    "enabled": true
                 }
             ]
         }
