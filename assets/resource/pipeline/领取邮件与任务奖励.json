@@ -3,49 +3,41 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1789509193843,
+            "lastSyncTime": 1794086686022,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\领取邮件与任务奖励.json",
             "savedViewport": {
-                "x": -2229,
-                "y": 1362,
-                "zoom": 1.1
+                "x": -541,
+                "y": 527,
+                "zoom": 0.29
             },
             "filename": "领取邮件与任务奖励",
-            "version": "v1.10.0"
+            "version": "v2.1.1"
         }
     },
     "$__mpe_group_领取任务奖励_领取邮件与任务奖励": {
         "$__mpe_code": {
             "position": {
-                "x": 1979,
-                "y": -1398
+                "x": 1984,
+                "y": -951
             },
             "color": "blue",
             "childrenLabels": [
                 "领取_任务领完",
                 "领取_加载中重试",
                 "领取_岛主",
-                "领取_岛主_检查可领取",
-                "领取_岛主_点击确认",
-                "领取_岛主_页面内全部领取",
+                "领取_点击确认",
                 "领取_每周",
-                "领取_每周_检查可领取",
-                "领取_每周_点击确认",
-                "领取_每周_页面内全部领取",
                 "领取_每日",
-                "领取_每日_检查可领取",
-                "领取_每日_点击确认",
-                "领取_每日_页面内全部领取",
-                "领取_活动_检查可领取",
-                "领取_活动_点击确认",
-                "领取_活动_页面内全部领取",
+                "领取_检查可领取",
+                "领取_页面内全部领取",
                 "领取_点击任务",
-                "领取_点击活动"
+                "领取_点击活动",
+                "领取_确认不存在结束"
             ],
-            "width": 1388,
-            "height": 1435
+            "width": 1745,
+            "height": 935
         }
     },
     "领取_任务领完": {
@@ -69,8 +61,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2012,
-                "y": -125
+                "x": 3431,
+                "y": -867
             }
         }
     },
@@ -106,8 +98,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2227,
-                "y": 323
+                "x": 4130,
+                "y": -605
             }
         }
     },
@@ -130,14 +122,10 @@
         "action": {
             "type": "Click"
         },
-        "next": [
-            "领取_信箱_点击确认",
-            "领取_信箱_全部领取"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 3116,
-                "y": 118
+                "x": 5108,
+                "y": -176
             }
         }
     },
@@ -153,8 +141,8 @@
         "post_delay": 500,
         "$__mpe_code": {
             "position": {
-                "x": 3845,
-                "y": -30
+                "x": 4752,
+                "y": -871
             }
         }
     },
@@ -174,12 +162,13 @@
             }
         },
         "next": [
-            "领取_信箱_全部领取"
+            "领取_信箱_全部领取",
+            "[JumpBack]领取_信箱_点击确认"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2827,
-                "y": 233
+                "x": 4752,
+                "y": -229
             }
         }
     },
@@ -198,63 +187,10 @@
             "type": "Click"
         },
         "post_wait_freezes": 200,
-        "next": [
-            "[JumpBack]领取_信箱_加载中重试",
-            "领取_信箱_达到上限",
-            "领取_信箱_点击确认",
-            "领取_信箱_确认已经在信箱"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 3423,
-                "y": 259
-            }
-        }
-    },
-    "领取_信箱_点击确认(处理延迟)": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "pre_wait_freezes": 200,
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 200,
-        "$__mpe_code": {
-            "position": {
-                "x": 2830,
-                "y": 736
-            }
-        }
-    },
-    "领取_信箱_确认上限": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "pre_wait_freezes": 200,
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "领取_信箱_确认上限",
-            "领取_信箱_结束"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 4008,
-                "y": 390
+                "x": 5464,
+                "y": -72
             }
         }
     },
@@ -274,14 +210,16 @@
             }
         },
         "next": [
-            "[JumpBack]领取_信箱_点击确认(处理延迟)",
+            "[JumpBack]领取_信箱_加载中重试",
+            "[JumpBack]领取_信箱_点击确认",
             "领取_信箱_确认无道具",
-            "领取_信箱_检查可领取"
+            "[JumpBack]领取_信箱_检查可领取",
+            "领取_信箱_达到上限"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2560,
-                "y": 333
+                "x": 4463,
+                "y": -595
             }
         }
     },
@@ -309,8 +247,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3280,
-                "y": 737
+                "x": 4752,
+                "y": -574
             }
         }
     },
@@ -342,13 +280,14 @@
             }
         },
         "next": [
+            "[JumpBack]领取_信箱_点击确认",
             "领取_信箱_结束",
             "领取_结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 4330,
-                "y": 690
+                "x": 5108,
+                "y": -527
             }
         }
     },
@@ -371,12 +310,13 @@
             "Node.Action.Succeeded": "信箱存在到达领取上限道具"
         },
         "next": [
-            "领取_信箱_确认上限"
+            "[JumpBack]领取_信箱_点击确认",
+            "领取_信箱_结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3740,
-                "y": 409
+                "x": 4752,
+                "y": 42
             }
         }
     },
@@ -392,8 +332,8 @@
         "post_delay": 500,
         "$__mpe_code": {
             "position": {
-                "x": 2023,
-                "y": -904
+                "x": 2035,
+                "y": -475
             }
         }
     },
@@ -417,43 +357,17 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "领取_岛主_检查可领取",
+            "[JumpBack]领取_检查可领取",
             "领取_点击活动"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2300,
-                "y": -658
+                "x": 2876,
+                "y": -892
             }
         }
     },
-    "领取_岛主_检查可领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    853,
-                    183,
-                    155,
-                    409
-                ],
-                "expected": [
-                    "领取"
-                ]
-            }
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_岛主_页面内全部领取"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2581,
-                "y": -658
-            }
-        }
-    },
-    "领取_岛主_点击确认": {
+    "领取_点击确认": {
         "recognition": {
             "type": "TemplateMatch",
             "param": {
@@ -467,43 +381,10 @@
             "type": "Click"
         },
         "post_wait_freezes": 1000,
-        "next": [
-            "领取_岛主_点击确认",
-            "领取_岛主"
-        ],
         "$__mpe_code": {
             "position": {
-                "x": 3118,
-                "y": -660
-            }
-        }
-    },
-    "领取_岛主_页面内全部领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    728,
-                    583,
-                    309,
-                    86
-                ],
-                "expected": [
-                    "页面内全部领取"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_岛主_点击确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2843,
-                "y": -658
+                "x": 3259,
+                "y": -342
             }
         }
     },
@@ -552,8 +433,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1928,
-                "y": 308
+                "x": 3831,
+                "y": -620
             }
         }
     },
@@ -577,93 +458,13 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "领取_每周_检查可领取",
+            "[JumpBack]领取_检查可领取",
             "领取_岛主"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2300,
-                "y": -1012
-            }
-        }
-    },
-    "领取_每周_检查可领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    853,
-                    183,
-                    155,
-                    409
-                ],
-                "expected": [
-                    "领取"
-                ]
-            }
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_每周_页面内全部领取"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2576,
-                "y": -1008
-            }
-        }
-    },
-    "领取_每周_点击确认": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_每周_点击确认",
-            "领取_每周"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3121,
-                "y": -1002
-            }
-        }
-    },
-    "领取_每周_页面内全部领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    728,
-                    583,
-                    309,
-                    86
-                ],
-                "expected": [
-                    "页面内全部领取"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_每周_点击确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2842,
-                "y": -1006
+                "x": 2591,
+                "y": -902
             }
         }
     },
@@ -687,17 +488,17 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "领取_每日_检查可领取",
+            "[JumpBack]领取_检查可领取",
             "领取_每周"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2302,
-                "y": -1348
+                "x": 2307,
+                "y": -901
             }
         }
     },
-    "领取_每日_检查可领取": {
+    "领取_检查可领取": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -712,43 +513,17 @@
                 ]
             }
         },
-        "post_wait_freezes": 1000,
         "next": [
-            "领取_每日_页面内全部领取"
+            "领取_页面内全部领取"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2580,
-                "y": -1342
+                "x": 2371,
+                "y": -439
             }
         }
     },
-    "领取_每日_点击确认": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_每日_点击确认",
-            "领取_每日"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3119,
-                "y": -1346
-            }
-        }
-    },
-    "领取_每日_页面内全部领取": {
+    "领取_页面内全部领取": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -766,94 +541,15 @@
         "action": {
             "type": "Click"
         },
-        "post_wait_freezes": 1000,
+        "post_delay": 1000,
         "next": [
-            "领取_每日_点击确认"
+            "[JumpBack]领取_点击确认",
+            "领取_确认不存在结束"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2843,
-                "y": -1341
-            }
-        }
-    },
-    "领取_活动_检查可领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    853,
-                    183,
-                    155,
-                    409
-                ],
-                "expected": [
-                    "领取"
-                ]
-            }
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_活动_页面内全部领取"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2571,
-                "y": -325
-            }
-        }
-    },
-    "领取_活动_点击确认": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "确定（遮罩）.png"
-                ],
-                "green_mask": true
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_活动_点击确认",
-            "领取_点击活动"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3119,
-                "y": -313
-            }
-        }
-    },
-    "领取_活动_页面内全部领取": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    728,
-                    583,
-                    309,
-                    86
-                ],
-                "expected": [
-                    "页面内全部领取"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "post_wait_freezes": 1000,
-        "next": [
-            "领取_活动_点击确认"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 2845,
-                "y": -317
+                "x": 2677,
+                "y": -454
             }
         }
     },
@@ -911,8 +607,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2016,
-                "y": -1355
+                "x": 2021,
+                "y": -908
             }
         }
     },
@@ -936,22 +632,65 @@
         },
         "post_wait_freezes": 1000,
         "next": [
-            "领取_活动_检查可领取",
+            "[JumpBack]领取_检查可领取",
             "领取_任务领完"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2296,
-                "y": -328
+                "x": 3118,
+                "y": -897
             }
         }
     },
     "领取_结束": {
         "$__mpe_code": {
             "position": {
-                "x": 4627,
-                "y": 603
+                "x": 5464,
+                "y": -474
             }
+        }
+    },
+    "领取_确认不存在结束": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "确定（遮罩）.png"
+                ],
+                "green_mask": true
+            }
+        },
+        "inverse": true,
+        "post_wait_freezes": 1000,
+        "$__mpe_code": {
+            "position": {
+                "x": 2994,
+                "y": -580
+            }
+        }
+    },
+    "$__mpe_group_领取信箱奖励_领取邮件与任务奖励": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3791,
+                "y": -947
+            },
+            "color": "green",
+            "childrenLabels": [
+                "领取_信箱",
+                "领取_信箱_全部领取",
+                "领取_信箱_加载中重试",
+                "领取_信箱_检查可领取",
+                "领取_信箱_点击确认",
+                "领取_信箱_确认已经在信箱",
+                "领取_信箱_确认无道具",
+                "领取_信箱_结束",
+                "领取_信箱_达到上限",
+                "领取_开始领取信箱",
+                "领取_结束"
+            ],
+            "width": 1918,
+            "height": 1287
         }
     }
 }
