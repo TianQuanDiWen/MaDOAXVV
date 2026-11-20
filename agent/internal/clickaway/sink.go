@@ -1,204 +1,322 @@
 package clickaway
 
 import (
+	"bytes"
 	"encoding/json"
-	"math"
-	"math/rand"
+	"errors"
+	"fmt"
+	"image"
+	"log/slog"
+	"slices"
 	"sync"
-	"time"
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
 )
 
-// DefaultFailThreshold 连续识别失败次数阈值。
-// 当同一个节点连续识别未命中达到该次数时，判定可能存在光标遮挡，
-// 触发就近向 ROI 外缘或屏幕中心移出以解除遮挡，并清空该节点状态记录。
+// DefaultFailThreshold 是检查鼠标遮挡前所需的连续整轮识别失败次数。
 const DefaultFailThreshold = 3
 
-// 有 ROI 配置时：向 ROI 外缘随机方向移出的距离范围（单位：像素）
-const (
-	MinEvasionOffset = 25
-	MaxEvasionOffset = 60
-)
+// Windows 构建提供鼠标坐标读取函数，其余平台跳过退避。
+var readCursorGeometry func(*maa.Context) (cursorGeometry, error)
 
-// 无 ROI 配置时：基于屏幕中心做 360° 随机漂移的步长范围（单位：像素）
-const (
-	MinDriftDistance = 80
-	MaxDriftDistance = 160
-)
+type cursorGeometry struct {
+	bounds image.Rectangle
+	margin image.Point
+	cursor func() (image.Point, bool)
+}
 
-// EvasionSink 实现 maa.ContextEventSink 接口，作为旁路监听器统计连续失败并在达到阈值时执行退避位移。
+// stage 保存当前任务的父节点、候选列表及对应的退避状态。
+type stage struct {
+	name      string
+	list      []maa.NextItem
+	failures  int
+	attempted bool
+}
+
+// EvasionSink 按候选列表的整轮结果计数，并在鼠标可能遮挡识别时尝试退避。
 type EvasionSink struct {
-	mu         sync.Mutex
-	nodeStates map[string]int
-	roiCache   map[string]maa.Rect
-	rng        *rand.Rand
+	mu     sync.Mutex
+	stages map[uint64]*stage
 }
 
-// NewEvasionSink 创建防遮挡退避事件监听器。
+// NewEvasionSink 创建防遮挡事件监听器。
 func NewEvasionSink() *EvasionSink {
-	return &EvasionSink{
-		nodeStates: make(map[string]int),
-		roiCache:   make(map[string]maa.Rect),
-		rng:        rand.New(rand.NewSource(time.Now().UnixNano())),
-	}
+	return &EvasionSink{stages: make(map[uint64]*stage)}
 }
 
-// OnNodeRecognition 监听节点识别事件。
-func (s *EvasionSink) OnNodeRecognition(ctx *maa.Context, status maa.EventStatus, detail maa.NodeRecognitionDetail) {
-	nodeName := detail.Name
-	if nodeName == "" {
+// OnNodeNextList 处理候选列表事件。候选全部失败算一轮，任一候选命中即清零。
+func (s *EvasionSink) OnNodeNextList(ctx *maa.Context, status maa.EventStatus, detail maa.NodeNextListDetail) {
+	if readCursorGeometry == nil {
+		return
+	}
+	current := s.recordRound(status, detail)
+	if current == nil || ctx == nil {
 		return
 	}
 
+	log := slog.With("component", "clickaway", "task_id", detail.TaskID, "stage", detail.Name,
+		"failed_rounds", DefaultFailThreshold)
+	geometry, err := readCursorGeometry(ctx)
+	if err != nil {
+		log.Debug("skipped cursor retreat", "reason", err)
+		return
+	}
+	rois, err := roundROIs(detail.List, geometry.bounds, ctx.GetNodeJSON, ctx.GetAnchor)
+	if err != nil {
+		log.Debug("skipped cursor retreat", "reason", err)
+		return
+	}
+	cursor, ok := geometry.cursor()
+	if !ok {
+		log.Debug("skipped cursor retreat", "reason", "cursor position cannot be mapped to recognition image")
+		return
+	}
+	if !inAnyROI(cursor, rois) {
+		log.Debug("skipped cursor retreat", "reason", "cursor outside effective ROIs", "roi_count", len(rois))
+		return
+	}
+	target, ok := retreatTarget(cursor, geometry.bounds, rois, geometry.margin)
+	if !ok {
+		log.Debug("skipped cursor retreat", "reason", "no reachable point outside all ROIs")
+		return
+	}
+	if !s.beginMove(detail.TaskID, current) {
+		return
+	}
+
+	box := maa.Rect{target.X, target.Y, 1, 1}
+	action, err := ctx.RunActionDirect(maa.ActionTypeTouchMove, maa.TouchMoveParam{
+		Target: maa.NewTargetRect(box),
+	}, box, nil)
+	log = log.With("cursor", cursor, "target", target, "roi_count", len(rois))
+	switch {
+	case err != nil:
+		log.Warn("cursor retreat failed", "error", err)
+	case action == nil:
+		log.Warn("cursor retreat failed", "reason", "missing action result")
+	case !action.Success:
+		log.Warn("cursor retreat failed", "action_id", action.ID)
+	default:
+		log.Info("cursor retreat completed", "action_id", action.ID)
+	}
+}
+
+// recordRound 达到阈值时返回当前识别阶段供退避检查。
+// 若检查后没有下发移动，后续失败可以重新累计。
+func (s *EvasionSink) recordRound(status maa.EventStatus, detail maa.NodeNextListDetail) *stage {
+	if detail.TaskID == 0 {
+		return nil
+	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
-	// 1. 识别成功：清空失败计数
-	if status == maa.EventStatusSucceeded {
-		delete(s.nodeStates, nodeName)
-		return
+	if len(detail.List) == 0 {
+		delete(s.stages, detail.TaskID)
+		return nil
 	}
 
-	// 2. 识别失败：累加计数
-	if status == maa.EventStatusFailed {
-		s.nodeStates[nodeName]++
-		if s.nodeStates[nodeName] >= DefaultFailThreshold {
-			delete(s.nodeStates, nodeName)
-
-			// 连续失败达到阈值：获取节点 ROI 并计算退避坐标（优先移出 ROI，保底中心漂移）
-			roi := s.getROI(ctx, nodeName)
-			targetX, targetY := s.calculateTarget(roi)
-
-			// 直接在当前上下文下发鼠标位移动作
-			if ctx != nil {
-				_, _ = ctx.RunActionDirect(
-					maa.ActionTypeTouchMove,
-					maa.TouchMoveParam{
-						Target: maa.NewTargetRect(maa.Rect{targetX, targetY, 1, 1}),
-					},
-					maa.Rect{targetX, targetY, 1, 1},
-					nil,
-				)
+	current := s.stages[detail.TaskID]
+	switch status {
+	case maa.EventStatusSucceeded:
+		delete(s.stages, detail.TaskID)
+	case maa.EventStatusStarting, maa.EventStatusFailed:
+		if current == nil || current.name != detail.Name || !slices.Equal(current.list, detail.List) {
+			current = &stage{name: detail.Name, list: slices.Clone(detail.List)}
+			s.stages[detail.TaskID] = current
+		}
+		if status == maa.EventStatusFailed && !current.attempted {
+			current.failures++
+			if current.failures == DefaultFailThreshold {
+				current.failures = 0
+				return current
 			}
-			// 等待游戏 UI 渲染管线消除按钮的 Hover 遮挡态
-			time.Sleep(100 * time.Millisecond)
 		}
 	}
+	return nil
 }
 
-// 实现 ContextEventSink 接口的其余 5 个方法（留空）
-func (s *EvasionSink) OnNodePipelineNode(*maa.Context, maa.EventStatus, maa.NodePipelineNodeDetail)       {}
-func (s *EvasionSink) OnNodeRecognitionNode(*maa.Context, maa.EventStatus, maa.NodeRecognitionNodeDetail) {}
-func (s *EvasionSink) OnNodeActionNode(*maa.Context, maa.EventStatus, maa.NodeActionNodeDetail)          {}
-func (s *EvasionSink) OnNodeNextList(*maa.Context, maa.EventStatus, maa.NodeNextListDetail)              {}
-func (s *EvasionSink) OnNodeAction(*maa.Context, maa.EventStatus, maa.NodeActionDetail)                  {}
-
-// getROI 惰性获取并缓存节点的 ROI 定义（内存命中 < 1 微秒，未命中查 C++ 配置 < 0.2 毫秒）。
-func (s *EvasionSink) getROI(ctx *maa.Context, nodeName string) maa.Rect {
-	if roi, ok := s.roiCache[nodeName]; ok {
-		return roi
+// beginMove 在锁内确认阶段未变并登记移动尝试，实际动作在锁外执行。
+func (s *EvasionSink) beginMove(taskID uint64, current *stage) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.stages[taskID] != current || current.attempted {
+		return false
 	}
-	if ctx == nil {
-		return maa.Rect{}
-	}
-
-	rawJSON, err := ctx.GetNodeJSON(nodeName)
-	if err != nil || rawJSON == "" {
-		s.roiCache[nodeName] = maa.Rect{}
-		return maa.Rect{}
-	}
-
-	roi := extractROI(rawJSON)
-	s.roiCache[nodeName] = roi
-	return roi
+	current.attempted = true
+	return true
 }
 
-// extractROI 从节点 JSON 中解析 ROI 矩形。
-// 支持顶层 "roi" 或 "recognition.param.roi"，格式须为 [x, y, w, h]。
-func extractROI(rawJSON string) maa.Rect {
-	var raw struct {
+// OnTaskerTask 在任务开始和结束时清理该任务的退避状态。
+func (s *EvasionSink) OnTaskerTask(_ *maa.Tasker, _ maa.EventStatus, detail maa.TaskerTaskDetail) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	delete(s.stages, detail.TaskID)
+}
+
+// 其余回调只用于满足 ContextEventSink 接口，单节点事件不参与计数。
+func (s *EvasionSink) OnNodePipelineNode(*maa.Context, maa.EventStatus, maa.NodePipelineNodeDetail) {}
+func (s *EvasionSink) OnNodeRecognitionNode(*maa.Context, maa.EventStatus, maa.NodeRecognitionNodeDetail) {
+}
+func (s *EvasionSink) OnNodeActionNode(*maa.Context, maa.EventStatus, maa.NodeActionNodeDetail)   {}
+func (s *EvasionSink) OnNodeRecognition(*maa.Context, maa.EventStatus, maa.NodeRecognitionDetail) {}
+func (s *EvasionSink) OnNodeAction(*maa.Context, maa.EventStatus, maa.NodeActionDetail)           {}
+
+// roundROIs 汇总本轮所有候选的有效识别区域。区域无法确定时跳过本轮退避。
+func roundROIs(list []maa.NextItem, bounds image.Rectangle, nodeJSON, getAnchor func(string) (string, error)) ([]image.Rectangle, error) {
+	var rois []image.Rectangle
+	for _, item := range list {
+		name := item.Name
+		if item.Anchor {
+			resolved, err := getAnchor(item.Name)
+			if err != nil {
+				return nil, fmt.Errorf("resolve anchor %q: %w", item.Name, err)
+			}
+			if resolved == "" {
+				continue
+			}
+			name = resolved
+		}
+		raw, err := nodeJSON(name)
+		if err != nil {
+			return nil, fmt.Errorf("read node %q: %w", name, err)
+		}
+		roi, err := nodeROI(raw, bounds)
+		if err != nil {
+			return nil, fmt.Errorf("resolve ROI for %q: %w", name, err)
+		}
+		if !roi.Empty() && !slices.Contains(rois, roi) {
+			rois = append(rois, roi)
+		}
+	}
+	return rois, nil
+}
+
+// nodeROI 解析节点的静态识别区域。全屏、未配置区域和不执行识别的节点返回空区域。
+func nodeROI(raw string, bounds image.Rectangle) (image.Rectangle, error) {
+	var node struct {
+		Enabled     *bool           `json:"enabled"`
+		Recognition json.RawMessage `json:"recognition"`
 		ROI         json.RawMessage `json:"roi"`
-		Recognition *struct {
-			Param json.RawMessage `json:"param"`
-		} `json:"recognition"`
+		Offset      json.RawMessage `json:"roi_offset"`
 	}
-	if err := json.Unmarshal([]byte(rawJSON), &raw); err != nil {
-		return maa.Rect{}
+	if err := json.Unmarshal([]byte(raw), &node); err != nil {
+		return image.Rectangle{}, err
+	}
+	if node.Enabled != nil && !*node.Enabled {
+		return image.Rectangle{}, nil
 	}
 
-	roiBytes := raw.ROI
-	if len(roiBytes) == 0 && raw.Recognition != nil && len(raw.Recognition.Param) > 0 {
-		var param struct {
-			ROI json.RawMessage `json:"roi"`
+	kind := "DirectHit"
+	roi, offset := node.ROI, node.Offset
+	if len(node.Recognition) > 0 {
+		if node.Recognition[0] == '"' {
+			if err := json.Unmarshal(node.Recognition, &kind); err != nil {
+				return image.Rectangle{}, err
+			}
+		} else {
+			var rec struct {
+				Type  string `json:"type"`
+				Param struct {
+					ROI    json.RawMessage `json:"roi"`
+					Offset json.RawMessage `json:"roi_offset"`
+				} `json:"param"`
+			}
+			if err := json.Unmarshal(node.Recognition, &rec); err != nil {
+				return image.Rectangle{}, err
+			}
+			kind = rec.Type
+			if len(rec.Param.ROI) != 0 {
+				roi = rec.Param.ROI
+			}
+			if len(rec.Param.Offset) != 0 {
+				offset = rec.Param.Offset
+			}
 		}
-		if err := json.Unmarshal(raw.Recognition.Param, &param); err == nil {
-			roiBytes = param.ROI
-		}
+	}
+	switch kind {
+	case "", "DirectHit":
+		return image.Rectangle{}, nil
+	case "TemplateMatch", "FeatureMatch", "ColorMatch", "OCR", "NeuralNetworkClassify", "NeuralNetworkDetect":
+	default:
+		return image.Rectangle{}, errors.New("recognition has no verifiable static ROI")
 	}
 
-	if len(roiBytes) == 0 {
-		return maa.Rect{}
+	values, err := readRect(roi)
+	if err != nil {
+		return image.Rectangle{}, err
 	}
-
-	var arr [4]int
-	if err := json.Unmarshal(roiBytes, &arr); err != nil {
-		return maa.Rect{}
+	delta, err := readRect(offset)
+	if err != nil {
+		return image.Rectangle{}, err
 	}
-	return maa.Rect(arr)
+	// 按识别图尺寸解析 ROI，再将 roi_offset 逐项加到位置和尺寸上。
+	x, w := resolveAxis(values[0], values[2], bounds.Dx())
+	y, h := resolveAxis(values[1], values[3], bounds.Dy())
+	x, y, w, h = x+delta[0], y+delta[1], w+delta[2], h+delta[3]
+	if w <= 0 || h <= 0 {
+		return image.Rectangle{}, errors.New("ROI has nonpositive dimensions after applying offset")
+	}
+	result := image.Rect(x, y, x+w, y+h).Intersect(bounds)
+	if result == bounds || result.Empty() {
+		return image.Rectangle{}, nil
+	}
+	return result, nil
 }
 
-// calculateTarget 计算防遮挡退避的目标坐标，并确保不超过游戏窗口边界 (1280x720)。
-//   - 有有效 ROI：向 ROI 外缘随机方向（上/下/左/右）移出 25~60 像素
-//   - 无 ROI 或全屏：以屏幕中心 (640, 360) 为基准做 360° 随机漂移 80~160 像素
-func (s *EvasionSink) calculateTarget(roi maa.Rect) (int, int) {
-	var targetX, targetY int
-
-	if roi.Width() > 0 && roi.Height() > 0 {
-		dir := s.rng.Intn(4)
-		offset := MinEvasionOffset + s.rng.Intn(MaxEvasionOffset-MinEvasionOffset+1)
-
-		switch dir {
-		case 0: // 向右移出
-			targetX = roi.X() + roi.Width() + offset
-			targetY = roi.Y() + s.rng.Intn(max(1, roi.Height()))
-		case 1: // 向左移出
-			targetX = roi.X() - offset
-			targetY = roi.Y() + s.rng.Intn(max(1, roi.Height()))
-		case 2: // 向下移出
-			targetX = roi.X() + s.rng.Intn(max(1, roi.Width()))
-			targetY = roi.Y() + roi.Height() + offset
-		case 3: // 向上移出
-			targetX = roi.X() + s.rng.Intn(max(1, roi.Width()))
-			targetY = roi.Y() - offset
-		}
-	} else {
-		// 无 ROI 或全屏：以屏幕中心 (640, 360) 为基准 360° 随机漂移
-		angle := s.rng.Float64() * 2 * math.Pi
-		dist := float64(MinDriftDistance + s.rng.Intn(MaxDriftDistance-MinDriftDistance+1))
-		targetX = 640 + int(math.Round(dist*math.Cos(angle)))
-		targetY = 360 + int(math.Round(dist*math.Sin(angle)))
+func readRect(raw json.RawMessage) ([4]int, error) {
+	var values []int32
+	if len(raw) == 0 || bytes.Equal(raw, []byte("null")) {
+		return [4]int{}, nil
 	}
-
-	clampedX := clamp(targetX, 10, 1270)
-	clampedY := clamp(targetY, 10, 710)
-
-	// 如果贴边导致钳位后仍落在 ROI 内部，保底退化为屏幕中心漂移
-	if roi.Width() > 0 && roi.Height() > 0 &&
-		clampedX >= roi.X() && clampedX < roi.X()+roi.Width() &&
-		clampedY >= roi.Y() && clampedY < roi.Y()+roi.Height() {
-		return s.calculateTarget(maa.Rect{})
+	if err := json.Unmarshal(raw, &values); err != nil || len(values) != 4 {
+		return [4]int{}, errors.New("ROI is not a static rectangle")
 	}
-
-	return clampedX, clampedY
+	return [4]int{int(values[0]), int(values[1]), int(values[2]), int(values[3])}, nil
 }
 
-func clamp(val, minVal, maxVal int) int {
-	if val < minVal {
-		return minVal
+func resolveAxis(position, size, limit int) (int, int) {
+	if position < 0 {
+		position += limit
 	}
-	if val > maxVal {
-		return maxVal
+	switch {
+	case size == 0:
+		size = limit - position
+	case size < 0:
+		position += size
+		size = -size
 	}
-	return val
+	return position, size
+}
+
+func inAnyROI(p image.Point, rois []image.Rectangle) bool {
+	return slices.ContainsFunc(rois, p.In)
+}
+
+// retreatTarget 用各 ROI 的边界划分识别图，从可用区域中选离鼠标最近的像素。
+func retreatTarget(cursor image.Point, bounds image.Rectangle, rois []image.Rectangle, margin image.Point) (image.Point, bool) {
+	xs := []int{cursor.X}
+	ys := []int{cursor.Y}
+	excluded := make([]image.Rectangle, 0, len(rois))
+	for _, r := range rois {
+		r.Min = r.Min.Sub(margin)
+		r.Max = r.Max.Add(margin)
+		excluded = append(excluded, r)
+		xs = append(xs, r.Min.X-1, r.Max.X)
+		ys = append(ys, r.Min.Y-1, r.Max.Y)
+	}
+
+	var best image.Point
+	bestDistance := int64(-1)
+	for _, x := range xs {
+		for _, y := range ys {
+			p := image.Pt(x, y)
+			if !p.In(bounds) || inAnyROI(p, excluded) {
+				continue
+			}
+			dx, dy := int64(x-cursor.X), int64(y-cursor.Y)
+			if distance := dx*dx + dy*dy; bestDistance < 0 || distance < bestDistance {
+				best, bestDistance = p, distance
+			}
+		}
+	}
+	return best, bestDistance >= 0
 }

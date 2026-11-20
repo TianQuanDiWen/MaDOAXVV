@@ -49,9 +49,10 @@ func Run(args []string) error {
 		return err
 	}
 
-	// 挂载防遮挡退避旁路监听器
+	// 监听候选列表结果和任务生命周期，用于防遮挡计数及状态清理。
 	evasionSink := clickaway.NewEvasionSink()
 	_ = maa.AgentServerAddContextSink(evasionSink)
+	_ = maa.AgentServerAddTaskerSink(evasionSink)
 
 	// 自定义识别和动作必须在启动通信服务前完成注册。
 	if err := maa.AgentServerStartUp(identifier); err != nil {

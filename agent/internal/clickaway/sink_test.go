@@ -1,155 +1,147 @@
 package clickaway
 
 import (
-	"math"
+	"fmt"
+	"image"
+	"reflect"
 	"testing"
 
 	maa "github.com/MaaXYZ/maa-framework-go/v4"
 )
 
-// 确保 EvasionSink 完整实现 maa.ContextEventSink 接口
-var _ maa.ContextEventSink = (*EvasionSink)(nil)
+var (
+	_ maa.ContextEventSink = (*EvasionSink)(nil)
+	_ maa.TaskerEventSink  = (*EvasionSink)(nil)
+)
 
-// TestExtractROI 验证从节点 JSON 中提取各种格式 ROI 的健壮性。
-func TestExtractROI(t *testing.T) {
-	cases := []struct {
-		name     string
-		rawJSON  string
-		expected maa.Rect
-	}{
-		{
-			name:     "顶层 ROI 数组",
-			rawJSON:  `{"roi": [100, 200, 150, 80]}`,
-			expected: maa.Rect{100, 200, 150, 80},
-		},
-		{
-			name:     "recognition.param 内嵌 ROI",
-			rawJSON:  `{"recognition": {"type": "OCR", "param": {"roi": [62, 229, 229, 225]}}}`,
-			expected: maa.Rect{62, 229, 229, 225},
-		},
-		{
-			name:     "全屏 ROI",
-			rawJSON:  `{"roi": [0, 0, 0, 0]}`,
-			expected: maa.Rect{0, 0, 0, 0},
-		},
-		{
-			name:     "未声明 ROI",
-			rawJSON:  `{"recognition": {"type": "OCR"}}`,
-			expected: maa.Rect{},
-		},
-		{
-			name:     "布尔类型 ROI 容错",
-			rawJSON:  `{"roi": true}`,
-			expected: maa.Rect{},
-		},
-		{
-			name:     "无效 JSON 容错",
-			rawJSON:  `not valid json`,
-			expected: maa.Rect{},
-		},
+func TestCountsCandidateRoundsAndClearsOnSuccess(t *testing.T) {
+	sink := NewEvasionSink()
+	detail := maa.NodeNextListDetail{
+		TaskID: 1,
+		Name:   "温泉",
+		List:   []maa.NextItem{{Name: "继续"}, {Name: "领取"}},
+	}
+	runRound := func(status maa.EventStatus) *stage {
+		t.Helper()
+		if sink.recordRound(maa.EventStatusStarting, detail) != nil {
+			t.Fatal("starting a round must not trigger a check")
+		}
+		for _, item := range detail.List {
+			sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{
+				TaskID: detail.TaskID, Name: item.Name,
+			})
+		}
+		return sink.recordRound(status, detail)
 	}
 
-	for _, tc := range cases {
-		t.Run(tc.name, func(t *testing.T) {
-			got := extractROI(tc.rawJSON)
-			if got != tc.expected {
-				t.Fatalf("extractROI() = %v, want %v", got, tc.expected)
-			}
-		})
+	for range 2 {
+		if runRound(maa.EventStatusFailed) != nil {
+			t.Fatal("two rounds with two failed candidates each must not trigger")
+		}
+	}
+	if runRound(maa.EventStatusSucceeded) != nil {
+		t.Fatal("a successful candidate list must not trigger")
+	}
+	for range 2 {
+		if runRound(maa.EventStatusFailed) != nil {
+			t.Fatal("a success must reset the streak")
+		}
+	}
+	current := runRound(maa.EventStatusFailed)
+	if current == nil || !sink.beginMove(detail.TaskID, current) {
+		t.Fatal("the third failed list should allow one move")
+	}
+	if sink.beginMove(detail.TaskID, current) {
+		t.Fatal("the same stage allowed a second move")
+	}
+	for range 4 {
+		if runRound(maa.EventStatusFailed) != nil {
+			t.Fatal("continued failures must not move again")
+		}
+	}
+	sink.OnTaskerTask(nil, maa.EventStatusFailed, maa.TaskerTaskDetail{TaskID: detail.TaskID})
+	if _, exists := sink.stages[detail.TaskID]; exists {
+		t.Fatal("completed task left stage state behind")
 	}
 }
 
-// TestCalculateTarget_WithROI 验证有有效 ROI 时，退避坐标严格落在 ROI 外缘 25~60px 且不落在 ROI 内部。
-func TestCalculateTarget_WithROI(t *testing.T) {
+func TestCursorCheckRetriesAndStaysWithinItsStage(t *testing.T) {
 	sink := NewEvasionSink()
-	roi := maa.Rect{200, 200, 150, 80}
-
-	for i := 0; i < 500; i++ {
-		x, y := sink.calculateTarget(roi)
-
-		// 验证不落在 ROI 内部
-		insideX := x >= roi.X() && x < roi.X()+roi.Width()
-		insideY := y >= roi.Y() && y < roi.Y()+roi.Height()
-		if insideX && insideY {
-			t.Fatalf("iteration %d: target (%d, %d) is inside ROI %v", i, x, y, roi)
+	detail := maa.NodeNextListDetail{TaskID: 1, Name: "parent", List: []maa.NextItem{{Name: "first"}}}
+	fail := func(rounds int) *stage {
+		var last *stage
+		for range rounds {
+			last = sink.recordRound(maa.EventStatusFailed, detail)
 		}
-
-		// 验证边界安全
-		if x < 10 || x > 1270 || y < 10 || y > 710 {
-			t.Fatalf("iteration %d: target (%d, %d) out of safe bounds", i, x, y)
-		}
+		return last
+	}
+	current := fail(3)
+	if current == nil {
+		t.Fatal("expected eligibility check")
+	}
+	if current = fail(3); current == nil {
+		t.Fatal("a skipped check must allow a later streak")
+	}
+	detail.List = []maa.NextItem{{Name: "fallback"}}
+	sink.recordRound(maa.EventStatusStarting, detail)
+	if sink.beginMove(detail.TaskID, current) {
+		t.Fatal("an eligibility check from the previous list must not move")
+	}
+	if fail(2) != nil || fail(1) == nil {
+		t.Fatal("changed list must have an independent failure streak")
 	}
 }
 
-// TestCalculateTarget_NoROI 验证无 ROI 时回退为屏幕中心 (640, 360) 漂移 80~160px。
-func TestCalculateTarget_NoROI(t *testing.T) {
-	sink := NewEvasionSink()
-	zeroROI := maa.Rect{}
-
-	for i := 0; i < 500; i++ {
-		x, y := sink.calculateTarget(zeroROI)
-
-		// 验证边界安全
-		if x < 10 || x > 1270 || y < 10 || y > 710 {
-			t.Fatalf("iteration %d: target (%d, %d) out of safe bounds", i, x, y)
+func TestRoundROIs(t *testing.T) {
+	bounds := image.Rect(0, 0, 1280, 720)
+	nodes := map[string]string{
+		"ocr":       `{"recognition":{"type":"OCR","param":{"roi":[30,10,50,40],"roi_offset":[-10,5,25,0]}}}`,
+		"legacy":    `{"recognition":"TemplateMatch","roi":[-20,-20,0,0]}`,
+		"full":      `{"recognition":"OCR","roi":[0,0,1280,720]}`,
+		"default":   `{"recognition":"OCR"}`,
+		"no reco":   `{"recognition":{"type":"DirectHit","param":{"roi":[10,10,5,5]}}}`,
+		"disabled":  `{"enabled":false,"recognition":"OCR","roi":[10,10,5,5]}`,
+		"reference": `{"recognition":"OCR","roi":"previous"}`,
+	}
+	load := func(name string) (string, error) {
+		raw, ok := nodes[name]
+		if !ok {
+			return "", fmt.Errorf("missing %s", name)
 		}
-
-		dx := float64(x - 640)
-		dy := float64(y - 360)
-		dist := math.Sqrt(dx*dx + dy*dy)
-
-		if dist < 79.0 || dist > 161.0 {
-			t.Fatalf("iteration %d: center drift distance=%.2f, want [80, 160]", i, dist)
+		return raw, nil
+	}
+	getAnchor := func(name string) (string, error) {
+		if name == "legacy anchor" {
+			return "legacy", nil
 		}
+		return "", nil
+	}
+	list := []maa.NextItem{{Name: "ocr"}, {Name: "legacy anchor", Anchor: true}, {Name: "full"}, {Name: "default"},
+		{Name: "no reco"}, {Name: "disabled"}, {Name: "ocr"}}
+	rois, err := roundROIs(list, bounds, load, getAnchor)
+	want := []image.Rectangle{image.Rect(20, 15, 95, 55), image.Rect(1260, 700, 1280, 720)}
+	if err != nil || !reflect.DeepEqual(rois, want) {
+		t.Fatalf("round ROIs = %v, %v; want %v", rois, err, want)
+	}
+	if _, err := roundROIs(append(list, maa.NextItem{Name: "reference"}), bounds, load, getAnchor); err == nil {
+		t.Fatal("a dynamic ROI must prevent choosing an unverified target")
 	}
 }
 
-// TestEvasionSink_OnNodeRecognition_StateTracking 验证失败计数累加、重置与超限清空逻辑。
-func TestEvasionSink_OnNodeRecognition_StateTracking(t *testing.T) {
-	sink := NewEvasionSink()
-	nodeName := "测试节点_温泉"
-
-	// 1. 空节点名应直接忽略
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: ""})
-	sink.mu.Lock()
-	if len(sink.nodeStates) != 0 {
-		t.Fatalf("expected empty nodeStates for empty nodeName, got %v", sink.nodeStates)
+func TestRetreatTargetAvoidsAllROIs(t *testing.T) {
+	bounds := image.Rect(0, 0, 100, 60)
+	cursor := image.Pt(44, 30)
+	rois := []image.Rectangle{image.Rect(0, 0, 45, 60), image.Rect(45, 0, 80, 60)}
+	if !inAnyROI(cursor, rois) || inAnyROI(image.Pt(90, 30), rois) || inAnyROI(cursor, nil) {
+		t.Fatal("cursor eligibility must use the union of the effective ROIs")
 	}
-	sink.mu.Unlock()
-
-	// 2. 第一次失败
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: nodeName})
-	sink.mu.Lock()
-	if sink.nodeStates[nodeName] != 1 {
-		t.Fatalf("expected failure count 1, got %d", sink.nodeStates[nodeName])
+	target, ok := retreatTarget(cursor, bounds, rois, image.Pt(1, 1))
+	if !ok || target != image.Pt(81, 30) {
+		t.Fatalf("retreat target = %v, %v; want (81,30)", target, ok)
 	}
-	sink.mu.Unlock()
 
-	// 3. 第二次失败
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: nodeName})
-	sink.mu.Lock()
-	if sink.nodeStates[nodeName] != 2 {
-		t.Fatalf("expected failure count 2, got %d", sink.nodeStates[nodeName])
+	rois = append(rois, image.Rect(80, 0, 100, 60))
+	if target, ok := retreatTarget(cursor, bounds, rois, image.Point{}); ok {
+		t.Fatalf("target %v selected although the ROIs cover the whole image", target)
 	}
-	sink.mu.Unlock()
-
-	// 4. 识别成功，清空计数
-	sink.OnNodeRecognition(nil, maa.EventStatusSucceeded, maa.NodeRecognitionDetail{Name: nodeName})
-	sink.mu.Lock()
-	if _, exists := sink.nodeStates[nodeName]; exists {
-		t.Fatalf("expected nodeState to be deleted after success")
-	}
-	sink.mu.Unlock()
-
-	// 5. 重新累加至连续 3 次失败，触发退避并清空状态
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: nodeName})
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: nodeName})
-	// 第 3 次失败（ctx 为 nil 时安全跳过 RunActionDirect，仅测试状态机流转）
-	sink.OnNodeRecognition(nil, maa.EventStatusFailed, maa.NodeRecognitionDetail{Name: nodeName})
-
-	sink.mu.Lock()
-	if _, exists := sink.nodeStates[nodeName]; exists {
-		t.Fatalf("expected nodeState to be deleted after reaching threshold 3")
-	}
-	sink.mu.Unlock()
 }
