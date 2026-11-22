@@ -3,25 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1790321158864,
+            "lastSyncTime": 1795202878999,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\公共流程.json",
             "savedViewport": {
-                "x": -2722,
-                "y": -256,
-                "zoom": 0.88
+                "x": -2879,
+                "y": -1641,
+                "zoom": 0.9
             },
             "filename": "公共流程",
-            "version": "v1.10.1"
-        }
-    },
-    "$__mpe_anchor_任务入口_公共流程": {
-        "$__mpe_code": {
-            "position": {
-                "x": 4590,
-                "y": 1286
-            }
+            "version": "v2.1.3"
         }
     },
     "$__mpe_group_脱离卡死_公共流程": {
@@ -56,6 +48,38 @@
             ],
             "width": 980,
             "height": 389
+        }
+    },
+    "$__mpe_group_公共流程返回主页_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 3586,
+                "y": 1964
+            },
+            "color": "blue",
+            "childrenLabels": [
+                "公共_返回主页",
+                "主页_点击主页",
+                "主页_确认主页活动存在",
+                "主页_确认活动翻页加载",
+                "主页_看不到主页点下右键",
+                "主页_点取消/返回",
+                "主页_确认展开活动成功",
+                "主页_点击活动确定能打开",
+                "主页_再次点击活动关闭",
+                "公共_返回主页_结束",
+                "主页_看不到主页点下左键"
+            ],
+            "width": 2753,
+            "height": 1070
+        }
+    },
+    "$__mpe_anchor_任务入口_公共流程": {
+        "$__mpe_code": {
+            "position": {
+                "x": 4590,
+                "y": 1286
+            }
         }
     },
     "公共_异常界面（只有返回）": {
@@ -242,6 +266,261 @@
             "position": {
                 "x": 4265,
                 "y": 711
+            }
+        }
+    },
+    "公共_返回主页": {
+        "next": [
+            "[JumpBack]主页_点取消/返回",
+            "主页_点击主页",
+            "[JumpBack]主页_看不到主页点下右键"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3626,
+                "y": 2356
+            }
+        }
+    },
+    "主页_点击主页": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "template": [
+                    "主页.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "timeout": 15000,
+        "next": [
+            "主页_确认主页活动存在",
+            "公共_返回主页"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3987,
+                "y": 2241
+            }
+        }
+    },
+    "主页_确认主页活动存在": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "post_wait_freezes": 1500,
+        "timeout": 60000,
+        "next": [
+            "主页_确认活动翻页加载"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4321,
+                "y": 2229
+            }
+        }
+    },
+    "主页_确认活动翻页加载": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    1004,
+                    63,
+                    274,
+                    114
+                ],
+                "template": [
+                    "主页活动三角.png"
+                ],
+                "green_mask": true,
+                "threshold": [
+                    0.45
+                ]
+            }
+        },
+        "post_wait_freezes": 1500,
+        "timeout": 20000,
+        "next": [
+            "主页_点击活动确定能打开"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 4644,
+                "y": 2203
+            }
+        }
+    },
+    "主页_看不到主页点下右键": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    3,
+                    4,
+                    148,
+                    102
+                ],
+                "contact": 1
+            }
+        },
+        "next": [
+            "主页_看不到主页点下左键"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3982,
+                "y": 2773
+            }
+        }
+    },
+    "主页_点取消/返回": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    296,
+                    410,
+                    695,
+                    274
+                ],
+                "expected": [
+                    "^取消$",
+                    "^返回$"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 3986,
+                "y": 2040
+            }
+        }
+    },
+    "主页_确认展开活动成功": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1013,
+                    202,
+                    61,
+                    70
+                ],
+                "expected": [
+                    "签到"
+                ]
+            }
+        },
+        "next": [
+            "主页_再次点击活动关闭"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 5294,
+                "y": 2184
+            }
+        }
+    },
+    "主页_点击活动确定能打开": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": 200,
+        "timeout": 20000,
+        "next": [
+            "主页_确认展开活动成功"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 5011,
+                "y": 2181
+            }
+        }
+    },
+    "主页_再次点击活动关闭": {
+        "recognition": {
+            "type": "FeatureMatch",
+            "param": {
+                "roi": [
+                    1124,
+                    186,
+                    142,
+                    102
+                ],
+                "template": [
+                    "活动.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "公共_返回主页_结束"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 5565,
+                "y": 2175
+            }
+        }
+    },
+    "公共_返回主页_结束": {
+        "$__mpe_code": {
+            "position": {
+                "x": 6079,
+                "y": 2344
+            }
+        }
+    },
+    "主页_看不到主页点下左键": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    3,
+                    4,
+                    148,
+                    102
+                ]
+            }
+        },
+        "$__mpe_code": {
+            "position": {
+                "x": 4310,
+                "y": 2770
             }
         }
     }

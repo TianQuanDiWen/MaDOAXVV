@@ -3,17 +3,43 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1792317367987,
+            "lastSyncTime": 1795348474675,
             "isModifiedExternally": false,
             "isDeleted": false,
             "filePath": "D:\\Projects\\Python\\MaDOAXVV\\assets\\resource\\pipeline\\每日活动挑战赛.json",
             "savedViewport": {
-                "x": -1901,
-                "y": -176,
-                "zoom": 0.9
+                "x": -3742,
+                "y": 352,
+                "zoom": 0.79
             },
             "filename": "每日活动挑战赛",
-            "version": "v2.1.0"
+            "version": "v2.1.3"
+        }
+    },
+    "日活动赛_确认已进入挑战赛": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    861,
+                    39,
+                    418,
+                    90
+                ],
+                "expected": [
+                    "执照积分",
+                    "星等级"
+                ]
+            }
+        },
+        "next": [
+            "日活动赛_点击活动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2037,
+                "y": 119
+            }
         }
     },
     "$__mpe_external_公共_长时间游玩确认_每日活动挑战赛": {
@@ -68,8 +94,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1705,
-                "y": 79
+                "x": 1450,
+                "y": 89
             }
         }
     },
@@ -145,8 +171,48 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1419,
-                "y": 92
+                "x": 1164,
+                "y": 102
+            }
+        }
+    },
+    "日活动赛_打印比赛信息": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "OCRLog",
+                "custom_action_param": {
+                    "regions": [
+                        {
+                            "roi": [
+                                272,
+                                62,
+                                402,
+                                73
+                            ]
+                        },
+                        {
+                            "roi": [
+                                1138,
+                                172,
+                                91,
+                                30
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "focus": {
+            "Node.PipelineNode.Succeeded": "目标: {1}级 {0} 准备开始"
+        },
+        "next": [
+            "日活动赛_点击自动"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 3175,
+                "y": 556
             }
         }
     },
@@ -333,13 +399,13 @@
         "post_wait_freezes": 1000,
         "timeout": 20000,
         "next": [
-            "日活动赛_点击活动",
+            "日活动赛_确认已进入挑战赛",
             "日活动赛_点击挑战赛"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1991,
-                "y": 72
+                "x": 1736,
+                "y": 82
             }
         }
     },
@@ -375,7 +441,7 @@
     },
     "日活动赛_点击活动": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
                 "roi": [
                     863,
@@ -383,9 +449,10 @@
                     416,
                     152
                 ],
-                "template": [
-                    "活动页签.png"
-                ]
+                "expected": [
+                    "^活动$"
+                ],
+                "threshold": 0.3
             }
         },
         "pre_wait_freezes": 1000,
@@ -567,6 +634,31 @@
             }
         }
     },
+    "日活动赛_确认已进入挑战页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    758,
+                    57,
+                    80,
+                    35
+                ],
+                "expected": [
+                    "规则"
+                ]
+            }
+        },
+        "next": [
+            "日活动赛_打印比赛信息"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 2913,
+                "y": 573
+            }
+        }
+    },
     "日活动赛_确认真的在活动": {
         "recognition": {
             "type": "OCR",
@@ -594,6 +686,9 @@
         }
     },
     "日活动赛_结束": {
+        "next": [
+            "公共_返回主页"
+        ],
         "$__mpe_code": {
             "position": {
                 "x": 6255,
@@ -687,68 +782,47 @@
             }
         }
     },
-    "日活动赛_打印比赛信息": {
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "OCRLog",
-                "custom_action_param": {
-                    "regions": [
-                        {
-                            "roi": [
-                                272,
-                                62,
-                                402,
-                                73
-                            ]
-                        },
-                        {
-                            "roi": [
-                                1138,
-                                172,
-                                91,
-                                30
-                            ]
-                        }
-                    ]
-                }
-            }
-        },
-        "focus": {
-            "Node.PipelineNode.Succeeded": "目标: {1}级 {0} 准备开始"
-        },
-        "next": [
-            "日活动赛_点击自动"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3175,
-                "y": 556
-            }
-        }
-    },
-    "日活动赛_确认已进入挑战页": {
+    "日活动赛_点击活动_副本1": {
         "recognition": {
-            "type": "OCR",
+            "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    758,
-                    57,
-                    80,
-                    35
+                    863,
+                    110,
+                    416,
+                    152
                 ],
-                "expected": [
-                    "规则"
+                "template": [
+                    "活动页签.png"
                 ]
             }
         },
-        "next": [
-            "日活动赛_打印比赛信息"
-        ],
+        "pre_wait_freezes": 1000,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    20,
+                    10,
+                    -52,
+                    -15
+                ]
+            }
+        },
+        "post_wait_freezes": 1000,
+        "timeout": 10000,
         "$__mpe_code": {
             "position": {
-                "x": 2913,
-                "y": 573
+                "x": 2312,
+                "y": 513
+            }
+        }
+    },
+    "$__mpe_external_公共_返回主页_每日活动挑战赛": {
+        "$__mpe_code": {
+            "position": {
+                "x": 6587,
+                "y": 70
             }
         }
     }
